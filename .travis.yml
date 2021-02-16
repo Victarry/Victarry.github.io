@@ -1,7 +1,9 @@
 language: ruby
 rvm: 2.7.2
-os: linux 
-install: bundle update
+os: osx
+before_install:
+  - gem install bundler
+install: bundle install --deployment
 script: bundle exec rake deploy
 env:
   global:
