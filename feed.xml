@@ -1,21 +1,270 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://victarry.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://victarry.github.io/" rel="alternate" type="text/html" /><updated>2021-02-17T15:56:01+00:00</updated><id>https://victarry.github.io/feed.xml</id><title type="html">Victarry’s Blog</title><subtitle></subtitle><entry><title type="html">First Entry</title><link href="https://victarry.github.io/2015/01/01/first-entry.html" rel="alternate" type="text/html" title="First Entry" /><published>2015-01-01T00:00:00+00:00</published><updated>2015-01-01T00:00:00+00:00</updated><id>https://victarry.github.io/2015/01/01/first-entry</id><content type="html" xml:base="https://victarry.github.io/2015/01/01/first-entry.html">&lt;h1&gt;First Entry&lt;/h1&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;example-entry&quot;&gt;Example entry&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://victarry.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://victarry.github.io/" rel="alternate" type="text/html" /><updated>2021-02-17T16:51:44+00:00</updated><id>https://victarry.github.io/feed.xml</id><title type="html">Victarry’s Blog</title><subtitle></subtitle><entry><title type="html">使用AsciiDoc在Github-Pages上搭建博客</title><link href="https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html" rel="alternate" type="text/html" title="使用AsciiDoc在Github-Pages上搭建博客" /><published>2021-02-17T00:00:00+00:00</published><updated>2021-02-17T00:00:00+00:00</updated><id>https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial</id><content type="html" xml:base="https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet, et elitr docendi officiis vix. An has impedit concludaturque, an vim dicam feugiat nominavi. Veniam oblique menandri sea ea, agam novum appareat in his. Constituto posidonium te his. Pri quot iudico ex, noster apeirian concludaturque mel cu.&lt;/p&gt;
+&lt;p&gt;本文介绍了如何使用AsciiDoc代替Markdown写文章,并通过 &lt;em&gt;Travis-ci&lt;/em&gt; 将AsciiDoc生成为html,最后发布到Github-Pages上.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Ocurreret salutatus scribentur ne est, quo nostrud scriptorem ex, vis ea cetero labores delicatissimi. Quis viris nullam ea pri, vim solum lobortis eu. Augue intellegat interpretaris eum ei. Ludus integre id qui, cu ludus partiendo interpretaris cum. At cibo mentitum his, ei vero accusamus qui. At ius iudico postea platonem, no vim efficiendi efficiantur, ea mea reprimique percipitur liberavisse.&lt;/p&gt;
+&lt;p&gt;由于没有找到详细介绍AsciiDoc构建Github-Pages的中文资源, 因此本文记录了笔者关于搭建博客的整个过程.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;为什么要使用asciidoc&quot;&gt;1. 为什么要使用AsciiDoc?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;hr&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;https://asciidoctor.org/docs/what-is-asciidoc/&quot;&gt;AsciiDoc&lt;/a&gt;和Markdown一样,是一种轻量级标记语言,用于简单的文章排版和页面生成.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Altera eruditi nam et, in vim veniam option probatus. Ei delicata adolescens quo. Iriure salutatus constituam an vix, ex mei aliquip persius oporteat. Id decore molestiae eam, at essent gubergren percipitur ius. Mea et probo laboramus, tibique ocurreret ea ius.&lt;/p&gt;
+&lt;p&gt;Markdown虽然方便,但功能相对较少,不如AsciiDoc强大.
+Wikipedia列举了
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Lightweight_markup_language#Comparison_of_language_features&quot;&gt;不同标记语言的对比&lt;/a&gt;
+,可以看出AsciiDoc是功能最完善的标记语言之一.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Tale vide scripserit pro id. Habeo latine percipit et mea, eos at nusquam principes conclusionemque. Ei possim eirmod euripidis his. Ei his veri choro, omnesque vituperata theophrastus nec no.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.asciidoctor.org/asciidoc/latest/asciidoc-vs-markdown/&quot;&gt;AsciiDoc官方列举了AsciiDoc和markdown的对比&lt;/a&gt;
+，其中AsciiDoc相对于Markdown的优势有:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;相同标记场景下, AsciiDoc用的字符数要比Markdown更少.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;AsciiDoc的格式更加统一.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;AsciiDoc可以处理任意排列的inline嵌套格式,而Markdown经常难以处理.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;AsciiDoc可以处理一些Markdown无法处理的场景, 例如单词内的标记, Block-level源代码和block-level images.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;In quo debet iriure adolescens, nec molestie accusata ad, sea te malis atomorum petentium. Convenire corrumpit id vis, ad accumsan interesset usu. Esse dictas sea ne. Cum constituto deterruisset no, vim laudem doctus at. Nam dicat zril ea, mei omnesque explicari pertinacia ea. Nihil dicunt aliquam nam ne.&lt;/p&gt;
+&lt;p&gt;与markdown一样的是,&lt;strong&gt;Github仓库预览时支持AsciiDoc&lt;/strong&gt;, 也就是说在github写README,wiki和gist时可以使用AsciiDOc.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;但是,&lt;strong&gt;Github-Pages官方不支持AsciiDoc的Jeklly插件&lt;/strong&gt;,
+因此无法直接上传AsciiDoc文件生成Github-Pages网站,但我们可以用 &lt;em&gt;Travis&lt;/em&gt; 自动build的工具生成asciidoc对应的html文件.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">Excerpt goes here.</summary></entry></feed>
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;asciidocjekyll博客本地配置&quot;&gt;2. AsciiDoc+Jekyll博客本地配置&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;hr&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;jekyll安装&quot;&gt;2.1. Jekyll安装&lt;/h3&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;安装ruby, &lt;a href=&quot;https://www.ruby-lang.org/en/downloads/&quot;&gt;下载链接&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装Jekyll并新建网站&lt;/p&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;~ $ gem install bundler jekyll
+~ $ jekyll new my-awesome-site
+~ $ cd my-awesome-site
+~/my-awesome-site $ bundle exec jekyll serve&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;用浏览器打开 &lt;a href=&quot;http://localhost:4000&quot; class=&quot;bare&quot;&gt;http://localhost:4000&lt;/a&gt; 查看博客&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;jekyll文件结构&quot;&gt;2.2. Jekyll文件结构&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;在 &lt;code&gt;my-awesome-site&lt;/code&gt; 文件夹下面,可以看到运行 &lt;code&gt;jekyll new my-awesome-site&lt;/code&gt; 初始化生成的所有文件.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;├── 404.html
+├── Gemfile  &lt;b class=&quot;conum&quot;&gt;(1)&lt;/b&gt;
+├── Gemfile.lock
+├── _config.yml  &lt;b class=&quot;conum&quot;&gt;(2)&lt;/b&gt;
+├── _posts  &lt;b class=&quot;conum&quot;&gt;(3)&lt;/b&gt;
+│   └── 2021-02-17-welcome-to-jekyll.markdown
+├── about.markdown &lt;b class=&quot;conum&quot;&gt;(4)&lt;/b&gt;
+└── index.markdown  &lt;b class=&quot;conum&quot;&gt;(4)&lt;/b&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;配置所需要的包和依赖, 例如Jeklly本身的包&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;关于博客网站级别的配置,例如网站&lt;em&gt;theme&lt;/em&gt;, &lt;em&gt;baseurl&lt;/em&gt;和相关插件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;所有在 &lt;code&gt;_posts&lt;/code&gt; 文件夹下的markdown文件都会作为Post类型的页面来渲染.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;所有在根目录下的markdown文件都会作为Page类型的页面来渲染&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Jekyll通过将markdown文件渲染成静态html文件来生成博客网站的主体内容,其中页面分为两个类别,
+分别是&lt;strong&gt;Page&lt;/strong&gt;和&lt;strong&gt;Post&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Pages是Jeklly中用于撰写内容的最基本单元, Pages适合用于单独的内容, 也就是与日期无关并且不是成组的内容.&lt;/p&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;如果要添加一个新的Page, 只需要在根目录下添加一个新的HTML文件或者Markdon文件, 例如包含了about, index和contact页面的文件及其对应的URL如下:&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;    .
+    ├── about.md    # =&amp;gt; http://example.com/about.html
+    ├── index.html    # =&amp;gt; http://example.com/
+    └── contact.html  # =&amp;gt; http://example.com/contact.html&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Posts正如博客中的文章,可以方便记录书写时间,并且统一展示起来. 与Pages同样, 既可以使用HTML,也可以使用Markdown,
+需要注意的是文件必须命名为 &lt;strong&gt;&lt;code&gt;YYYY-MM-DD-title-of-post.markdown&lt;/code&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;asciidoc安装配置&quot;&gt;2.3. AsciiDoc安装配置&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Jeklly可以直接支持Markdown的渲染, 为了使用AsciiDoc代替Makrdown, 我们要使用Jeklly-AsciiDoc的插件&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect3&quot;&gt;
+&lt;h4 id=&quot;在gemfile中添加jeklly-asciidoc的依赖&quot;&gt;2.3.1. 在Gemfile中添加Jeklly-AsciiDoc的依赖&lt;/h4&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;在 &lt;code&gt;Gemfile&lt;/code&gt; 中找到 &lt;code&gt;group :jekyll_plugins do&lt;/code&gt; , 并加入 &lt;code&gt;gem 'jekyll-asciidoc'&lt;/code&gt;,
+得到如下 &lt;code&gt;Gemfile&lt;/code&gt; 文件:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;source &quot;https://rubygems.org&quot;
+# Hello! This is where you manage which Jekyll version is used to run.
+# When you want to use a different version, change it below, save the
+# file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
+#
+#     bundle exec jekyll serve
+#
+# This will help ensure the proper Jekyll version is running.
+# Happy Jekylling!
+gem 'jekyll', '~&amp;gt; 3.8.3'
+# This is the default theme for new Jekyll sites. You may change this to anything you like.
+gem &quot;minima&quot;
+# If you want to use GitHub Pages, remove the &quot;gem &quot;jekyll&quot;&quot; above and
+# uncomment the line below. To upgrade, run `bundle update github-pages`.
+# gem &quot;github-pages&quot;, group: :jekyll_plugins
+# If you have any plugins, put them here!
+group :jekyll_plugins do
+  gem 'jekyll-asciidoc'
+end&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect3&quot;&gt;
+&lt;h4 id=&quot;激活jekyll-asciidoc插件可选&quot;&gt;2.3.2. 激活jekyll-asciidoc插件(可选)&lt;/h4&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;修改 &lt;code&gt;_config.yml&lt;/code&gt; 文件, 找到 &lt;code&gt;plugins:&lt;/code&gt; , 添加 &lt;code&gt;jekyll-asciidoc&lt;/code&gt; , 从而激活asciidoc插件&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;plugins:
+  - jekyll-asciidoc&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;由于Jeklly会自动激活 &lt;code&gt;:jekyll_plugins&lt;/code&gt; 组中的插件,因此该步骤也可以省略.&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect3&quot;&gt;
+&lt;h4 id=&quot;重新生成jekyll网站&quot;&gt;2.3.3. 重新生成jekyll网站&lt;/h4&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;运行以下命令&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;bundle install
+bundle exec jekyll serve --livereload # --livereload可以自动更新页面&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;在根目录或者 &lt;code&gt;_posts&lt;/code&gt; 下添加 &lt;code&gt;.adoc&lt;/code&gt; 文件,就可以看到新生成的页面.
+这样,就可以用AsciiDoc代替Markdown来写Pages或者Posts了,只需要用 &lt;code&gt;.adoc&lt;/code&gt; 文件替换 &lt;code&gt;.md&lt;/code&gt; 文件.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;至此,就成功在本地使用AsciiDoc撰写个人博客网站了,下一部分内容会讲述如何将博客通过Github-Pages发布到互联网上.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;jeklly和asciidoc参考链接&quot;&gt;2.4. Jeklly和AsciiDoc参考链接&lt;/h3&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://asciidoctor.org/#installation&quot;&gt;AsciiDoc安装&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/asciidoctor/asciidoctor-vscode&quot;&gt;AsciiDoc Vscode插件&lt;/a&gt;, 可以直接预览AsciiDoc文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://asciidoctor.org/docs/asciidoc-writers-guide/&quot;&gt;AsciiDoc Writing Guide&lt;/a&gt;, 快速上手AsciiDoc&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.asciidoctor.org/asciidoc/latest/&quot;&gt;AsciiDoc Documentation&lt;/a&gt;, AsciiDoc详细介绍&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://jekyllrb.com/docs/&quot;&gt;Jeklly Documentation&lt;/a&gt;, Jeklly详细介绍&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/asciidoctor/jekyll-asciidoc&quot;&gt;Jeklly-AsciiDoc插件&lt;/a&gt;, 用于在Jeklly中使用AsciiDoc&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/asciidoctor/jekyll-asciidoc-quickstart&quot;&gt;Jeklly-AsciiDoc-Quickstart&lt;/a&gt;, 可以直接在github上Fork, 相当于使用配置好的AsciiDoc-Jeklly网站,这样就不需要从头开始,并且手动修改关于AsciiDoc的相关配置了.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;github-pages配置&quot;&gt;3. Github-Pages配置&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;hr&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;使用ci进行构建和上传&quot;&gt;4. 使用CI进行构建和上传&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;hr&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;method1-使用travis配置&quot;&gt;Method1. 使用Travis配置&lt;/h3&gt;
+
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;method2-使用github-actions配置&quot;&gt;Method2. 使用Github-Actions配置&lt;/h3&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;further-reading&quot;&gt;5. Further Reading&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;hr&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name>Zhenhuan Liu</name></author></entry></feed>
