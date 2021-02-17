@@ -4,7 +4,6 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     asciidoctor (2.0.12)
-    coderay (1.1.3)
     colorator (1.1.0)
     concurrent-ruby (1.1.8)
     em-websocket (0.5.2)
@@ -72,11 +71,9 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
-  coderay (~> 1.1.0)
   jekyll (~> 3.8.3)
   jekyll-asciidoc
   minima
-  rake (~> 10.0)
   rake-jekyll (~> 1.1.0)
   tzinfo (~> 1.2)
   tzinfo-data

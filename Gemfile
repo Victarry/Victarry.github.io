@@ -7,9 +7,7 @@ source "https://rubygems.org"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem 'rake',  '~> 10.0'
 gem 'jekyll', '~> 3.8.3'
-gem 'coderay', '~> 1.1.0'
 gem 'rake-jekyll', '~> 1.1.0'
 # This is the default theme for new Jekyll sites. You may change this to anything you like.
 gem "minima"
