@@ -1,0 +1,163 @@
+= 使用AsciiDoc在Github-Pages上搭建博客
+Zhenhuan Liu <nkulzh16@gmail.com>
+
+:sectnums:
+:layout: post
+
+本文介绍了如何使用AsciiDoc代替Markdown写文章,并通过 _Travis-ci_ 将AsciiDoc生成为html,最后发布到Github-Pages上.
+
+由于没有找到详细介绍AsciiDoc构建Github-Pages的中文资源, 因此本文记录了笔者关于搭建博客的整个过程.
+
+== 为什么要使用AsciiDoc?
+---
+
+https://asciidoctor.org/docs/what-is-asciidoc/[AsciiDoc]和Markdown一样,是一种轻量级标记语言,用于简单的文章排版和页面生成.
+
+Markdown虽然方便,但功能相对较少,不如AsciiDoc强大.
+Wikipedia列举了
+https://en.wikipedia.org/wiki/Lightweight_markup_language#Comparison_of_language_features[不同标记语言的对比]
+,可以看出AsciiDoc是功能最完善的标记语言之一.
+
+https://docs.asciidoctor.org/asciidoc/latest/asciidoc-vs-markdown/[AsciiDoc官方列举了AsciiDoc和markdown的对比]
+，其中AsciiDoc相对于Markdown的优势有:
+
+1. 相同标记场景下, AsciiDoc用的字符数要比Markdown更少.
+2. AsciiDoc的格式更加统一.
+3. AsciiDoc可以处理任意排列的inline嵌套格式,而Markdown经常难以处理.  
+4. AsciiDoc可以处理一些Markdown无法处理的场景, 例如单词内的标记, Block-level源代码和block-level images.
+
+与markdown一样的是,**Github仓库预览时支持AsciiDoc**, 也就是说在github写README,wiki和gist时可以使用AsciiDOc.
+
+但是,*Github-Pages官方不支持AsciiDoc的Jeklly插件*, 
+因此无法直接上传AsciiDoc文件生成Github-Pages网站,但我们可以用 _Travis_ 自动build的工具生成asciidoc对应的html文件.
+
+
+== AsciiDoc+Jekyll博客本地配置
+---
+=== Jekyll安装
+
+. 安装ruby, https://www.ruby-lang.org/en/downloads/[下载链接]
+. 安装Jekyll并新建网站
++
+    ~ $ gem install bundler jekyll
+    ~ $ jekyll new my-awesome-site
+    ~ $ cd my-awesome-site
+    ~/my-awesome-site $ bundle exec jekyll serve
+
+. 用浏览器打开 http://localhost:4000 查看博客
+
+=== Jekyll文件结构
+在 `my-awesome-site` 文件夹下面,可以看到运行 `jekyll new my-awesome-site` 初始化生成的所有文件.
+
+----
+├── 404.html 
+├── Gemfile  <1>
+├── Gemfile.lock
+├── _config.yml  <2>
+├── _posts  <3>
+│   └── 2021-02-17-welcome-to-jekyll.markdown
+├── about.markdown <4>
+└── index.markdown  <4>
+----
+<1> 配置所需要的包和依赖, 例如Jeklly本身的包
+<2> 关于博客网站级别的配置,例如网站__theme__, __baseurl__和相关插件
+<3> 所有在 `_posts` 文件夹下的markdown文件都会作为Post类型的页面来渲染.
+<4> 所有在根目录下的markdown文件都会作为Page类型的页面来渲染
+
+Jekyll通过将markdown文件渲染成静态html文件来生成博客网站的主体内容,其中页面分为两个类别,
+分别是**Page**和**Post**
+
+- Pages是Jeklly中用于撰写内容的最基本单元, Pages适合用于单独的内容, 也就是与日期无关并且不是成组的内容.
++
+如果要添加一个新的Page, 只需要在根目录下添加一个新的HTML文件或者Markdon文件, 例如包含了about, index和contact页面的文件及其对应的URL如下:
+
+----
+    .
+    ├── about.md    # => http://example.com/about.html
+    ├── index.html    # => http://example.com/
+    └── contact.html  # => http://example.com/contact.html
+----
+
+- Posts正如博客中的文章,可以方便记录书写时间,并且统一展示起来. 与Pages同样, 既可以使用HTML,也可以使用Markdown, 
+需要注意的是文件必须命名为 *`YYYY-MM-DD-title-of-post.markdown`*.
+
+=== AsciiDoc安装配置
+Jeklly可以直接支持Markdown的渲染, 为了使用AsciiDoc代替Makrdown, 我们要使用Jeklly-AsciiDoc的插件
+
+==== 在Gemfile中添加Jeklly-AsciiDoc的依赖
+在 `Gemfile` 中找到 `group :jekyll_plugins do` , 并加入 `gem 'jekyll-asciidoc'`,
+得到如下 `Gemfile` 文件:
+
+----
+source "https://rubygems.org"
+# Hello! This is where you manage which Jekyll version is used to run.
+# When you want to use a different version, change it below, save the
+# file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
+#
+#     bundle exec jekyll serve
+#
+# This will help ensure the proper Jekyll version is running.
+# Happy Jekylling!
+gem 'jekyll', '~> 3.8.3'
+# This is the default theme for new Jekyll sites. You may change this to anything you like.
+gem "minima"
+# If you want to use GitHub Pages, remove the "gem "jekyll"" above and
+# uncomment the line below. To upgrade, run `bundle update github-pages`.
+# gem "github-pages", group: :jekyll_plugins
+# If you have any plugins, put them here!
+group :jekyll_plugins do
+  gem 'jekyll-asciidoc'
+end
+----
+
+==== 激活jekyll-asciidoc插件(可选)
+
+修改 `_config.yml` 文件, 找到 `plugins:` , 添加 `jekyll-asciidoc` , 从而激活asciidoc插件
+
+----
+plugins:
+  - jekyll-asciidoc
+----
+
+_由于Jeklly会自动激活 `:jekyll_plugins` 组中的插件,因此该步骤也可以省略._
+
+==== 重新生成jekyll网站
+
+运行以下命令
+
+    bundle install
+    bundle exec jekyll serve --livereload # --livereload可以自动更新页面
+
+在根目录或者 `_posts` 下添加 `.adoc` 文件,就可以看到新生成的页面.
+这样,就可以用AsciiDoc代替Markdown来写Pages或者Posts了,只需要用 `.adoc` 文件替换 `.md` 文件.
+
+至此,就成功在本地使用AsciiDoc撰写个人博客网站了,下一部分内容会讲述如何将博客通过Github-Pages发布到互联网上.
+
+
+=== Jeklly和AsciiDoc参考链接
+- https://asciidoctor.org/#installation[AsciiDoc安装]
+- https://github.com/asciidoctor/asciidoctor-vscode[AsciiDoc Vscode插件], 可以直接预览AsciiDoc文件
+- https://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc Writing Guide], 快速上手AsciiDoc
+- https://docs.asciidoctor.org/asciidoc/latest/[AsciiDoc Documentation], AsciiDoc详细介绍
+- https://jekyllrb.com/docs/[Jeklly Documentation], Jeklly详细介绍
+- https://github.com/asciidoctor/jekyll-asciidoc[Jeklly-AsciiDoc插件], 用于在Jeklly中使用AsciiDoc
+- https://github.com/asciidoctor/jekyll-asciidoc-quickstart[Jeklly-AsciiDoc-Quickstart], 可以直接在github上Fork, 相当于使用配置好的AsciiDoc-Jeklly网站,这样就不需要从头开始,并且手动修改关于AsciiDoc的相关配置了.
+
+== Github-Pages配置
+---
+
+== 使用CI进行构建和上传
+---
+
+:sectnums!:
+=== Method1. 使用Travis配置
+
+// ==== 添加Rake-Jeklly
+
+// - 在Gemfile中添加依赖
+
+=== Method2. 使用Github-Actions配置
+
+:sectnums:
+== Further Reading
+---
