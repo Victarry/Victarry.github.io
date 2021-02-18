@@ -93,7 +93,7 @@ Wikipedia列举了
 <p>与markdown一样的是,<strong>Github仓库预览时支持AsciiDoc</strong>, 也就是说在github写README,wiki和gist时可以使用AsciiDOc.</p>
 </div>
 <div class="paragraph">
-<p>但是,<strong>Github-Pages官方不支持AsciiDoc的Jeklly插件</strong>,
+<p>但是,<strong>Github-Pages官方不支持AsciiDoc的Jekyll插件</strong>,
 因此无法直接上传AsciiDoc文件生成Github-Pages网站,但我们可以用 <em>Travis</em> 自动build的工具生成asciidoc对应的html文件.</p>
 </div>
 </div>
@@ -146,7 +146,7 @@ Wikipedia列举了
 <div class="colist arabic">
 <ol>
 <li>
-<p>配置所需要的包和依赖, 例如Jeklly本身的包</p>
+<p>配置所需要的包和依赖, 例如Jekyll本身的包</p>
 </li>
 <li>
 <p>关于博客网站级别的配置,例如网站<em>theme</em>, <em>baseurl</em>和相关插件</p>
@@ -166,7 +166,7 @@ Wikipedia列举了
 <div class="ulist">
 <ul>
 <li>
-<p>Pages是Jeklly中用于撰写内容的最基本单元, Pages适合用于单独的内容, 也就是与日期无关并且不是成组的内容.</p>
+<p>Pages是Jekyll中用于撰写内容的最基本单元, Pages适合用于单独的内容, 也就是与日期无关并且不是成组的内容.</p>
 <div class="paragraph">
 <p>如果要添加一个新的Page, 只需要在根目录下添加一个新的HTML文件或者Markdon文件, 例如包含了about, index和contact页面的文件及其对应的URL如下:</p>
 </div>
@@ -193,10 +193,10 @@ Wikipedia列举了
 <div class="sect2">
 <h3 id="asciidoc安装配置">2.3. AsciiDoc安装配置</h3>
 <div class="paragraph">
-<p>Jeklly可以直接支持Markdown的渲染, 为了使用AsciiDoc代替Makrdown, 我们要使用Jeklly-AsciiDoc的插件</p>
+<p>Jekyll可以直接支持Markdown的渲染, 为了使用AsciiDoc代替Makrdown, 我们要使用Jekyll-AsciiDoc的插件</p>
 </div>
 <div class="sect3">
-<h4 id="在gemfile中添加jeklly-asciidoc的依赖">2.3.1. 在Gemfile中添加Jeklly-AsciiDoc的依赖</h4>
+<h4 id="在gemfile中添加jekyll-asciidoc的依赖">2.3.1. 在Gemfile中添加Jekyll-AsciiDoc的依赖</h4>
 <div class="paragraph">
 <p>在 <code>Gemfile</code> 中找到 <code>group :jekyll_plugins do</code> , 并加入 <code>gem 'jekyll-asciidoc'</code>,
 得到如下 <code>Gemfile</code> 文件:</p>
@@ -237,7 +237,7 @@ end</pre>
 </div>
 </div>
 <div class="paragraph">
-<p><em>由于Jeklly会自动激活 <code>:jekyll_plugins</code> 组中的插件,因此该步骤也可以省略.</em></p>
+<p><em>由于jekyll会自动激活 <code>:jekyll_plugins</code> 组中的插件,因此该步骤也可以省略.</em></p>
 </div>
 </div>
 <div class="sect3">
@@ -261,7 +261,7 @@ bundle exec jekyll serve --livereload # --livereload可以自动更新页面</pr
 </div>
 </div>
 <div class="sect2">
-<h3 id="jeklly和asciidoc参考链接">2.4. Jeklly和AsciiDoc参考链接</h3>
+<h3 id="jekyll和asciidoc参考链接">2.4. jekyll和AsciiDoc参考链接</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -277,13 +277,13 @@ bundle exec jekyll serve --livereload # --livereload可以自动更新页面</pr
 <p><a href="https://docs.asciidoctor.org/asciidoc/latest/">AsciiDoc Documentation</a>, AsciiDoc详细介绍</p>
 </li>
 <li>
-<p><a href="https://jekyllrb.com/docs/">Jeklly Documentation</a>, Jeklly详细介绍</p>
+<p><a href="https://jekyllrb.com/docs/">jekyll Documentation</a>, jekyll详细介绍</p>
 </li>
 <li>
-<p><a href="https://github.com/asciidoctor/jekyll-asciidoc">Jeklly-AsciiDoc插件</a>, 用于在Jeklly中使用AsciiDoc</p>
+<p><a href="https://github.com/asciidoctor/jekyll-asciidoc">jekyll-AsciiDoc插件</a>, 用于在jekyll中使用AsciiDoc</p>
 </li>
 <li>
-<p><a href="https://github.com/asciidoctor/jekyll-asciidoc-quickstart">Jeklly-AsciiDoc-Quickstart</a>, 可以直接在github上Fork, 相当于使用配置好的AsciiDoc-Jeklly网站,这样就不需要从头开始,并且手动修改关于AsciiDoc的相关配置了.</p>
+<p><a href="https://github.com/asciidoctor/jekyll-asciidoc-quickstart">jekyll-AsciiDoc-Quickstart</a>, 可以直接在github上Fork, 相当于使用配置好的AsciiDoc-jekyll网站,这样就不需要从头开始,并且手动修改关于AsciiDoc的相关配置了.</p>
 </li>
 </ul>
 </div>
@@ -294,6 +294,31 @@ bundle exec jekyll serve --livereload # --livereload可以自动更新页面</pr
 <h2 id="github-pages配置">3. Github-Pages配置</h2>
 <div class="sectionbody">
 <hr>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>新建一个仓库,仓库名设置为 <code>USERNAME.github.io</code> , github会自动为该repo启用github-pages</p>
+</li>
+<li>
+<p>将新建的网站文件夹加入git, 并push到github远程仓库上</p>
+<div class="listingblock">
+<div class="content">
+<pre>~/my-awesome-site $ git init
+~/my-awesome-site $ git add --all
+~/my-awesome-site $ git commit -m "First commit"
+~/my-awesome-site $ git remote add git@github.com:USERNAME/USERNAME.github.io
+~/my-awesome-site $ git push -u origin master</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>详细可参考 <a href="https://docs.github.com/en/github/working-with-github-pages/creating-a-github-pages-site-with-jekyll">Github-Pages官方教程</a>, 但不需要启用github-pages的gem包.</p>
+</div>
+</li>
+<li>
+<p>之后就可以在 <a href="https://USERNAME.github.io" class="bare">https://USERNAME.github.io</a> 上查看新建的博客, 对于markdown写的文章,可以正确渲染. 但对于AsciiDoc写的文章,无法正确查看. 由于 <a href="https://github.com/asciidoctor/jekyll-asciidoc#using-this-plugin-on-github-pages">Github-Pages没有将 <code>jekyll-AsciiDoc</code> 的插件加入到白名单中</a>, 因此我们需要采用CI来完成AsciiDoc文件的渲染.</p>
+</li>
+</ol>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -301,12 +326,124 @@ bundle exec jekyll serve --livereload # --livereload可以自动更新页面</pr
 <div class="sectionbody">
 <hr>
 <div class="sect2">
-<h3 id="method1-使用travis配置">Method1. 使用Travis配置</h3>
+<h3 id="method-1-使用travis配置">Method 1. 使用Travis配置</h3>
+<div class="paragraph">
+<p>我们可以通过Travis-CI调用Rake-jekyll来构建jekyll网站并上传到对应的仓库中.</p>
+</div>
+<div class="sect3">
+<h4 id="配置rake-jekyll">4..1. 配置Rake-jekyll</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>将 <code>gem 'rake-jekyll', '~&gt; 1.1.0'</code> 加入到 <code>Gemfile</code> 中</p>
+</li>
+<li>
+<p>新建 <code>Rakefile</code> 文件, 并将下面内容复制到其中</p>
+<div class="listingblock">
+<div class="content">
+<pre>require 'rake-jekyll'
 
+# This task builds the Jekyll site and deploys it to a remote Git repository.
+# It's preconfigured to be used with GitHub and Travis CI.
+# See http://github.com/jirutka/rake-jekyll for more options.
+Rake::Jekyll::GitDeployTask.new(:deploy) do |t|
+    t.committer = 'Jekyll Publisher &lt;jekyll@example.com&gt;'
+    t.deploy_branch = 'gh-pages'
+end</pre>
+</div>
+</div>
+</li>
+<li>
+<p>重新安装依赖
+<code>bundle install</code></p>
+</li>
+<li>
+<p>我们可以直接运行 <code>bundle exec rake deploy</code> 来将渲染好的网站push到github远程仓库中的 <code>gh-pages</code> 分支上.</p>
+</li>
+<li>
+<p>在github上对应的repo &#8594; setting &#8594; Options &#8594; Github-Pages中设置branch为 <code>gh-pages</code> 并save.</p>
+</li>
+<li>
+<p>我们再次打开 <a href="https://USERNAME.github.io" class="bare">https://USERNAME.github.io</a> , 就可以看到使用AsciiDoc撰写的文章了</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>但这样每次更新博客都要手动调用 <code>bundle exec rake deploy</code> , 我们可以通过Travis-CI帮我们自动完成这一任务.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="配置travis-ci">4..2. 配置Travis-CI</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>登录 <a href="https://travis-ci.com/" class="bare">https://travis-ci.com/</a> 网站, 使用github账号登录并且进行Permission的授权</p>
+</li>
+<li>
+<p>在 <a href="https://travis-ci.com/account/repositories" class="bare">https://travis-ci.com/account/repositories</a> 中进行 sync, 将对应的 repo 加入到Travis-CI管理的项目中.</p>
+</li>
+<li>
+<p>新建 <code>.travis.yml</code> 文件,  将以下内容复制到文件中</p>
+<div class="listingblock">
+<div class="content">
+<pre>language: ruby
+rvm: 2.7.2
+os: osx
+before_install:
+  - gem install bundler
+install: bundle install --deployment
+script: bundle exec rake deploy</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>我的电脑系统为MacOS Big Sur, 为了保持环境一致设置了 <code>os: osx</code> , 也可以设置为 <code>os: linux</code> 等, 但不同情况可能会遇到不同的问题, <strong>注意看错误信息</strong> .</p>
+</div>
+</li>
+<li>
+<p>安装travis</p>
+<div class="listingblock">
+<div class="content">
+<pre>gem install -n /usr/local/bin travis</pre>
+</div>
+</div>
+</li>
+<li>
+<p>在 <a href="https://github.com/settings/tokens/new" class="bare">https://github.com/settings/tokens/new</a> 中生成新的token, 可以设置合适的权限</p>
+</li>
+<li>
+<p>将github token加密写入到 <code>.travis.yml</code> 文件中</p>
+<div class="listingblock">
+<div class="content">
+<pre>travis encrypt GH_TOKEN=&lt;above token&gt; --add env.global --com</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(这一步可能需要使用命令行登录)</p>
+</div>
+</li>
+<li>
+<p>将所有文件更新commit并且push到github上</p>
+</li>
+<li>
+<p>在 <a href="https://travis-ci.com/" class="bare">https://travis-ci.com/</a> 中查看build的log</p>
+<div class="imageblock">
+<div class="content">
+<img src="/assets/travis-screenshot.png" alt="travis build结果">
+</div>
+</div>
+</li>
+<li>
+<p>build成功的话就可以在 <a href="https://USERNAME.github.io" class="bare">https://USERNAME.github.io</a> 中看到生成的网站</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="method2-使用github-actions配置">Method2. 使用Github-Actions配置</h3>
-
+<h3 id="method-2-使用github-actions配置">Method 2. 使用Github-Actions配置</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
 </div>
 </div>
 </div>
@@ -314,6 +451,13 @@ bundle exec jekyll serve --livereload # --livereload可以自动更新页面</pr
 <h2 id="further-reading">5. Further Reading</h2>
 <div class="sectionbody">
 <hr>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://gohugo.io/">Hugo</a>, 除了Jekyll之外另一个流行的静态网站生成器</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
   </div><a class="u-url" href="/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html" hidden></a>
