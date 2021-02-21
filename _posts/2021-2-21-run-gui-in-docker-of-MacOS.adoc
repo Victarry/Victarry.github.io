@@ -1,0 +1,22 @@
+= 在MacOS下使用Docker运行GUI
+Zhenhuan Liu <nkulzh16@gmail.com>
+
+:layout: post
+:sectnums:
+// 问题:
+// 1. docker如何和主机进行网络连接
+// 2. socat具体是怎么做的
+// 3. xserver是什么样的协议
+
+在Docker内运行GUI程序需要利用 [https://en.wikipedia.org/wiki/X_Window_System]X_Window_System , MacOS下对应的实现是Xquartz.
+
+== 安装socat
+
+== 安装Xquartz
+
+
+=== 参考链接
+
+
+https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb
+https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc
