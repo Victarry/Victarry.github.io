@@ -69,7 +69,7 @@ Jekyll通过将markdown文件渲染成静态html文件来生成博客网站的�
 
 - Pages是Jekyll中用于撰写内容的最基本单元, Pages适合用于单独的内容, 也就是与日期无关并且不是成组的内容.
 +
-如果要添加一个新的Page, 只需要在根目录下添加一个新的HTML文件或者Markdon文件, 例如包含了about, index和contact页面的文件及其对应的URL如下:
+如果要添加一个新的Page, 只需要在根目录下添加一个新的HTML文件或者Markdown文件, 例如包含了about, index和contact页面的文件及其对应的URL如下:
 
 ----
     .
@@ -139,6 +139,7 @@ _由于jekyll会自动激活 `:jekyll_plugins` 组中的插件,因此该步骤�
 - https://github.com/asciidoctor/asciidoctor-vscode[AsciiDoc Vscode插件], 可以直接预览AsciiDoc文件
 - https://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc Writing Guide], 快速上手AsciiDoc
 - https://docs.asciidoctor.org/asciidoc/latest/[AsciiDoc Documentation], AsciiDoc详细介绍
+- https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/[AsciiDoc语法查询手册], 可以快速查询AsciiDoc对应的语法
 - https://jekyllrb.com/docs/[jekyll Documentation], jekyll详细介绍
 - https://github.com/asciidoctor/jekyll-asciidoc[jekyll-AsciiDoc插件], 用于在jekyll中使用AsciiDoc
 - https://github.com/asciidoctor/jekyll-asciidoc-quickstart[jekyll-AsciiDoc-Quickstart], 可以直接在github上Fork, 相当于使用配置好的AsciiDoc-jekyll网站,这样就不需要从头开始,并且手动修改关于AsciiDoc的相关配置了.
@@ -231,7 +232,87 @@ TODO
 
 :sectnums:
 
+== 其他问题
+
+=== 显示latex公式
+
+==== 添加mathjax link
+. 新建_includes/mathjax.html, 并将下列代码复制到文件中
++
+----
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+----
+. 在layout模板中的 `<body> </body>` 内include上述文件, 如果添加到 `default` 的layout中, 那么可以新建 `_layouts/default.html`, 复制下列代码
++
+----
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
+
+  <body>
+    
+    {%- include mathjax.html -%}
+    {%- include header.html -%}
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </main>
+
+    {%- include footer.html -%}
+
+  </body>
+
+</html>
+----
+
+==== 在AsciiDoc中添加公式
+- 启用stem, 在 https://docs.asciidoctor.org/asciidoc/latest/document/metadata/[metadata] 中加入:
++
+----
+:stem:
+----
+- 使用行内公式(inline formula)
++
+----
+stem:[C = \alpha + \beta Y^{\gamma} + \epsilon]
+----
+- 使用块公式(block formula)
++
+----
+[stem]
+++++
+C = \alpha + \beta Y^{\gamma} + \epsilon
+++++
+----
+
+=== 代码高亮
+TODO
+
 == Further Reading
 ---
 
+=== 静态网站
 - https://gohugo.io/[Hugo], 除了Jekyll之外另一个流行的静态网站生成器
+
+=== 博客发布平台
+- https://ghost.org/[Ghost]
+- Medium
+- WordPress
