@@ -74,8 +74,15 @@ MathJax.Hub.Config({
 <div class="listingblock">
 <div class="content">
 <pre>brew install socat
-socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &amp;</pre>
+socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &amp; <b class="conum">(1)</b></pre>
 </div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Xquartz的listen 端口为6000</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -87,15 +94,40 @@ socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &amp;</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>xhost +
-docker run -e DISPLAY=DISPLAY=host.docker.internal:0 gns3/xeyes</pre>
+<pre>xhost + <b class="conum">(1)</b>
+docker run -e DISPLAY=host.docker.internal:0 gns3/xeyes <b class="conum">(2)</b></pre>
 </div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>允许所有其他ip地址的客户端连接到xquartz</p>
+</li>
+<li>
+<p><a href="https://docs.docker.com/docker-for-mac/networking/#per-container-ip-addressing-is-not-possible">host.docker.internal</a> 是一个Docker Desktop for MAC专用的nameserver, 可以解析出host对应的ip</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>如果成功的话,就可以看到一个眼睛的界面</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/assets/xeyes.png" alt="test" width="300" height="300">
+</div>
+<div class="title">Figure 1. 运行成功的结果</div>
 </div>
 <div class="sect2">
 <h3 id="参考链接">2.1. 参考链接</h3>
-<div class="paragraph">
-<p><a href="https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb" class="bare">https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb</a>
-<a href="https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc" class="bare">https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc</a></p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb" class="bare">https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb</a></p>
+</li>
+<li>
+<p><a href="https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc" class="bare">https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc</a></p>
+</li>
+</ol>
 </div>
 </div>
 </div>
