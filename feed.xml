@@ -1,19 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://victarry.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://victarry.github.io/" rel="alternate" type="text/html" /><updated>2021-02-21T15:28:02+00:00</updated><id>https://victarry.github.io/feed.xml</id><title type="html">Victarry’s Blog</title><subtitle></subtitle><entry><title type="html">在MacOS下使用Docker运行GUI</title><link href="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html" rel="alternate" type="text/html" title="在MacOS下使用Docker运行GUI" /><published>2021-02-21T00:00:00+00:00</published><updated>2021-02-21T00:00:00+00:00</updated><id>https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS</id><content type="html" xml:base="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html">&lt;div id=&quot;preamble&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://victarry.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://victarry.github.io/" rel="alternate" type="text/html" /><updated>2021-02-22T05:51:46+00:00</updated><id>https://victarry.github.io/feed.xml</id><title type="html">Victarry’s Blog</title><subtitle></subtitle><entry><title type="html">在MacOS下使用Docker运行GUI</title><link href="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html" rel="alternate" type="text/html" title="在MacOS下使用Docker运行GUI" /><published>2021-02-21T00:00:00+00:00</published><updated>2021-02-21T00:00:00+00:00</updated><id>https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS</id><content type="html" xml:base="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;在Docker内运行GUI程序需要利用 [&lt;a href=&quot;https://en.wikipedia.org/wiki/X_Window_System&quot; class=&quot;bare&quot;&gt;https://en.wikipedia.org/wiki/X_Window_System&lt;/a&gt;]X_Window_System , MacOS下对应的实现是Xquartz.&lt;/p&gt;
+&lt;p&gt;在Docker内运行GUI程序需要利用 &lt;a href=&quot;https://en.wikipedia.org/wiki/X_Window_System&quot;&gt;X_Window_System&lt;/a&gt; , MacOS下对应的实现是Xquartz.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;安装socat&quot;&gt;1. 安装socat&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
-
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;brew install socat
+socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\&quot;$DISPLAY\&quot; &amp;amp;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;安装xquartz&quot;&gt;2. 安装Xquartz&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;在 &lt;a href=&quot;https://www.xquartz.org/&quot; class=&quot;bare&quot;&gt;https://www.xquartz.org/&lt;/a&gt; 网站上下载并安装Xquartz&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;xhost +
+docker run -e DISPLAY=DISPLAY=host.docker.internal:0 gns3/xeyes&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 &lt;div class=&quot;sect2&quot;&gt;
 &lt;h3 id=&quot;参考链接&quot;&gt;2.1. 参考链接&lt;/h3&gt;
 &lt;div class=&quot;paragraph&quot;&gt;

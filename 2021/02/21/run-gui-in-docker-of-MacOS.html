@@ -64,19 +64,33 @@ MathJax.Hub.Config({
     <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>在Docker内运行GUI程序需要利用 [<a href="https://en.wikipedia.org/wiki/X_Window_System" class="bare">https://en.wikipedia.org/wiki/X_Window_System</a>]X_Window_System , MacOS下对应的实现是Xquartz.</p>
+<p>在Docker内运行GUI程序需要利用 <a href="https://en.wikipedia.org/wiki/X_Window_System">X_Window_System</a> , MacOS下对应的实现是Xquartz.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="安装socat">1. 安装socat</h2>
 <div class="sectionbody">
-
+<div class="listingblock">
+<div class="content">
+<pre>brew install socat
+socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &amp;</pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="安装xquartz">2. 安装Xquartz</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>在 <a href="https://www.xquartz.org/" class="bare">https://www.xquartz.org/</a> 网站上下载并安装Xquartz</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>xhost +
+docker run -e DISPLAY=DISPLAY=host.docker.internal:0 gns3/xeyes</pre>
+</div>
+</div>
 <div class="sect2">
 <h3 id="参考链接">2.1. 参考链接</h3>
 <div class="paragraph">
