@@ -8,13 +8,22 @@ Zhenhuan Liu <nkulzh16@gmail.com>
 // 2. socat具体是怎么做的
 // 3. xserver是什么样的协议
 
-在Docker内运行GUI程序需要利用 [https://en.wikipedia.org/wiki/X_Window_System]X_Window_System , MacOS下对应的实现是Xquartz.
+在Docker内运行GUI程序需要利用 https://en.wikipedia.org/wiki/X_Window_System[X_Window_System] , MacOS下对应的实现是Xquartz.
 
 == 安装socat
 
+----
+brew install socat
+socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &
+----
+
 == 安装Xquartz
+在 https://www.xquartz.org/ 网站上下载并安装Xquartz
 
-
+----
+xhost +
+docker run -e DISPLAY=DISPLAY=host.docker.internal:0 gns3/xeyes
+----
 === 参考链接
 
 
