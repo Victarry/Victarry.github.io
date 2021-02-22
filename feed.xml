@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://victarry.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://victarry.github.io/" rel="alternate" type="text/html" /><updated>2021-02-22T12:03:51+00:00</updated><id>https://victarry.github.io/feed.xml</id><title type="html">Victarry’s Blog</title><subtitle></subtitle><entry><title type="html">在MacOS下使用Docker运行GUI</title><link href="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html" rel="alternate" type="text/html" title="在MacOS下使用Docker运行GUI" /><published>2021-02-21T00:00:00+00:00</published><updated>2021-02-21T00:00:00+00:00</updated><id>https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS</id><content type="html" xml:base="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html">&lt;div id=&quot;preamble&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://victarry.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://victarry.github.io/" rel="alternate" type="text/html" /><updated>2021-02-22T13:55:49+00:00</updated><id>https://victarry.github.io/feed.xml</id><title type="html">Victarry’s Blog</title><subtitle></subtitle><entry><title type="html">在MacOS下使用Docker运行GUI</title><link href="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html" rel="alternate" type="text/html" title="在MacOS下使用Docker运行GUI" /><published>2021-02-21T00:00:00+00:00</published><updated>2021-02-21T00:00:00+00:00</updated><id>https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS</id><content type="html" xml:base="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;在Docker内运行GUI程序需要利用 &lt;a href=&quot;https://en.wikipedia.org/wiki/X_Window_System&quot;&gt;X_Window_System&lt;/a&gt; , MacOS下对应的实现是Xquartz.&lt;/p&gt;
@@ -190,7 +190,7 @@ Wikipedia列举了
 &lt;li&gt;
 &lt;p&gt;Pages是Jekyll中用于撰写内容的最基本单元, Pages适合用于单独的内容, 也就是与日期无关并且不是成组的内容.&lt;/p&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;如果要添加一个新的Page, 只需要在根目录下添加一个新的HTML文件或者Markdon文件, 例如包含了about, index和contact页面的文件及其对应的URL如下:&lt;/p&gt;
+&lt;p&gt;如果要添加一个新的Page, 只需要在根目录下添加一个新的HTML文件或者Markdown文件, 例如包含了about, index和contact页面的文件及其对应的URL如下:&lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -297,6 +297,9 @@ bundle exec jekyll serve --livereload # --livereload可以自动更新页面&lt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&quot;https://docs.asciidoctor.org/asciidoc/latest/&quot;&gt;AsciiDoc Documentation&lt;/a&gt;, AsciiDoc详细介绍&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/&quot;&gt;AsciiDoc语法查询手册&lt;/a&gt;, 可以快速查询AsciiDoc对应的语法&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&quot;https://jekyllrb.com/docs/&quot;&gt;jekyll Documentation&lt;/a&gt;, jekyll详细介绍&lt;/p&gt;
@@ -470,15 +473,140 @@ script: bundle exec rake deploy&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;further-reading&quot;&gt;5. Further Reading&lt;/h2&gt;
+&lt;h2 id=&quot;其他问题&quot;&gt;5. 其他问题&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;显示latex公式&quot;&gt;5.1. 显示latex公式&lt;/h3&gt;
+&lt;div class=&quot;sect3&quot;&gt;
+&lt;h4 id=&quot;添加mathjax-link&quot;&gt;5.1.1. 添加mathjax link&lt;/h4&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;新建_includes/mathjax.html, 并将下列代码复制到文件中&lt;/p&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;&amp;lt;script type=&quot;text/x-mathjax-config&quot;&amp;gt;
+MathJax.Hub.Config({
+  messageStyle: &quot;none&quot;,
+  tex2jax: {
+    inlineMath: [[&quot;\\(&quot;, &quot;\\)&quot;]],
+    displayMath: [[&quot;\\[&quot;, &quot;\\]&quot;]],
+    ignoreClass: &quot;nostem|nolatexmath&quot;
+  },
+  asciimath2jax: {
+    delimiters: [[&quot;\\$&quot;, &quot;\\$&quot;]],
+    ignoreClass: &quot;nostem|noasciimath&quot;
+  },
+  TeX: { equationNumbers: { autoNumber: &quot;none&quot; } }
+});
+&amp;lt;/script&amp;gt;
+&amp;lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML&quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在layout模板中的 &lt;code&gt;&amp;lt;body&amp;gt; &amp;lt;/body&amp;gt;&lt;/code&gt; 内include上述文件, 如果添加到 &lt;code&gt;default&lt;/code&gt; 的layout中, 那么可以新建 &lt;code&gt;_layouts/default.html&lt;/code&gt;, 复制下列代码&lt;/p&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&quot;{{ page.lang | default: site.lang | default: &quot;en&quot; }}&quot;&amp;gt;
+
+  {%- include head.html -%}
+
+  &amp;lt;body&amp;gt;
+
+    {%- include mathjax.html -%}
+    {%- include header.html -%}
+
+    &amp;lt;main class=&quot;page-content&quot; aria-label=&quot;Content&quot;&amp;gt;
+      &amp;lt;div class=&quot;wrapper&quot;&amp;gt;
+        {{ content }}
+      &amp;lt;/div&amp;gt;
+    &amp;lt;/main&amp;gt;
+
+    {%- include footer.html -%}
+
+  &amp;lt;/body&amp;gt;
+
+&amp;lt;/html&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect3&quot;&gt;
+&lt;h4 id=&quot;在asciidoc中添加公式&quot;&gt;5.1.2. 在AsciiDoc中添加公式&lt;/h4&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;启用stem, 在 &lt;a href=&quot;https://docs.asciidoctor.org/asciidoc/latest/document/metadata/&quot;&gt;metadata&lt;/a&gt; 中加入:&lt;/p&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;:stem:&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用行内公式(inline formula)&lt;/p&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;stem:[C = \alpha + \beta Y^{\gamma} + \epsilon]&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用块公式(block formula)&lt;/p&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;[stem]
+++++
+C = \alpha + \beta Y^{\gamma} + \epsilon
+++++&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;代码高亮&quot;&gt;5.2. 代码高亮&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;TODO&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;further-reading&quot;&gt;6. Further Reading&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;hr&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;静态网站&quot;&gt;6.1. 静态网站&lt;/h3&gt;
 &lt;div class=&quot;ulist&quot;&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&quot;https://gohugo.io/&quot;&gt;Hugo&lt;/a&gt;, 除了Jekyll之外另一个流行的静态网站生成器&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;博客发布平台&quot;&gt;6.2. 博客发布平台&lt;/h3&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://ghost.org/&quot;&gt;Ghost&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Medium&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;WordPress&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</content><author><name>Zhenhuan Liu</name></author></entry></feed>
