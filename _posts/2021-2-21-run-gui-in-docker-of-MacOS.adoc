@@ -3,10 +3,6 @@ Zhenhuan Liu <nkulzh16@gmail.com>
 
 :layout: post
 :sectnums:
-// 问题:
-// 1. docker如何和主机进行网络连接
-// 2. socat具体是怎么做的
-// 3. xserver是什么样的协议
 
 在Docker内运行GUI程序需要利用 https://en.wikipedia.org/wiki/X_Window_System[X_Window_System] , MacOS下对应的实现是Xquartz.
 
@@ -14,18 +10,28 @@ Zhenhuan Liu <nkulzh16@gmail.com>
 
 ----
 brew install socat
-socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &
+socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" & <1>
 ----
+<1> Xquartz的listen 端口为6000
 
 == 安装Xquartz
 在 https://www.xquartz.org/ 网站上下载并安装Xquartz
 
 ----
-xhost +
-docker run -e DISPLAY=DISPLAY=host.docker.internal:0 gns3/xeyes
+xhost + <1>
+docker run -e DISPLAY=host.docker.internal:0 gns3/xeyes <2>
 ----
+<1> 允许所有其他ip地址的客户端连接到xquartz
+<2> https://docs.docker.com/docker-for-mac/networking/#per-container-ip-addressing-is-not-possible[host.docker.internal] 是一个Docker Desktop for MAC专用的nameserver, 可以解析出host对应的ip
+
+如果成功的话,就可以看到一个眼睛的界面
+
+.运行成功的结果
+image::/assets/xeyes.png[test,300,300]
+
+
 === 参考链接
 
 
-https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb
-https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc
+. https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb
+. https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc
