@@ -1,0 +1,104 @@
+= Introduction to PGM
+Zhenhuan Liu
+:stem: latexmath
+// :sectnums:
+
+这篇文章作为 https://www.ece.iastate.edu/~namrata/EE527_Spring12/lgraphical1.pdf[An Introduction to PGM, Jodan] 的简单总结.
+
+== 条件独立(Conditional Independance)
+---
+
+=== 基本定义
+
+*条件独立的定义*: 
+
+对于随机变量stem:[X, Y, Z], 在给定Z的情况下, X和Y条件独立, 记作 stem:[X \perp Y \mid Z], 当且仅当:
+
+[stem]
+++++
+f_{X, Y \mid Z}(x, y \mid z) = f_{X \mid Z}(x \mid z)f_{Y \mid Z}(y \mid z)
+++++
+
+*条件独立的等价形式*: 
+
+[stem]
+++++
+X \perp Y \mid Z
+++++
+
+当且仅当:
+[stem]
+++++
+f_{X \mid Y,Z}(x \mid y,z) = f_{X \mid Z}(x \mid z)
+++++
+
+.证明如下
+[%collapsible]
+====
+如果
+[stem]
+++++
+\begin{align}
+f(x, y \mid z) = f(x \mid z)f(y \mid z) & \Leftrightarrow \frac{f(x, y, z)}{f(z)} = \frac{f(x, y)}{f(z)} \frac{f(y, z)}{f(z)}  \\
+                         & \Leftrightarrow \frac{f(x, y, z)}{f(y, z)} = \frac{f(x, y)}{f(z)} \\
+                         & \Leftrightarrow f(x \mid y, z) = f(x, z)
+
+\end{align}
+++++
+====
+
+=== 条件独立的推论
+
+[stem]
+++++
+\begin{eqnarray} 
+\tag{1}
+X \perp Y \mid Z & \Rightarrow & Y \perp X \mid Z \\
+\tag{2}
+Y \perp X \mid Z & \Rightarrow & Y \perp h(X) \mid Z  \\
+\tag{3}
+Y \perp X \mid Z & \Rightarrow & Y \perp X \mid \{Z, h(X)\}  \Leftrightarrow Y \perp \{X, h(X)\} \mid Z \\
+\tag{4}
+Y \perp X \mid Z & \ \ and \ \ & W \perp X\ \mid\ \{Y, Z\} \Rightarrow \{Y, W\} \perp X \mid Z \\
+\tag{5}
+Y \perp X \mid Z & and & Z \perp X \mid Y \Rightarrow \{Y, Z\} \perp X
+\end{eqnarray}
+++++
+
+.证明2
+[%collapsible]
+====
+TODO
+====
+
+.证明3
+[%collapsible]
+====
+TODO
+====
+
+.证明4
+[%collapsible]
+====
+TODO
+====
+
+.证明5
+[%collapsible]
+====
+TODO
+====
+
+(3) 中 stem:[Y \perp X \mid \{Z, h(X)\}  \Leftrightarrow Y \perp \{X, h(X)\} \mid Z]  可采用条件独立的等价形式进行证明
+
+== Directed Graphical Models
+---
+
+=== 定义
+
+=== 图 => 概率分布的函数
+
+=== 图 => 分布中蕴含的条件独立
+
+== Undirected PGM
+---
