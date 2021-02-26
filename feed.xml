@@ -1,4 +1,142 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://victarry.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://victarry.github.io/" rel="alternate" type="text/html" /><updated>2021-02-24T02:02:25+00:00</updated><id>https://victarry.github.io/feed.xml</id><title type="html">Victarry’s Blog</title><subtitle></subtitle><author><name>Zhenhuan Liu</name><email>nkulzh16@gmail.com</email></author><entry><title type="html">在MacOS下使用Docker运行GUI</title><link href="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html" rel="alternate" type="text/html" title="在MacOS下使用Docker运行GUI" /><published>2021-02-21T00:00:00+00:00</published><updated>2021-02-21T00:00:00+00:00</updated><id>https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS</id><content type="html" xml:base="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html">&lt;div id=&quot;preamble&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://victarry.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://victarry.github.io/" rel="alternate" type="text/html" /><updated>2021-02-26T03:42:56+00:00</updated><id>https://victarry.github.io/feed.xml</id><title type="html">Victarry’s Blog</title><subtitle></subtitle><author><name>Zhenhuan Liu</name><email>nkulzh16@gmail.com</email></author><entry><title type="html">Introduction to PGM</title><link href="https://victarry.github.io/2021/02/26/Introduction-to-PGM.html" rel="alternate" type="text/html" title="Introduction to PGM" /><published>2021-02-26T00:00:00+00:00</published><updated>2021-02-26T00:00:00+00:00</updated><id>https://victarry.github.io/2021/02/26/Introduction-to-PGM</id><content type="html" xml:base="https://victarry.github.io/2021/02/26/Introduction-to-PGM.html">&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;这篇文章作为 &lt;a href=&quot;https://www.ece.iastate.edu/~namrata/EE527_Spring12/lgraphical1.pdf&quot;&gt;An Introduction to PGM, Jodan&lt;/a&gt; 的简单总结.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;条件独立conditional-independance&quot;&gt;条件独立(Conditional Independance)&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;hr&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;基本定义&quot;&gt;基本定义&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;strong&gt;条件独立的定义&lt;/strong&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;对于随机变量\(X, Y, Z\), 在给定Z的情况下, X和Y条件独立, 记作 \(X \perp Y \mid Z\), 当且仅当:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;stemblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+\[f_{X, Y \mid Z}(x, y \mid z) = f_{X \mid Z}(x \mid z)f_{Y \mid Z}(y \mid z)\]
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;strong&gt;条件独立的等价形式&lt;/strong&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;stemblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+\[X \perp Y \mid Z\]
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;当且仅当:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;stemblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+\[f_{X \mid Y,Z}(x \mid y,z) = f_{X \mid Z}(x \mid z)\]
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;证明如下&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;如果&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;stemblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+\[\begin{align}
+f(x, y \mid z) = f(x \mid z)f(y \mid z) &amp;amp; \Leftrightarrow \frac{f(x, y, z)}{f(z)} = \frac{f(x, y)}{f(z)} \frac{f(y, z)}{f(z)}  \\
+                         &amp;amp; \Leftrightarrow \frac{f(x, y, z)}{f(y, z)} = \frac{f(x, y)}{f(z)} \\
+                         &amp;amp; \Leftrightarrow f(x \mid y, z) = f(x, z)
+
+\end{align}\]
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;条件独立的推论&quot;&gt;条件独立的推论&lt;/h3&gt;
+&lt;div class=&quot;stemblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+\[\begin{eqnarray}
+\tag{1}
+X \perp Y \mid Z &amp;amp; \Rightarrow &amp;amp; Y \perp X \mid Z \\
+\tag{2}
+Y \perp X \mid Z &amp;amp; \Rightarrow &amp;amp; Y \perp h(X) \mid Z  \\
+\tag{3}
+Y \perp X \mid Z &amp;amp; \Rightarrow &amp;amp; Y \perp X \mid \{Z, h(X)\}  \Leftrightarrow Y \perp \{X, h(X)\} \mid Z \\
+\tag{4}
+Y \perp X \mid Z &amp;amp; \ \ and \ \ &amp;amp; W \perp X\ \mid\ \{Y, Z\} \Rightarrow \{Y, W\} \perp X \mid Z \\
+\tag{5}
+Y \perp X \mid Z &amp;amp; and &amp;amp; Z \perp X \mid Y \Rightarrow \{Y, Z\} \perp X
+\end{eqnarray}\]
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;证明2&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;TODO&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;证明3&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;TODO&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;证明4&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;TODO&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary class=&quot;title&quot;&gt;证明5&lt;/summary&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;TODO&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;(3) 中 \(Y \perp X \mid \{Z, h(X)\}  \Leftrightarrow Y \perp \{X, h(X)\} \mid Z\)  可采用条件独立的等价形式进行证明&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;directed-graphical-models&quot;&gt;Directed Graphical Models&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;hr&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;定义&quot;&gt;定义&lt;/h3&gt;
+
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;图-概率分布的函数&quot;&gt;图 &amp;#8658; 概率分布的函数&lt;/h3&gt;
+
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;图-分布中蕴含的条件独立&quot;&gt;图 &amp;#8658; 分布中蕴含的条件独立&lt;/h3&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;undirected-pgm&quot;&gt;Undirected PGM&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;hr&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name>Zhenhuan Liu</name></author><summary type="html">这篇文章作为 An Introduction to PGM, Jodan 的简单总结.</summary></entry><entry><title type="html">在MacOS下使用Docker运行GUI</title><link href="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html" rel="alternate" type="text/html" title="在MacOS下使用Docker运行GUI" /><published>2021-02-21T00:00:00+00:00</published><updated>2021-02-21T00:00:00+00:00</updated><id>https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS</id><content type="html" xml:base="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html">&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;在Docker内运行GUI程序需要利用 &lt;a href=&quot;https://en.wikipedia.org/wiki/X_Window_System&quot;&gt;X_Window_System&lt;/a&gt; , MacOS下对应的实现是Xquartz.&lt;/p&gt;
