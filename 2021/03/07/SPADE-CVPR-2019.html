@@ -14,20 +14,13 @@
 <meta property="og:url" content="https://victarry.github.io/2021/03/07/SPADE-CVPR-2019.html" />
 <meta property="og:site_name" content="Victarry’s Blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-03-07T00:00:00+00:00" />
+<meta property="article:published_time" content="2021-03-07T00:00:00+08:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Semantic Image Synthesis with Spatially-Adaptive Normalization" />
 <script type="application/ld+json">
-{"url":"https://victarry.github.io/2021/03/07/SPADE-CVPR-2019.html","headline":"Semantic Image Synthesis with Spatially-Adaptive Normalization","dateModified":"2021-03-07T00:00:00+00:00","datePublished":"2021-03-07T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/03/07/SPADE-CVPR-2019.html"},"author":{"@type":"Person","name":"Zhenhuan Liu"},"description":"Semantic Image Synthesis with Spatially-Adaptive Normalization Taesung Park, Ming-Yu Liu, Ting-Chun Wang, Jun-Yan Zhu. CVPR 2019(oral)","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","headline":"Semantic Image Synthesis with Spatially-Adaptive Normalization","dateModified":"2021-03-07T00:00:00+08:00","datePublished":"2021-03-07T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/03/07/SPADE-CVPR-2019.html"},"author":{"@type":"Person","name":"Zhenhuan Liu"},"description":"Semantic Image Synthesis with Spatially-Adaptive Normalization Taesung Park, Ming-Yu Liu, Ting-Chun Wang, Jun-Yan Zhu. CVPR 2019(oral)","url":"https://victarry.github.io/2021/03/07/SPADE-CVPR-2019.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-D0C3LLK216"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-D0C3LLK216');
-    </script><link href="/css/asciidoc-pygments.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><link href="/css/asciidoc-pygments.css" rel="stylesheet">
 </head>
 <body><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -65,7 +58,7 @@ MathJax.Hub.Config({
 
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">Semantic Image Synthesis with Spatially-Adaptive Normalization</h1>
-    <p class="post-meta"><time class="dt-published" datetime="2021-03-07T00:00:00+00:00" itemprop="datePublished">
+    <p class="post-meta"><time class="dt-published" datetime="2021-03-07T00:00:00+08:00" itemprop="datePublished">
         Mar 7, 2021
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -282,112 +275,112 @@ upsample替代transpose-convolution的工作越来越多, 这样可以减少arti
 <div class="listingblock">
 <div class="title">实现代码</div>
 <div class="content">
-<pre>class SPADEGenerator(BaseNetwork):
-    @staticmethod
-    def modify_commandline_options(parser, is_train):
-        parser.set_defaults(norm_G='spectralspadesyncbatch3x3')
-        parser.add_argument('--num_upsampling_layers',
-                            choices=('normal', 'more', 'most'), default='normal',
-                            help="If 'more', adds upsampling layer between the two middle resnet blocks.
-                            If 'most', also add one more upsampling + resnet layer at the end of the generator")
+<pre class="pygments highlight"><code data-lang="python"><span></span><span class="tok-k">class</span> <span class="tok-nc">SPADEGenerator</span><span class="tok-p">(</span><span class="tok-n">BaseNetwork</span><span class="tok-p">):</span>
+    <span class="tok-nd">@staticmethod</span>
+    <span class="tok-k">def</span> <span class="tok-nf">modify_commandline_options</span><span class="tok-p">(</span><span class="tok-n">parser</span><span class="tok-p">,</span> <span class="tok-n">is_train</span><span class="tok-p">):</span>
+        <span class="tok-n">parser</span><span class="tok-o">.</span><span class="tok-n">set_defaults</span><span class="tok-p">(</span><span class="tok-n">norm_G</span><span class="tok-o">=</span><span class="tok-s1">&#39;spectralspadesyncbatch3x3&#39;</span><span class="tok-p">)</span>
+        <span class="tok-n">parser</span><span class="tok-o">.</span><span class="tok-n">add_argument</span><span class="tok-p">(</span><span class="tok-s1">&#39;--num_upsampling_layers&#39;</span><span class="tok-p">,</span>
+                            <span class="tok-n">choices</span><span class="tok-o">=</span><span class="tok-p">(</span><span class="tok-s1">&#39;normal&#39;</span><span class="tok-p">,</span> <span class="tok-s1">&#39;more&#39;</span><span class="tok-p">,</span> <span class="tok-s1">&#39;most&#39;</span><span class="tok-p">),</span> <span class="tok-n">default</span><span class="tok-o">=</span><span class="tok-s1">&#39;normal&#39;</span><span class="tok-p">,</span>
+                            <span class="tok-n">help</span><span class="tok-o">=</span><span class="tok-s2">&quot;If &#39;more&#39;, adds upsampling layer between the two middle resnet blocks.</span>
+                            <span class="tok-n">If</span> <span class="tok-s1">&#39;most&#39;</span><span class="tok-p">,</span> <span class="tok-n">also</span> <span class="tok-n">add</span> <span class="tok-n">one</span> <span class="tok-n">more</span> <span class="tok-n">upsampling</span> <span class="tok-o">+</span> <span class="tok-n">resnet</span> <span class="tok-n">layer</span> <span class="tok-n">at</span> <span class="tok-n">the</span> <span class="tok-n">end</span> <span class="tok-n">of</span> <span class="tok-n">the</span> <span class="tok-n">generator</span><span class="tok-s2">&quot;)</span>
 
-        return parser
+        <span class="tok-k">return</span> <span class="tok-n">parser</span>
 
-    def __init__(self, opt):
-        super().__init__()
-        self.opt = opt
-        nf = opt.ngf
+    <span class="tok-k">def</span> <span class="tok-fm">__init__</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">):</span>
+        <span class="tok-nb">super</span><span class="tok-p">()</span><span class="tok-o">.</span><span class="tok-fm">__init__</span><span class="tok-p">()</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">opt</span> <span class="tok-o">=</span> <span class="tok-n">opt</span>
+        <span class="tok-n">nf</span> <span class="tok-o">=</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">ngf</span>
 
 
-        self.sw, self.sh = self.compute_latent_vector_size(opt) <b class="conum">(1)</b>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sw</span><span class="tok-p">,</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sh</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">compute_latent_vector_size</span><span class="tok-p">(</span><span class="tok-n">opt</span><span class="tok-p">)</span> <b class="conum">(1)</b>
 
-        if opt.use_vae:
-            # In case of VAE, we will sample from random z vector
-            self.fc = nn.Linear(opt.z_dim, 16 * nf * self.sw * self.sh) <b class="conum">(2)</b>
-        else:
-            # Otherwise, we make the network deterministic by starting with
-            # downsampled segmentation map instead of random z
-            self.fc = nn.Conv2d(self.opt.semantic_nc, 16 * nf, 3, padding=1) <b class="conum">(2)</b>
+        <span class="tok-k">if</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">use_vae</span><span class="tok-p">:</span>
+            <span class="tok-c1"># In case of VAE, we will sample from random z vector</span>
+            <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">fc</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Linear</span><span class="tok-p">(</span><span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">z_dim</span><span class="tok-p">,</span> <span class="tok-mi">16</span> <span class="tok-o">*</span> <span class="tok-n">nf</span> <span class="tok-o">*</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sw</span> <span class="tok-o">*</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sh</span><span class="tok-p">)</span> <b class="conum">(2)</b>
+        <span class="tok-k">else</span><span class="tok-p">:</span>
+            <span class="tok-c1"># Otherwise, we make the network deterministic by starting with</span>
+            <span class="tok-c1"># downsampled segmentation map instead of random z</span>
+            <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">fc</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Conv2d</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">semantic_nc</span><span class="tok-p">,</span> <span class="tok-mi">16</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-n">padding</span><span class="tok-o">=</span><span class="tok-mi">1</span><span class="tok-p">)</span> <b class="conum">(2)</b>
 
-        self.head_0 = SPADEResnetBlock(16 * nf, 16 * nf, opt)
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">head_0</span> <span class="tok-o">=</span> <span class="tok-n">SPADEResnetBlock</span><span class="tok-p">(</span><span class="tok-mi">16</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-mi">16</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">)</span>
 
-        self.G_middle_0 = SPADEResnetBlock(16 * nf, 16 * nf, opt)
-        self.G_middle_1 = SPADEResnetBlock(16 * nf, 16 * nf, opt)
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">G_middle_0</span> <span class="tok-o">=</span> <span class="tok-n">SPADEResnetBlock</span><span class="tok-p">(</span><span class="tok-mi">16</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-mi">16</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">)</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">G_middle_1</span> <span class="tok-o">=</span> <span class="tok-n">SPADEResnetBlock</span><span class="tok-p">(</span><span class="tok-mi">16</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-mi">16</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">)</span>
 
-        self.up_0 = SPADEResnetBlock(16 * nf, 8 * nf, opt)
-        self.up_1 = SPADEResnetBlock(8 * nf, 4 * nf, opt)
-        self.up_2 = SPADEResnetBlock(4 * nf, 2 * nf, opt)
-        self.up_3 = SPADEResnetBlock(2 * nf, 1 * nf, opt)
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up_0</span> <span class="tok-o">=</span> <span class="tok-n">SPADEResnetBlock</span><span class="tok-p">(</span><span class="tok-mi">16</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-mi">8</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">)</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up_1</span> <span class="tok-o">=</span> <span class="tok-n">SPADEResnetBlock</span><span class="tok-p">(</span><span class="tok-mi">8</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-mi">4</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">)</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up_2</span> <span class="tok-o">=</span> <span class="tok-n">SPADEResnetBlock</span><span class="tok-p">(</span><span class="tok-mi">4</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-mi">2</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">)</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up_3</span> <span class="tok-o">=</span> <span class="tok-n">SPADEResnetBlock</span><span class="tok-p">(</span><span class="tok-mi">2</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-mi">1</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">)</span>
 
-        final_nc = nf
+        <span class="tok-n">final_nc</span> <span class="tok-o">=</span> <span class="tok-n">nf</span>
 
-        if opt.num_upsampling_layers == 'most':
-            self.up_4 = SPADEResnetBlock(1 * nf, nf // 2, opt)
-            final_nc = nf // 2
+        <span class="tok-k">if</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">num_upsampling_layers</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;most&#39;</span><span class="tok-p">:</span>
+            <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up_4</span> <span class="tok-o">=</span> <span class="tok-n">SPADEResnetBlock</span><span class="tok-p">(</span><span class="tok-mi">1</span> <span class="tok-o">*</span> <span class="tok-n">nf</span><span class="tok-p">,</span> <span class="tok-n">nf</span> <span class="tok-o">//</span> <span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">)</span>
+            <span class="tok-n">final_nc</span> <span class="tok-o">=</span> <span class="tok-n">nf</span> <span class="tok-o">//</span> <span class="tok-mi">2</span>
 
-        self.conv_img = nn.Conv2d(final_nc, 3, 3, padding=1)
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_img</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Conv2d</span><span class="tok-p">(</span><span class="tok-n">final_nc</span><span class="tok-p">,</span> <span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-n">padding</span><span class="tok-o">=</span><span class="tok-mi">1</span><span class="tok-p">)</span>
 
-        self.up = nn.Upsample(scale_factor=2)
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Upsample</span><span class="tok-p">(</span><span class="tok-n">scale_factor</span><span class="tok-o">=</span><span class="tok-mi">2</span><span class="tok-p">)</span>
 
-    def compute_latent_vector_size(self, opt):
-        if opt.num_upsampling_layers == 'normal':
-            num_up_layers = 5
-        elif opt.num_upsampling_layers == 'more':
-            num_up_layers = 6
-        elif opt.num_upsampling_layers == 'most':
-            num_up_layers = 7
-        else:
-            raise ValueError('opt.num_upsampling_layers [%s] not recognized' %
-                             opt.num_upsampling_layers)
+    <span class="tok-k">def</span> <span class="tok-nf">compute_latent_vector_size</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">):</span>
+        <span class="tok-k">if</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">num_upsampling_layers</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;normal&#39;</span><span class="tok-p">:</span>
+            <span class="tok-n">num_up_layers</span> <span class="tok-o">=</span> <span class="tok-mi">5</span>
+        <span class="tok-k">elif</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">num_upsampling_layers</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;more&#39;</span><span class="tok-p">:</span>
+            <span class="tok-n">num_up_layers</span> <span class="tok-o">=</span> <span class="tok-mi">6</span>
+        <span class="tok-k">elif</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">num_upsampling_layers</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;most&#39;</span><span class="tok-p">:</span>
+            <span class="tok-n">num_up_layers</span> <span class="tok-o">=</span> <span class="tok-mi">7</span>
+        <span class="tok-k">else</span><span class="tok-p">:</span>
+            <span class="tok-k">raise</span> <span class="tok-ne">ValueError</span><span class="tok-p">(</span><span class="tok-s1">&#39;opt.num_upsampling_layers [</span><span class="tok-si">%s</span><span class="tok-s1">] not recognized&#39;</span> <span class="tok-o">%</span>
+                             <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">num_upsampling_layers</span><span class="tok-p">)</span>
 
-        sw = opt.crop_size // (2**num_up_layers)
-        sh = round(sw / opt.aspect_ratio)
+        <span class="tok-n">sw</span> <span class="tok-o">=</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">crop_size</span> <span class="tok-o">//</span> <span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-o">**</span><span class="tok-n">num_up_layers</span><span class="tok-p">)</span>
+        <span class="tok-n">sh</span> <span class="tok-o">=</span> <span class="tok-nb">round</span><span class="tok-p">(</span><span class="tok-n">sw</span> <span class="tok-o">/</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">aspect_ratio</span><span class="tok-p">)</span>
 
-        return sw, sh
+        <span class="tok-k">return</span> <span class="tok-n">sw</span><span class="tok-p">,</span> <span class="tok-n">sh</span>
 
-    def forward(self, input, z=None):
-        seg = input
+    <span class="tok-k">def</span> <span class="tok-nf">forward</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-nb">input</span><span class="tok-p">,</span> <span class="tok-n">z</span><span class="tok-o">=</span><span class="tok-kc">None</span><span class="tok-p">):</span>
+        <span class="tok-n">seg</span> <span class="tok-o">=</span> <span class="tok-nb">input</span>
 
-        if self.opt.use_vae:
-            # we sample z from unit normal and reshape the tensor
-            if z is None:
-                z = torch.randn(input.size(0), self.opt.z_dim,
-                                dtype=torch.float32, device=input.get_device())
-            x = self.fc(z)
-            x = x.view(-1, 16 * self.opt.ngf, self.sh, self.sw)
-        else:
-            # we downsample segmap and run convolution
-            x = F.interpolate(seg, size=(self.sh, self.sw))
-            x = self.fc(x)
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">use_vae</span><span class="tok-p">:</span>
+            <span class="tok-c1"># we sample z from unit normal and reshape the tensor</span>
+            <span class="tok-k">if</span> <span class="tok-n">z</span> <span class="tok-ow">is</span> <span class="tok-kc">None</span><span class="tok-p">:</span>
+                <span class="tok-n">z</span> <span class="tok-o">=</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">randn</span><span class="tok-p">(</span><span class="tok-nb">input</span><span class="tok-o">.</span><span class="tok-n">size</span><span class="tok-p">(</span><span class="tok-mi">0</span><span class="tok-p">),</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">z_dim</span><span class="tok-p">,</span>
+                                <span class="tok-n">dtype</span><span class="tok-o">=</span><span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">float32</span><span class="tok-p">,</span> <span class="tok-n">device</span><span class="tok-o">=</span><span class="tok-nb">input</span><span class="tok-o">.</span><span class="tok-n">get_device</span><span class="tok-p">())</span>
+            <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">fc</span><span class="tok-p">(</span><span class="tok-n">z</span><span class="tok-p">)</span>
+            <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-n">x</span><span class="tok-o">.</span><span class="tok-n">view</span><span class="tok-p">(</span><span class="tok-o">-</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-mi">16</span> <span class="tok-o">*</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">ngf</span><span class="tok-p">,</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sh</span><span class="tok-p">,</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sw</span><span class="tok-p">)</span>
+        <span class="tok-k">else</span><span class="tok-p">:</span>
+            <span class="tok-c1"># we downsample segmap and run convolution</span>
+            <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-n">F</span><span class="tok-o">.</span><span class="tok-n">interpolate</span><span class="tok-p">(</span><span class="tok-n">seg</span><span class="tok-p">,</span> <span class="tok-n">size</span><span class="tok-o">=</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sh</span><span class="tok-p">,</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sw</span><span class="tok-p">))</span>
+            <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">fc</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span>
 
-        x = self.head_0(x, seg)
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">head_0</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)</span>
 
-        x = self.up(x)
-        x = self.G_middle_0(x, seg)
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span>
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">G_middle_0</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)</span>
 
-        if self.opt.num_upsampling_layers == 'more' or \
-           self.opt.num_upsampling_layers == 'most':
-            x = self.up(x)
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">num_upsampling_layers</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;more&#39;</span> <span class="tok-ow">or</span> \
+           <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">num_upsampling_layers</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;most&#39;</span><span class="tok-p">:</span>
+            <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span>
 
-        x = self.G_middle_1(x, seg)
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">G_middle_1</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)</span>
 
-        x = self.up(x)
-        x = self.up_0(x, seg)
-        x = self.up(x)
-        x = self.up_1(x, seg)
-        x = self.up(x)
-        x = self.up_2(x, seg)
-        x = self.up(x)
-        x = self.up_3(x, seg)
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span>
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up_0</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)</span>
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span>
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up_1</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)</span>
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span>
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up_2</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)</span>
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span>
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up_3</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)</span>
 
-        if self.opt.num_upsampling_layers == 'most':
-            x = self.up(x)
-            x = self.up_4(x, seg)
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">num_upsampling_layers</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;most&#39;</span><span class="tok-p">:</span>
+            <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span>
+            <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">up_4</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)</span>
 
-        x = self.conv_img(F.leaky_relu(x, 2e-1))
-        x = F.tanh(x)
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_img</span><span class="tok-p">(</span><span class="tok-n">F</span><span class="tok-o">.</span><span class="tok-n">leaky_relu</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-mf">2e-1</span><span class="tok-p">))</span>
+        <span class="tok-n">x</span> <span class="tok-o">=</span> <span class="tok-n">F</span><span class="tok-o">.</span><span class="tok-n">tanh</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span>
 
-        return x</pre>
+        <span class="tok-k">return</span> <span class="tok-n">x</span></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -429,55 +422,56 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </ol>
 </div>
 <div class="listingblock">
+<div class="title">实现代码</div>
 <div class="content">
-<pre>class SPADEResnetBlock(nn.Module):
-    def __init__(self, fin, fout, opt):
-        super().__init__()
-        # Attributes
-        self.learned_shortcut = (fin != fout)
-        fmiddle = min(fin, fout)
+<pre class="pygments highlight"><code data-lang="python"><span></span><span class="tok-k">class</span> <span class="tok-nc">SPADEResnetBlock</span><span class="tok-p">(</span><span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Module</span><span class="tok-p">):</span>
+    <span class="tok-k">def</span> <span class="tok-fm">__init__</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-n">fin</span><span class="tok-p">,</span> <span class="tok-n">fout</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-p">):</span>
+        <span class="tok-nb">super</span><span class="tok-p">()</span><span class="tok-o">.</span><span class="tok-fm">__init__</span><span class="tok-p">()</span>
+        <span class="tok-c1"># Attributes</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">learned_shortcut</span> <span class="tok-o">=</span> <span class="tok-p">(</span><span class="tok-n">fin</span> <span class="tok-o">!=</span> <span class="tok-n">fout</span><span class="tok-p">)</span>
+        <span class="tok-n">fmiddle</span> <span class="tok-o">=</span> <span class="tok-nb">min</span><span class="tok-p">(</span><span class="tok-n">fin</span><span class="tok-p">,</span> <span class="tok-n">fout</span><span class="tok-p">)</span>
 
-        # create conv layers
-        self.conv_0 = nn.Conv2d(fin, fmiddle, kernel_size=3, padding=1)
-        self.conv_1 = nn.Conv2d(fmiddle, fout, kernel_size=3, padding=1)
-        if self.learned_shortcut:
-            self.conv_s = nn.Conv2d(fin, fout, kernel_size=1, bias=False)
+        <span class="tok-c1"># create conv layers</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_0</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Conv2d</span><span class="tok-p">(</span><span class="tok-n">fin</span><span class="tok-p">,</span> <span class="tok-n">fmiddle</span><span class="tok-p">,</span> <span class="tok-n">kernel_size</span><span class="tok-o">=</span><span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-n">padding</span><span class="tok-o">=</span><span class="tok-mi">1</span><span class="tok-p">)</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_1</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Conv2d</span><span class="tok-p">(</span><span class="tok-n">fmiddle</span><span class="tok-p">,</span> <span class="tok-n">fout</span><span class="tok-p">,</span> <span class="tok-n">kernel_size</span><span class="tok-o">=</span><span class="tok-mi">3</span><span class="tok-p">,</span> <span class="tok-n">padding</span><span class="tok-o">=</span><span class="tok-mi">1</span><span class="tok-p">)</span>
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">learned_shortcut</span><span class="tok-p">:</span>
+            <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_s</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Conv2d</span><span class="tok-p">(</span><span class="tok-n">fin</span><span class="tok-p">,</span> <span class="tok-n">fout</span><span class="tok-p">,</span> <span class="tok-n">kernel_size</span><span class="tok-o">=</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-n">bias</span><span class="tok-o">=</span><span class="tok-kc">False</span><span class="tok-p">)</span>
 
-        # apply spectral norm if specified
-        if 'spectral' in opt.norm_G:
-            self.conv_0 = spectral_norm(self.conv_0)
-            self.conv_1 = spectral_norm(self.conv_1)
-            if self.learned_shortcut:
-                self.conv_s = spectral_norm(self.conv_s)
+        <span class="tok-c1"># apply spectral norm if specified</span>
+        <span class="tok-k">if</span> <span class="tok-s1">&#39;spectral&#39;</span> <span class="tok-ow">in</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">norm_G</span><span class="tok-p">:</span>
+            <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_0</span> <span class="tok-o">=</span> <span class="tok-n">spectral_norm</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_0</span><span class="tok-p">)</span>
+            <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_1</span> <span class="tok-o">=</span> <span class="tok-n">spectral_norm</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_1</span><span class="tok-p">)</span>
+            <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">learned_shortcut</span><span class="tok-p">:</span>
+                <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_s</span> <span class="tok-o">=</span> <span class="tok-n">spectral_norm</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_s</span><span class="tok-p">)</span>
 
-        # define normalization layers
-        spade_config_str = opt.norm_G.replace('spectral', '')
-        self.norm_0 = SPADE(spade_config_str, fin, opt.semantic_nc)
-        self.norm_1 = SPADE(spade_config_str, fmiddle, opt.semantic_nc)
-        if self.learned_shortcut:
-            self.norm_s = SPADE(spade_config_str, fin, opt.semantic_nc)
+        <span class="tok-c1"># define normalization layers</span>
+        <span class="tok-n">spade_config_str</span> <span class="tok-o">=</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">norm_G</span><span class="tok-o">.</span><span class="tok-n">replace</span><span class="tok-p">(</span><span class="tok-s1">&#39;spectral&#39;</span><span class="tok-p">,</span> <span class="tok-s1">&#39;&#39;</span><span class="tok-p">)</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">norm_0</span> <span class="tok-o">=</span> <span class="tok-n">SPADE</span><span class="tok-p">(</span><span class="tok-n">spade_config_str</span><span class="tok-p">,</span> <span class="tok-n">fin</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">semantic_nc</span><span class="tok-p">)</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">norm_1</span> <span class="tok-o">=</span> <span class="tok-n">SPADE</span><span class="tok-p">(</span><span class="tok-n">spade_config_str</span><span class="tok-p">,</span> <span class="tok-n">fmiddle</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">semantic_nc</span><span class="tok-p">)</span>
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">learned_shortcut</span><span class="tok-p">:</span>
+            <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">norm_s</span> <span class="tok-o">=</span> <span class="tok-n">SPADE</span><span class="tok-p">(</span><span class="tok-n">spade_config_str</span><span class="tok-p">,</span> <span class="tok-n">fin</span><span class="tok-p">,</span> <span class="tok-n">opt</span><span class="tok-o">.</span><span class="tok-n">semantic_nc</span><span class="tok-p">)</span>
 
-    # note the resnet block with SPADE also takes in |seg|,
-    # the semantic segmentation map as input
-    def forward(self, x, seg):
-        x_s = self.shortcut(x, seg)
+    <span class="tok-c1"># note the resnet block with SPADE also takes in |seg|,</span>
+    <span class="tok-c1"># the semantic segmentation map as input</span>
+    <span class="tok-k">def</span> <span class="tok-nf">forward</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">):</span>
+        <span class="tok-n">x_s</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">shortcut</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)</span>
 
-        dx = self.conv_0(self.actvn(self.norm_0(x, seg)))
-        dx = self.conv_1(self.actvn(self.norm_1(dx, seg)))
+        <span class="tok-n">dx</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_0</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">actvn</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">norm_0</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)))</span>
+        <span class="tok-n">dx</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_1</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">actvn</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">norm_1</span><span class="tok-p">(</span><span class="tok-n">dx</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">)))</span>
 
-        out = x_s + dx
+        <span class="tok-n">out</span> <span class="tok-o">=</span> <span class="tok-n">x_s</span> <span class="tok-o">+</span> <span class="tok-n">dx</span>
 
-        return out
+        <span class="tok-k">return</span> <span class="tok-n">out</span>
 
-    def shortcut(self, x, seg):
-        if self.learned_shortcut:
-            x_s = self.conv_s(self.norm_s(x, seg))
-        else:
-            x_s = x
-        return x_s
+    <span class="tok-k">def</span> <span class="tok-nf">shortcut</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">):</span>
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">learned_shortcut</span><span class="tok-p">:</span>
+            <span class="tok-n">x_s</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">conv_s</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">norm_s</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">seg</span><span class="tok-p">))</span>
+        <span class="tok-k">else</span><span class="tok-p">:</span>
+            <span class="tok-n">x_s</span> <span class="tok-o">=</span> <span class="tok-n">x</span>
+        <span class="tok-k">return</span> <span class="tok-n">x_s</span>
 
-    def actvn(self, x):
-        return F.leaky_relu(x, 2e-1)</pre>
+    <span class="tok-k">def</span> <span class="tok-nf">actvn</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-n">x</span><span class="tok-p">):</span>
+        <span class="tok-k">return</span> <span class="tok-n">F</span><span class="tok-o">.</span><span class="tok-n">leaky_relu</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-mf">2e-1</span><span class="tok-p">)</span></code></pre>
 </div>
 </div>
 </div>
@@ -500,51 +494,51 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>class SPADE(nn.Module):
-    def __init__(self, config_text, norm_nc, label_nc):
-        super().__init__()
+<pre class="pygments highlight"><code data-lang="python"><span></span><span class="tok-k">class</span> <span class="tok-nc">SPADE</span><span class="tok-p">(</span><span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Module</span><span class="tok-p">):</span>
+    <span class="tok-k">def</span> <span class="tok-fm">__init__</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-n">config_text</span><span class="tok-p">,</span> <span class="tok-n">norm_nc</span><span class="tok-p">,</span> <span class="tok-n">label_nc</span><span class="tok-p">):</span>
+        <span class="tok-nb">super</span><span class="tok-p">()</span><span class="tok-o">.</span><span class="tok-fm">__init__</span><span class="tok-p">()</span>
 
-        assert config_text.startswith('spade')
-        parsed = re.search('spade(\D+)(\d)x\d', config_text)
-        param_free_norm_type = str(parsed.group(1))
-        ks = int(parsed.group(2))
+        <span class="tok-k">assert</span> <span class="tok-n">config_text</span><span class="tok-o">.</span><span class="tok-n">startswith</span><span class="tok-p">(</span><span class="tok-s1">&#39;spade&#39;</span><span class="tok-p">)</span>
+        <span class="tok-n">parsed</span> <span class="tok-o">=</span> <span class="tok-n">re</span><span class="tok-o">.</span><span class="tok-n">search</span><span class="tok-p">(</span><span class="tok-s1">&#39;spade(\D+)(\d)x\d&#39;</span><span class="tok-p">,</span> <span class="tok-n">config_text</span><span class="tok-p">)</span>
+        <span class="tok-n">param_free_norm_type</span> <span class="tok-o">=</span> <span class="tok-nb">str</span><span class="tok-p">(</span><span class="tok-n">parsed</span><span class="tok-o">.</span><span class="tok-n">group</span><span class="tok-p">(</span><span class="tok-mi">1</span><span class="tok-p">))</span>
+        <span class="tok-n">ks</span> <span class="tok-o">=</span> <span class="tok-nb">int</span><span class="tok-p">(</span><span class="tok-n">parsed</span><span class="tok-o">.</span><span class="tok-n">group</span><span class="tok-p">(</span><span class="tok-mi">2</span><span class="tok-p">))</span>
 
-        if param_free_norm_type == 'instance':
-            self.param_free_norm = nn.InstanceNorm2d(norm_nc, affine=False)
-        elif param_free_norm_type == 'syncbatch':
-            self.param_free_norm = SynchronizedBatchNorm2d(norm_nc, affine=False)
-        elif param_free_norm_type == 'batch':
-            self.param_free_norm = nn.BatchNorm2d(norm_nc, affine=False)
-        else:
-            raise ValueError('%s is not a recognized param-free norm type in SPADE'
-                             % param_free_norm_type)
+        <span class="tok-k">if</span> <span class="tok-n">param_free_norm_type</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;instance&#39;</span><span class="tok-p">:</span>
+            <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">param_free_norm</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">InstanceNorm2d</span><span class="tok-p">(</span><span class="tok-n">norm_nc</span><span class="tok-p">,</span> <span class="tok-n">affine</span><span class="tok-o">=</span><span class="tok-kc">False</span><span class="tok-p">)</span>
+        <span class="tok-k">elif</span> <span class="tok-n">param_free_norm_type</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;syncbatch&#39;</span><span class="tok-p">:</span>
+            <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">param_free_norm</span> <span class="tok-o">=</span> <span class="tok-n">SynchronizedBatchNorm2d</span><span class="tok-p">(</span><span class="tok-n">norm_nc</span><span class="tok-p">,</span> <span class="tok-n">affine</span><span class="tok-o">=</span><span class="tok-kc">False</span><span class="tok-p">)</span>
+        <span class="tok-k">elif</span> <span class="tok-n">param_free_norm_type</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;batch&#39;</span><span class="tok-p">:</span>
+            <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">param_free_norm</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">BatchNorm2d</span><span class="tok-p">(</span><span class="tok-n">norm_nc</span><span class="tok-p">,</span> <span class="tok-n">affine</span><span class="tok-o">=</span><span class="tok-kc">False</span><span class="tok-p">)</span>
+        <span class="tok-k">else</span><span class="tok-p">:</span>
+            <span class="tok-k">raise</span> <span class="tok-ne">ValueError</span><span class="tok-p">(</span><span class="tok-s1">&#39;</span><span class="tok-si">%s</span><span class="tok-s1"> is not a recognized param-free norm type in SPADE&#39;</span>
+                             <span class="tok-o">%</span> <span class="tok-n">param_free_norm_type</span><span class="tok-p">)</span>
 
-        # The dimension of the intermediate embedding space. Yes, hardcoded.
-        nhidden = 128
+        <span class="tok-c1"># The dimension of the intermediate embedding space. Yes, hardcoded.</span>
+        <span class="tok-n">nhidden</span> <span class="tok-o">=</span> <span class="tok-mi">128</span>
 
-        pw = ks // 2
-        self.mlp_shared = nn.Sequential(
-            nn.Conv2d(label_nc, nhidden, kernel_size=ks, padding=pw),
-            nn.ReLU()
-        )
-        self.mlp_gamma = nn.Conv2d(nhidden, norm_nc, kernel_size=ks, padding=pw)
-        self.mlp_beta = nn.Conv2d(nhidden, norm_nc, kernel_size=ks, padding=pw)
+        <span class="tok-n">pw</span> <span class="tok-o">=</span> <span class="tok-n">ks</span> <span class="tok-o">//</span> <span class="tok-mi">2</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">mlp_shared</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Sequential</span><span class="tok-p">(</span>
+            <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Conv2d</span><span class="tok-p">(</span><span class="tok-n">label_nc</span><span class="tok-p">,</span> <span class="tok-n">nhidden</span><span class="tok-p">,</span> <span class="tok-n">kernel_size</span><span class="tok-o">=</span><span class="tok-n">ks</span><span class="tok-p">,</span> <span class="tok-n">padding</span><span class="tok-o">=</span><span class="tok-n">pw</span><span class="tok-p">),</span>
+            <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">ReLU</span><span class="tok-p">()</span>
+        <span class="tok-p">)</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">mlp_gamma</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Conv2d</span><span class="tok-p">(</span><span class="tok-n">nhidden</span><span class="tok-p">,</span> <span class="tok-n">norm_nc</span><span class="tok-p">,</span> <span class="tok-n">kernel_size</span><span class="tok-o">=</span><span class="tok-n">ks</span><span class="tok-p">,</span> <span class="tok-n">padding</span><span class="tok-o">=</span><span class="tok-n">pw</span><span class="tok-p">)</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">mlp_beta</span> <span class="tok-o">=</span> <span class="tok-n">nn</span><span class="tok-o">.</span><span class="tok-n">Conv2d</span><span class="tok-p">(</span><span class="tok-n">nhidden</span><span class="tok-p">,</span> <span class="tok-n">norm_nc</span><span class="tok-p">,</span> <span class="tok-n">kernel_size</span><span class="tok-o">=</span><span class="tok-n">ks</span><span class="tok-p">,</span> <span class="tok-n">padding</span><span class="tok-o">=</span><span class="tok-n">pw</span><span class="tok-p">)</span>
 
-    def forward(self, x, segmap):
+    <span class="tok-k">def</span> <span class="tok-nf">forward</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-n">x</span><span class="tok-p">,</span> <span class="tok-n">segmap</span><span class="tok-p">):</span>
 
-        # Part 1. generate parameter-free normalized activations
-        normalized = self.param_free_norm(x)
+        <span class="tok-c1"># Part 1. generate parameter-free normalized activations</span>
+        <span class="tok-n">normalized</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">param_free_norm</span><span class="tok-p">(</span><span class="tok-n">x</span><span class="tok-p">)</span>
 
-        # Part 2. produce scaling and bias conditioned on semantic map
-        segmap = F.interpolate(segmap, size=x.size()[2:], mode='nearest') <b class="conum">(1)</b>
-        actv = self.mlp_shared(segmap)
-        gamma = self.mlp_gamma(actv)
-        beta = self.mlp_beta(actv)
+        <span class="tok-c1"># Part 2. produce scaling and bias conditioned on semantic map</span>
+        <span class="tok-n">segmap</span> <span class="tok-o">=</span> <span class="tok-n">F</span><span class="tok-o">.</span><span class="tok-n">interpolate</span><span class="tok-p">(</span><span class="tok-n">segmap</span><span class="tok-p">,</span> <span class="tok-n">size</span><span class="tok-o">=</span><span class="tok-n">x</span><span class="tok-o">.</span><span class="tok-n">size</span><span class="tok-p">()[</span><span class="tok-mi">2</span><span class="tok-p">:],</span> <span class="tok-n">mode</span><span class="tok-o">=</span><span class="tok-s1">&#39;nearest&#39;</span><span class="tok-p">)</span> <b class="conum">(1)</b>
+        <span class="tok-n">actv</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">mlp_shared</span><span class="tok-p">(</span><span class="tok-n">segmap</span><span class="tok-p">)</span>
+        <span class="tok-n">gamma</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">mlp_gamma</span><span class="tok-p">(</span><span class="tok-n">actv</span><span class="tok-p">)</span>
+        <span class="tok-n">beta</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">mlp_beta</span><span class="tok-p">(</span><span class="tok-n">actv</span><span class="tok-p">)</span>
 
-        # apply scale and bias
-        out = normalized * (1 + gamma) + beta
+        <span class="tok-c1"># apply scale and bias</span>
+        <span class="tok-n">out</span> <span class="tok-o">=</span> <span class="tok-n">normalized</span> <span class="tok-o">*</span> <span class="tok-p">(</span><span class="tok-mi">1</span> <span class="tok-o">+</span> <span class="tok-n">gamma</span><span class="tok-p">)</span> <span class="tok-o">+</span> <span class="tok-n">beta</span>
 
-        return out</pre>
+        <span class="tok-k">return</span> <span class="tok-n">out</span></code></pre>
 </div>
 </div>
 <div class="colist arabic">
