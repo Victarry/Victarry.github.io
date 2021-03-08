@@ -88,6 +88,8 @@ upsample替代transpose-convolution的工作越来越多, 这样可以减少arti
 
 
 .实现代码
+
+[source, python]
 ----
 class SPADEGenerator(BaseNetwork):
     @staticmethod
@@ -95,8 +97,7 @@ class SPADEGenerator(BaseNetwork):
         parser.set_defaults(norm_G='spectralspadesyncbatch3x3')
         parser.add_argument('--num_upsampling_layers',
                             choices=('normal', 'more', 'most'), default='normal',
-                            help="If 'more', adds upsampling layer between the two middle resnet blocks. 
-                            If 'most', also add one more upsampling + resnet layer at the end of the generator")
+                            help="If 'more', adds upsampling layer between the two middle resnet blocks. If 'most', also add one more upsampling + resnet layer at the end of the generator")
 
         return parser
 
@@ -210,6 +211,8 @@ image::/assets/SPADEResBlock.png[400, 400]
 . 每个Conv层使用 *spectral normalization*
 . 为什么resblock最后不加ReLU呢? TODO
 
+.实现代码
+[source, python]
 ----
 class SPADEResnetBlock(nn.Module):
     def __init__(self, fin, fout, opt):
@@ -267,6 +270,8 @@ image::/assets/spade-module.png[400, 400]
 1. segment map的shape怎么和activation对齐? nearest-neighbour下采样 (order=0, order为1是线性插值)
 2. Sync Batch Norm是干什么的? Pytorch中 `nn.DataParallel` 在多个GPU下训练时分别使用单个device的statistics进行normalize(这样会更快), sync batch norm实现使用所有device中的数据来求statistics,  https://github.com/vacancy/Synchronized-BatchNorm-PyTorch[参考链接]
 
+.SPADE实现代码
+[source, python]
 ----
 class SPADE(nn.Module):
     def __init__(self, config_text, norm_nc, label_nc):
