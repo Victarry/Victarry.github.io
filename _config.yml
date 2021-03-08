@@ -38,6 +38,13 @@ minima:
     github: Victarry
     twitter: NKUlzh
 
+asciidoctor:
+  attributes:
+  - idprefix=_
+  - source-highlighter=pygments
+  - pygments-css=class
+  - pygments-stylesheet=css/asciidoc-pygments.css
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
