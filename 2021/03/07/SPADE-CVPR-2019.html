@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Semantic Image Synthesis with Spatially-Adaptive Normalization" />
 <script type="application/ld+json">
-{"url":"https://victarry.github.io/2021/03/07/SPADE-CVPR-2019.html","author":{"@type":"Person","name":"Zhenhuan Liu"},"headline":"Semantic Image Synthesis with Spatially-Adaptive Normalization","dateModified":"2021-03-07T00:00:00+00:00","datePublished":"2021-03-07T00:00:00+00:00","description":"Semantic Image Synthesis with Spatially-Adaptive Normalization Taesung Park, Ming-Yu Liu, Ting-Chun Wang, Jun-Yan Zhu. CVPR 2019(oral)","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/03/07/SPADE-CVPR-2019.html"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"url":"https://victarry.github.io/2021/03/07/SPADE-CVPR-2019.html","headline":"Semantic Image Synthesis with Spatially-Adaptive Normalization","dateModified":"2021-03-07T00:00:00+00:00","datePublished":"2021-03-07T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/03/07/SPADE-CVPR-2019.html"},"author":{"@type":"Person","name":"Zhenhuan Liu"},"description":"Semantic Image Synthesis with Spatially-Adaptive Normalization Taesung Park, Ming-Yu Liu, Ting-Chun Wang, Jun-Yan Zhu. CVPR 2019(oral)","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-D0C3LLK216"></script>
     <script>
@@ -27,7 +27,8 @@
         gtag('js', new Date());
 
         gtag('config', 'G-D0C3LLK216');
-    </script></head>
+    </script><link href="/css/asciidoc-pygments.css" rel="stylesheet">
+</head>
 <body><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   messageStyle: "none",
@@ -95,7 +96,7 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div class="sect1">
-<h2 id="previous-work">1. Previous Work</h2>
+<h2 id="_previous-work">1. Previous Work</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -140,7 +141,7 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div class="sect1">
-<h2 id="motivation">2. Motivation</h2>
+<h2 id="_motivation">2. Motivation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Spatially Adaptive意味着每个location可以进行不同的transform, 不同于batch-norm, instance-norm等对整个channel进行相同的normalization(和transform).</p>
@@ -154,10 +155,10 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div class="sect1">
-<h2 id="method">3. Method</h2>
+<h2 id="_method">3. Method</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="spatially-adaptive-denormalization">3.1. Spatially-adaptive denormalization</h3>
+<h3 id="_spatially-adaptive-denormalization">3.1. Spatially-adaptive denormalization</h3>
 <div class="imageblock">
 <div class="content">
 <img src="/assets/spade.png" alt="300" width="300">
@@ -225,7 +226,7 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div class="sect2">
-<h3 id="why-does-the-spade-work-better">3.2. Why does the SPADE work better?</h3>
+<h3 id="_why-does-the-spade-work-better">3.2. Why does the SPADE work better?</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -238,7 +239,7 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div class="sect2">
-<h3 id="multi-modal-synthesis">3.3. Multi-modal Synthesis</h3>
+<h3 id="_multi-modal-synthesis">3.3. Multi-modal Synthesis</h3>
 <div class="paragraph">
 <p>问题: 类似的分离style的multi-modal synthesis的范式和原理是什么? TODO
 . pix2pix HD
@@ -249,7 +250,7 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div class="sect1">
-<h2 id="implementation">4. Implementation</h2>
+<h2 id="_implementation">4. Implementation</h2>
 <div class="sectionbody">
 <div class="imageblock">
 <div class="content">
@@ -258,9 +259,9 @@ MathJax.Hub.Config({
 <div class="title">Figure 1. Architecture of SPADE generator</div>
 </div>
 <div class="sect2">
-<h3 id="model">4.1. Model</h3>
+<h3 id="_model">4.1. Model</h3>
 <div class="sect3">
-<h4 id="generator">4.1.1. Generator</h4>
+<h4 id="_generator">4.1.1. Generator</h4>
 <div class="imageblock">
 <div class="content">
 <img src="/assets/spade-generator.png" alt="400" width="400">
@@ -404,7 +405,7 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </div>
 </div>
 <div class="sect2">
-<h3 id="spaderesblock">4.2. SPADEResBlock</h3>
+<h3 id="_spaderesblock">4.2. SPADEResBlock</h3>
 <div class="imageblock">
 <div class="content">
 <img src="/assets/SPADEResBlock.png" alt="400" width="400">
@@ -481,7 +482,7 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </div>
 </div>
 <div class="sect2">
-<h3 id="spade实现">4.3. SPADE实现</h3>
+<h3 id="_spade实现">4.3. SPADE实现</h3>
 <div class="imageblock">
 <div class="content">
 <img src="/assets/spade-module.png" alt="400" width="400">
@@ -555,13 +556,13 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </div>
 </div>
 <div class="sect2">
-<h3 id="discriminator">4.4. Discriminator</h3>
+<h3 id="_discriminator">4.4. Discriminator</h3>
 <div class="paragraph">
 <p>采用pix2pixHD的设计结构</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="objective">4.5. Objective</h3>
+<h3 id="_objective">4.5. Objective</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -577,7 +578,7 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </div>
 </div>
 <div class="sect2">
-<h3 id="代码技巧">4.6. 代码技巧</h3>
+<h3 id="_代码技巧">4.6. 代码技巧</h3>
 <div class="olist arabic">
 <div class="title">TODO</div>
 <ol class="arabic">
@@ -593,10 +594,10 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </div>
 </div>
 <div class="sect1">
-<h2 id="experiment">5. Experiment</h2>
+<h2 id="_experiment">5. Experiment</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="对比工作">5.1. 对比工作</h3>
+<h3 id="_对比工作">5.1. 对比工作</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -612,9 +613,9 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </div>
 </div>
 <div class="sect2">
-<h3 id="ablation-study">5.2. Ablation Study</h3>
+<h3 id="_ablation-study">5.2. Ablation Study</h3>
 <div class="sect3">
-<h4 id="effectivenss-of-the-spade">5.2.1. Effectivenss of the SPADE</h4>
+<h4 id="_effectivenss-of-the-spade">5.2.1. Effectivenss of the SPADE</h4>
 <div class="imageblock">
 <div class="content">
 <img src="/assets/spade-ablation1.png" alt="spade ablation1">
@@ -622,7 +623,7 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </div>
 </div>
 <div class="sect3">
-<h4 id="variations-of-spade">5.2.2. Variations of SPADE</h4>
+<h4 id="_variations-of-spade">5.2.2. Variations of SPADE</h4>
 <div class="imageblock">
 <div class="content">
 <img src="/assets/spade-ablation2.png" alt="spade ablation2">
@@ -649,7 +650,7 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </div>
 </div>
 <div class="sect1">
-<h2 id="reference-paper">6. Reference Paper</h2>
+<h2 id="_reference-paper">6. Reference Paper</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -670,7 +671,7 @@ last conv layer和first conv layer的channel个数的倍数是16, nf是最后一
 </div>
 </div>
 <div class="sect1">
-<h2 id="单词时间">7. 单词时间</h2>
+<h2 id="_单词时间">7. 单词时间</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">

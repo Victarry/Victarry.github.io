@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="在MacOS下使用Docker运行GUI" />
 <script type="application/ld+json">
-{"url":"https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html","author":{"@type":"Person","name":"Zhenhuan Liu"},"headline":"在MacOS下使用Docker运行GUI","dateModified":"2021-02-21T00:00:00+00:00","datePublished":"2021-02-21T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"url":"https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html","headline":"在MacOS下使用Docker运行GUI","dateModified":"2021-02-21T00:00:00+00:00","datePublished":"2021-02-21T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html"},"author":{"@type":"Person","name":"Zhenhuan Liu"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-D0C3LLK216"></script>
     <script>
@@ -25,7 +25,8 @@
         gtag('js', new Date());
 
         gtag('config', 'G-D0C3LLK216');
-    </script></head>
+    </script><link href="/css/asciidoc-pygments.css" rel="stylesheet">
+</head>
 <body><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   messageStyle: "none",
@@ -78,7 +79,7 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div class="sect1">
-<h2 id="安装socat">1. 安装socat</h2>
+<h2 id="_安装socat">1. 安装socat</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -96,7 +97,7 @@ socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &amp; <b class="co
 </div>
 </div>
 <div class="sect1">
-<h2 id="安装xquartz">2. 安装Xquartz</h2>
+<h2 id="_安装xquartz">2. 安装Xquartz</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>在 <a href="https://www.xquartz.org/" class="bare">https://www.xquartz.org/</a> 网站上下载并安装Xquartz</p>
@@ -127,7 +128,7 @@ docker run -e DISPLAY=host.docker.internal:0 gns3/xeyes <b class="conum">(2)</b>
 <div class="title">Figure 1. 运行成功的结果</div>
 </div>
 <div class="sect2">
-<h3 id="参考链接">2.1. 参考链接</h3>
+<h3 id="_参考链接">2.1. 参考链接</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>

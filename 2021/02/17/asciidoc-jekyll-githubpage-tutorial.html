@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="使用AsciiDoc在Github-Pages上搭建博客" />
 <script type="application/ld+json">
-{"url":"https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html","author":{"@type":"Person","name":"Zhenhuan Liu"},"headline":"使用AsciiDoc在Github-Pages上搭建博客","dateModified":"2021-02-17T00:00:00+00:00","datePublished":"2021-02-17T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"url":"https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html","headline":"使用AsciiDoc在Github-Pages上搭建博客","dateModified":"2021-02-17T00:00:00+00:00","datePublished":"2021-02-17T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html"},"author":{"@type":"Person","name":"Zhenhuan Liu"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-D0C3LLK216"></script>
     <script>
@@ -25,7 +25,8 @@
         gtag('js', new Date());
 
         gtag('config', 'G-D0C3LLK216');
-    </script></head>
+    </script><link href="/css/asciidoc-pygments.css" rel="stylesheet">
+</head>
 <body><script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   messageStyle: "none",
@@ -81,7 +82,7 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div class="sect1">
-<h2 id="为什么要使用asciidoc">1. 为什么要使用AsciiDoc?</h2>
+<h2 id="_为什么要使用asciidoc">1. 为什么要使用AsciiDoc?</h2>
 <div class="sectionbody">
 <hr>
 <div class="paragraph">
@@ -123,11 +124,11 @@ Wikipedia列举了
 </div>
 </div>
 <div class="sect1">
-<h2 id="asciidocjekyll博客本地配置">2. AsciiDoc+Jekyll博客本地配置</h2>
+<h2 id="_asciidocjekyll博客本地配置">2. AsciiDoc+Jekyll博客本地配置</h2>
 <div class="sectionbody">
 <hr>
 <div class="sect2">
-<h3 id="jekyll安装">2.1. Jekyll安装</h3>
+<h3 id="_jekyll安装">2.1. Jekyll安装</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -151,7 +152,7 @@ Wikipedia列举了
 </div>
 </div>
 <div class="sect2">
-<h3 id="jekyll文件结构">2.2. Jekyll文件结构</h3>
+<h3 id="_jekyll文件结构">2.2. Jekyll文件结构</h3>
 <div class="paragraph">
 <p>在 <code>my-awesome-site</code> 文件夹下面,可以看到运行 <code>jekyll new my-awesome-site</code> 初始化生成的所有文件.</p>
 </div>
@@ -215,12 +216,12 @@ Wikipedia列举了
 </div>
 </div>
 <div class="sect2">
-<h3 id="asciidoc安装配置">2.3. AsciiDoc安装配置</h3>
+<h3 id="_asciidoc安装配置">2.3. AsciiDoc安装配置</h3>
 <div class="paragraph">
 <p>Jekyll可以直接支持Markdown的渲染, 为了使用AsciiDoc代替Makrdown, 我们要使用Jekyll-AsciiDoc的插件</p>
 </div>
 <div class="sect3">
-<h4 id="在gemfile中添加jekyll-asciidoc的依赖">2.3.1. 在Gemfile中添加Jekyll-AsciiDoc的依赖</h4>
+<h4 id="_在gemfile中添加jekyll-asciidoc的依赖">2.3.1. 在Gemfile中添加Jekyll-AsciiDoc的依赖</h4>
 <div class="paragraph">
 <p>在 <code>Gemfile</code> 中找到 <code>group :jekyll_plugins do</code> , 并加入 <code>gem 'jekyll-asciidoc'</code>,
 得到如下 <code>Gemfile</code> 文件:</p>
@@ -250,7 +251,7 @@ end</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="激活jekyll-asciidoc插件可选">2.3.2. 激活jekyll-asciidoc插件(可选)</h4>
+<h4 id="_激活jekyll-asciidoc插件可选">2.3.2. 激活jekyll-asciidoc插件(可选)</h4>
 <div class="paragraph">
 <p>修改 <code>_config.yml</code> 文件, 找到 <code>plugins:</code> , 添加 <code>jekyll-asciidoc</code> , 从而激活asciidoc插件</p>
 </div>
@@ -265,7 +266,7 @@ end</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="重新生成jekyll网站">2.3.3. 重新生成jekyll网站</h4>
+<h4 id="_重新生成jekyll网站">2.3.3. 重新生成jekyll网站</h4>
 <div class="paragraph">
 <p>运行以下命令</p>
 </div>
@@ -285,7 +286,7 @@ bundle exec jekyll serve --livereload # --livereload可以自动更新页面</pr
 </div>
 </div>
 <div class="sect2">
-<h3 id="jekyll和asciidoc参考链接">2.4. jekyll和AsciiDoc参考链接</h3>
+<h3 id="_jekyll和asciidoc参考链接">2.4. jekyll和AsciiDoc参考链接</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -318,7 +319,7 @@ bundle exec jekyll serve --livereload # --livereload可以自动更新页面</pr
 </div>
 </div>
 <div class="sect1">
-<h2 id="github-pages配置">3. Github-Pages配置</h2>
+<h2 id="_github-pages配置">3. Github-Pages配置</h2>
 <div class="sectionbody">
 <hr>
 <div class="olist arabic">
@@ -349,16 +350,16 @@ bundle exec jekyll serve --livereload # --livereload可以自动更新页面</pr
 </div>
 </div>
 <div class="sect1">
-<h2 id="使用ci进行构建和上传">4. 使用CI进行构建和上传</h2>
+<h2 id="_使用ci进行构建和上传">4. 使用CI进行构建和上传</h2>
 <div class="sectionbody">
 <hr>
 <div class="sect2">
-<h3 id="method-1-使用travis配置">Method 1. 使用Travis配置</h3>
+<h3 id="_method-1-使用travis配置">Method 1. 使用Travis配置</h3>
 <div class="paragraph">
 <p>我们可以通过Travis-CI调用Rake-jekyll来构建jekyll网站并上传到对应的仓库中.</p>
 </div>
 <div class="sect3">
-<h4 id="配置rake-jekyll">4..1. 配置Rake-jekyll</h4>
+<h4 id="_配置rake-jekyll">4..1. 配置Rake-jekyll</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -400,7 +401,7 @@ end</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="配置travis-ci">4..2. 配置Travis-CI</h4>
+<h4 id="_配置travis-ci">4..2. 配置Travis-CI</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -467,7 +468,7 @@ script: bundle exec rake deploy</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="method-2-使用github-actions配置">Method 2. 使用Github-Actions配置</h3>
+<h3 id="_method-2-使用github-actions配置">Method 2. 使用Github-Actions配置</h3>
 <div class="paragraph">
 <p>TODO</p>
 </div>
@@ -475,12 +476,12 @@ script: bundle exec rake deploy</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="其他问题">5. 其他问题</h2>
+<h2 id="_其他问题">5. 其他问题</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="显示latex公式">5.1. 显示latex公式</h3>
+<h3 id="_显示latex公式">5.1. 显示latex公式</h3>
 <div class="sect3">
-<h4 id="添加mathjax-link">5.1.1. 添加mathjax link</h4>
+<h4 id="_添加mathjax-link">5.1.1. 添加mathjax link</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -538,7 +539,7 @@ MathJax.Hub.Config({
 </div>
 </div>
 <div class="sect3">
-<h4 id="在asciidoc中添加公式">5.1.2. 在AsciiDoc中添加公式</h4>
+<h4 id="_在asciidoc中添加公式">5.1.2. 在AsciiDoc中添加公式</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -573,7 +574,7 @@ C = \alpha + \beta Y^{\gamma} + \epsilon
 </div>
 </div>
 <div class="sect2">
-<h3 id="代码高亮">5.2. 代码高亮</h3>
+<h3 id="_代码高亮">5.2. 代码高亮</h3>
 <div class="paragraph">
 <p>TODO</p>
 </div>
@@ -581,11 +582,11 @@ C = \alpha + \beta Y^{\gamma} + \epsilon
 </div>
 </div>
 <div class="sect1">
-<h2 id="further-reading">6. Further Reading</h2>
+<h2 id="_further-reading">6. Further Reading</h2>
 <div class="sectionbody">
 <hr>
 <div class="sect2">
-<h3 id="静态网站">6.1. 静态网站</h3>
+<h3 id="_静态网站">6.1. 静态网站</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -595,7 +596,7 @@ C = \alpha + \beta Y^{\gamma} + \epsilon
 </div>
 </div>
 <div class="sect2">
-<h3 id="博客发布平台">6.2. 博客发布平台</h3>
+<h3 id="_博客发布平台">6.2. 博客发布平台</h3>
 <div class="ulist">
 <ul>
 <li>
