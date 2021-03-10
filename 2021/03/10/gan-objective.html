@@ -3,20 +3,22 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>在MacOS下使用Docker运行GUI | Victarry’s Blog</title>
+<title>原始GAN的优化函数为什么要使用 (\max \log(D(G(z)))) | Victarry’s Blog</title>
 <meta name="generator" content="Jekyll v3.8.7" />
-<meta property="og:title" content="在MacOS下使用Docker运行GUI" />
+<meta property="og:title" content="原始GAN的优化函数为什么要使用 (\max \log(D(G(z))))" />
 <meta name="author" content="Zhenhuan Liu" />
 <meta property="og:locale" content="en_US" />
-<link rel="canonical" href="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html" />
-<meta property="og:url" content="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html" />
+<meta name="description" content="原始GAN的优化目标为:" />
+<meta property="og:description" content="原始GAN的优化目标为:" />
+<link rel="canonical" href="https://victarry.github.io/2021/03/10/gan-objective.html" />
+<meta property="og:url" content="https://victarry.github.io/2021/03/10/gan-objective.html" />
 <meta property="og:site_name" content="Victarry’s Blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-02-21T00:00:00+00:00" />
+<meta property="article:published_time" content="2021-03-10T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="在MacOS下使用Docker运行GUI" />
+<meta property="twitter:title" content="原始GAN的优化函数为什么要使用 (\max \log(D(G(z))))" />
 <script type="application/ld+json">
-{"headline":"在MacOS下使用Docker运行GUI","dateModified":"2021-02-21T00:00:00+00:00","datePublished":"2021-02-21T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html"},"author":{"@type":"Person","name":"Zhenhuan Liu"},"url":"https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"原始GAN的优化函数为什么要使用 (\\max \\log(D(G(z))))","dateModified":"2021-03-10T00:00:00+00:00","datePublished":"2021-03-10T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/03/10/gan-objective.html"},"author":{"@type":"Person","name":"Zhenhuan Liu"},"url":"https://victarry.github.io/2021/03/10/gan-objective.html","description":"原始GAN的优化目标为:","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-D0C3LLK216"></script>
     <script>
@@ -62,87 +64,91 @@ MathJax.Hub.Config({
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">在MacOS下使用Docker运行GUI</h1>
-    <p class="post-meta"><time class="dt-published" datetime="2021-02-21T00:00:00+00:00" itemprop="datePublished">
-        Feb 21, 2021
-      </time>• 
-          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name">Zhenhuan Liu</span></span></p>
+    <h1 class="post-title p-name" itemprop="name headline">原始GAN的优化函数为什么要使用 \(\max \log(D(G(z)))\)</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-03-10T00:00:00+00:00" itemprop="datePublished">
+        Mar 10, 2021
+      </time></p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>在Docker内运行GUI程序需要利用 <a href="https://en.wikipedia.org/wiki/X_Window_System">X_Window_System</a> , MacOS下对应的实现是Xquartz.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_安装socat">1. 安装socat</h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre>brew install socat
-socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &amp; <b class="conum">(1)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<ol>
-<li>
-<p>Xquartz的listen 端口为6000</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_安装xquartz">2. 安装Xquartz</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>在 <a href="https://www.xquartz.org/" class="bare">https://www.xquartz.org/</a> 网站上下载并安装Xquartz</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>xhost + <b class="conum">(1)</b>
-docker run -e DISPLAY=host.docker.internal:0 gns3/xeyes <b class="conum">(2)</b></pre>
-</div>
-</div>
-<div class="colist arabic">
-<ol>
-<li>
-<p>允许所有其他ip地址的客户端连接到xquartz</p>
-</li>
-<li>
-<p><a href="https://docs.docker.com/docker-for-mac/networking/#per-container-ip-addressing-is-not-possible">host.docker.internal</a> 是一个Docker Desktop for MAC专用的nameserver, 可以解析出host对应的ip</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>如果成功的话,就可以看到一个眼睛的界面</p>
+    <div class="paragraph">
+<p>原始GAN的优化目标为:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="/assets/xeyes.png" alt="test" width="300" height="300">
-</div>
-<div class="title">Figure 1. 运行成功的结果</div>
-</div>
-<div class="sect2">
-<h3 id="_参考链接">2.1. 参考链接</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb" class="bare">https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb</a></p>
-</li>
-<li>
-<p><a href="https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc" class="bare">https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc</a></p>
-</li>
-</ol>
+<img src="/assets/gan-objective.png" alt="gan objective">
 </div>
 </div>
+<hr>
+<div class="paragraph">
+<p>原文中表示在优化G的时候需要重新定义优化目标, 把</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\min log(1-D(G(z))) \ \ \ \ \ \ \ \ \ (1)\]
 </div>
 </div>
-  </div><a class="u-url" href="/2021/02/21/run-gui-in-docker-of-MacOS.html" hidden></a>
+<div class="paragraph">
+<p>换为</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\max log(D(G(z))) \ \ \ \ \ \ \ \ (2)\]
+</div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>In practice, equation 1 may not provide sufﬁcient gradient for G to learn well. Early in learning, when G is poor, D can reject samples with high conﬁdence because they are clearly different from the training data. In this case, log(1 − D(G(z))) saturates. Rather than training G to minimize log(1 − D(G(z))) we can train G to maximize log D(G(z)). This objective function results in the same ﬁxed point of the dynamics of G and D but provides much stronger gradients early in learning.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>这段话对初学者来说并不直观, 下面解释一下:</p>
+</div>
+<div class="paragraph">
+<p>GAN在训练前期时, Discriminator往往要强于Generator, 那么对于fake的输入, Discriminator输出的概率往往接近于0, 相应的logit就接近负无穷, logit对应的梯度非常小, 那么反传到generator时得到的梯度也非常小.</p>
+</div>
+<div class="paragraph">
+<p>把Discriminator中最后的sigmoid激活函数显式代入到优化目标, 并假设x是\(D(G(z))\)在经过sigmoid得到的 <em>unbouned logit</em> ,
+那么式(1)变为:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\min \log(1-\sigma (x)) = \min \log(\frac{e^{-x}}{1+e^{-x}}) = \min - \log(1+e^{x})\]
+</div>
+</div>
+<div class="paragraph">
+<p>对应图像为:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/assets/gan-graph1.png" alt="gan graph1">
+</div>
+</div>
+<div class="paragraph">
+<p>可以看出, x特别小时, 对应的梯度也特别小</p>
+</div>
+<div class="paragraph">
+<p>式(2)变为:</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\max \log(sigma(x)) = \max - \log (1+e^{-x})\]
+</div>
+</div>
+<div class="paragraph">
+<p>对应图像为:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/assets/gan-graph2.png" alt="gan graph2">
+</div>
+</div>
+<div class="paragraph">
+<p>可以看出, x特别小时, 对应梯度很大, 因此generator得到的梯度也很大, 可以加快训练速度</p>
+</div>
+  </div><a class="u-url" href="/2021/03/10/gan-objective.html" hidden></a>
 </article>
 
       </div>
