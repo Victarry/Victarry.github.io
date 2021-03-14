@@ -4,8 +4,7 @@ os: osx
 before_install:
   - gem install bundler
 install: bundle install --deployment
-script: bundle exec rake deploy
+script: JEKYLL_ENV=production bundle exec rake deploy
 env:
   global:
     - secure: ebwZRsPEGcV4FN7p98lWVEgoAcv6tLu4QtCUH2H5O2e/p68d0/IUk0TSAC7+NMcb5mzNNga8z99hUP303WBXni+DYmQTcYPr6xnnv6/zKzx6dmCk+/KDnX9PmmlvrzSjhZRhyun+5iETBlAICcFrmj2UobIt2C9AHQHmryhcLlOG8xP1TsflArVoHqRgj8odhz9URNLqO7kAQjOluNMrImpsqy72Q1qVg0xdbQ9lf4+1dXKDTKfI5oNmYkda+vCI0vKlBw31Ge1zic+0Y4o+Cjn7l+sfb5+Q4Il4QULm2Z8Woip7cmEDG3UMNsOtQDYpa5/p3vC5AcAZNij3eLSFGDtKIiYehRujcZwF17t9aqyAchp+8A7N8mRxZY2CGHdAI0a3y+CcKb9aAcczyo4asHS4WzkzcOzx5QD8xgpqgzbrepV6GKagKccT863t1T3IFP/C9Z3N3ashJqM0eGYATuojDTr84C57Qq0yctT+U0vvGGStBqBDkbfbwJSa/2qqmDaiPRk8+3z+z3pFqif7PKe2dQ+qJNK5Ff0W82qqDYyExH2TYLxuWVYqXXKxNBEPrYy1z+/VFWs0kY79hyardVtw5tqzLFOhguWAmsJV3GlfEI4q0Q8dicgN/vKK+LOZtYINF7n5/AP5QRAC1mdqBlo5ZDAp4WYtuNKNC4J45ts=
-    - JEKYLL_ENV: production
