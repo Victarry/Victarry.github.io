@@ -30,6 +30,7 @@ author:
 
 # Build settings
 theme: minima
+show_excerpts: true
 plugins:
   - jekyll-asciidoc
 
@@ -37,7 +38,14 @@ minima:
   social_links:
     github: Victarry
     twitter: NKUlzh
+  skin: classic
 
+disqus:
+  shortname: victarry
+
+header_pages:
+  - about.markdown
+  - index.markdown
 asciidoctor:
   attributes:
   - idprefix=_
