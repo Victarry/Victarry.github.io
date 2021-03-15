@@ -1,0 +1,75 @@
+= Normalization Techniques
+Zhenhuan Liu <nkulzh16@gmail.com>
+:toc:
+:sectnums:
+:stem: latexmath
+
+自2015年 _Batch Normalization_ 提出之后, 各种Normalization的technique相继被提出和应用, 例如被广泛用于RNN的Layer Normalizatoin, 用于style transfer的instance Nomalization,以及出身于style transfer后被StyleGAN带火的 *AdaIN*.
+这篇文章作为Normalization Techniques的总结和分析. 
+
+== Normalization方法概述
+Normalization主要分为Unconditional Norm和Conditional Norm, Unconditional Norm主要用于加速训练, 使模型训练更加稳定; 
+Conditional Norm多用于生成模型中调制(Modulate)输入信号, 使输出与控制信号相关联, 例如Style Transfer中AdaIN使得输出图像的style与style image相似.
+
+Normalization Technique主要分为两步, 第一部分是对输入进行归一化, 将均值归0, 方差设置为0; 第二步是对标准化后的activations进行transform, 具体的transform可以通过learnable parameters或者conditional signal进行控制, 提高模型的表达能力.
+
+. Unconditional Norm
+.. Whitening transformation
+.. BatchNorm(BN) 
+.. Instance Norm(IN)
+.. Layer Norm(LN)
+.. Group Norm(GN)
+.. 
+. Conditional Norm
+.. Conditional BatchNorm(CBN)
+.. Conditional InstanceNorm(CIN)
+
+== Batch Normalization
+=== Motivation
+以下出自 https://arxiv.org/abs/1502.03167[原始论文]
+====
+> Training Deep Neural Networks is complicated by the fact that the distribution of each layer’s inputs changes during training, as the parameters of the previous layers change. (本质)
+
+> This slows down the training by requiring lower learning rates and careful parameter initialization, and makes it notoriously hard to train models with saturating nonlinearities. (后果)
+
+> Our method draws its strength from making normalization a part of the model architecture and performing the normalization for each training mini-batch. (方法)
+
+> Batch Normalization allows us to use much higher learning rates and be less careful about initialization. (好处)
+====
+
+梯度反传的一个问题在于, 随着上一层layer的参数的变化,下一层的梯度优化方向也变化了,但神经网络的各个层的参数是同时进行优化的. 其中一个解决办法就是通过normalization来限制上一层输出的范围,从而使训练更稳定.
+
+为什么要用batch的均值和方差作为normalization时的transform参数呢?  理论上最好统计整个数据集的statistics, 但实际场景中我们只能得到训练集的数据, 所以永远无法统计得到真正的均值和方差,因此用batch的statistics来近似数据的statistics.
+
+为什么在normalization之后要使用 stem:[\alpha, \beta] 来进行affine transformation呢? 论文中给出的解释是, 为了提高模型的表达能力, 至少需要让该模块能够表示 identity transformation, 因此需要stem:[\alpha, \beta]做为learnable parameters.
+
+=== 方法(用于CNN中的Batchnorm)
+对于 `NCHW` 中位置为 _(i, j, x, y)_ 的tensor, stem:[x_{ijxy}], 得到的norm之后的结果为:
+[stem]
+++++
+y_{ijxy} = \frac{x_{ijxy} - \mu_{j}}{\sigma_j}  + \beta
+++++
+
+. 对于channel数为 `C` 的tensor, stem:[\alpha]和stem:[\beta]的数量也为C
+. Inference时不再使用batch中的均值和方差, 而是使用在训练过程通过running average方法得到的训练数据的均值和方差.
+. 在Pytorch中, `nn.BatchNorm2d(num_features, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)`, 设置 `affine=Flase` 可以取消使用stem:[\alpha]和stem:[\beta], 设置 `tracking_running_stats=False` 可以使inference时也使用batch的statistics.
+
+=== 好处
+1. 加速训练
+2. 对初始化和learning rate不敏感, 可以使用更大的learning rate
+3. 作为正则化，提高模型泛化性（可以替代dropout)
+4. 可以使用saturating nonlinearities作为activation functoin
+
+Batchnorm广泛使用之后, Dropout的出现就很少了...
+
+=== 相关论文
+- __Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift__ 2015, ICML https://arxiv.org/abs/1502.03167[arxiv]
+
+== Instance Normalizationn
+TODO
+
+== Layer Normalization
+TODO
+
+== 本文参考文献
+- __Normalization Techniques in Training DNNs: Methodology, Analysis and Application__ https://arxiv.org/abs/2009.12836[arxiv]
