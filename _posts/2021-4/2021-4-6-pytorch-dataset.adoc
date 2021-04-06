@@ -1,6 +1,8 @@
 = Pytorch Dataset模块笔记
 Zhenhuan Liu <nkulzh16@gmail.com>
 
+对pytorch的 `nn.utils.data` 模块进行分析和整理.
+
 == Dataset
 **目的是实现取出一个item的方法**
 
@@ -38,15 +40,187 @@ for index in sampler:
 ... 如果 `shuffle=True` , 那么采用 `RandomSampler`
 ... 如果要自己实现 `Sampler`, 那么要实现 `__iter__`, 其中每次返回一个index, 同时设置 `shuffle=False`
 .. 如果 `batch_size` 不是 `None`, 那么采用 batch_sampler, 同时使用collate_fn处理. (注意: **batch_size默认值为1** )
++
+[source,python]
+----
+dataset_iter = iter(dataset)
+for indices in batch_sampler:
+    yield collate_fn([next(dataset_iter) for _ in indices])
+----
 ... 如果 `batch_sampler` 是 `None` , 那么采用automatic batching, 使用默认的 `sampler` 对应的 `batch_sampler`
-... 如果要自己实现 `batch_sampler`, 那么要实现 `__iter__`, 其中每次返回一个batch的indexs, 同时设置 `shuffle=False`
+... 如果传入的是 `sampler` 不是 `None` , 那么将采用传入的 `sampler` 对应的 `batch_sampler`
+... 如果要自己实现 `batch_sampler`, 那么要实现 `__iter__`, 其中每次返回一个batch的indexs, 同时设置 `shuffle=False, sampler=None, batch_size=1, drop_last=False`
 
 === Sampler
+`shuffle=False` 时 , pytorch默认的sampler
 
+[source, python]
+----
+class RandomSampler(Sampler[int]):
+    r"""Samples elements randomly. If without replacement, then sample from a shuffled dataset.
+    If with replacement, then user can specify :attr:`num_samples` to draw.
+
+    Arguments:
+        data_source (Dataset): dataset to sample from
+        replacement (bool): samples are drawn on-demand with replacement if ``True``, default=``False``
+        num_samples (int): number of samples to draw, default=`len(dataset)`. This argument
+            is supposed to be specified only when `replacement` is ``True``.
+        generator (Generator): Generator used in sampling.
+    """
+    data_source: Sized
+    replacement: bool
+
+    def __init__(self, data_source: Sized, replacement: bool = False,
+                 num_samples: Optional[int] = None, generator=None) -> None:
+        self.data_source = data_source
+        self.replacement = replacement
+        self._num_samples = num_samples
+        self.generator = generator
+
+        if not isinstance(self.replacement, bool):
+            raise TypeError("replacement should be a boolean value, but got "
+                            "replacement={}".format(self.replacement))
+
+        if self._num_samples is not None and not replacement:
+            raise ValueError("With replacement=False, num_samples should not be specified, "
+                             "since a random permute will be performed.")
+
+        if not isinstance(self.num_samples, int) or self.num_samples <= 0:
+            raise ValueError("num_samples should be a positive integer "
+                             "value, but got num_samples={}".format(self.num_samples))
+
+    @property
+    def num_samples(self) -> int:
+        # dataset size might change at runtime
+        if self._num_samples is None:
+            return len(self.data_source)
+        return self._num_samples
+
+    def __iter__(self):
+        n = len(self.data_source)
+        if self.generator is None:
+            generator = torch.Generator()
+            generator.manual_seed(int(torch.empty((), dtype=torch.int64).random_().item()))
+        else:
+            generator = self.generator
+        if self.replacement:
+            for _ in range(self.num_samples // 32):
+                yield from torch.randint(high=n, size=(32,), dtype=torch.int64, generator=generator).tolist()
+            yield from torch.randint(high=n, size=(self.num_samples % 32,), dtype=torch.int64, generator=generator).tolist()
+        else:
+            yield from torch.randperm(n, generator=self.generator).tolist()
+
+    def __len__(self):
+        return self.num_samples
+----
 
 === Batch Sampler
-. 如果 `batch_size=None` 并且 `batch_sample=None`, 那么自动batching将被禁用,
-. 根据 `batch_size`
-    .. 如果
+pytorch默认的batch_sampler, 
+
+[source, python]
+----
+class BatchSampler(Sampler[List[int]]):
+    r"""Wraps another sampler to yield a mini-batch of indices.
+
+    Args:
+        sampler (Sampler or Iterable): Base sampler. Can be any iterable object
+        batch_size (int): Size of mini-batch.
+        drop_last (bool): If ``True``, the sampler will drop the last batch if
+            its size would be less than ``batch_size``
+
+    Example:
+        >>> list(BatchSampler(SequentialSampler(range(10)), batch_size=3, drop_last=False))
+        [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
+        >>> list(BatchSampler(SequentialSampler(range(10)), batch_size=3, drop_last=True))
+        [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
+    """
+
+    def __init__(self, sampler: Sampler[int], batch_size: int, drop_last: bool) -> None:
+        # Since collections.abc.Iterable does not check for `__getitem__`, which
+        # is one way for an object to be an iterable, we don't do an `isinstance`
+        # check here.
+        if not isinstance(batch_size, _int_classes) or isinstance(batch_size, bool) or \
+                batch_size <= 0:
+            raise ValueError("batch_size should be a positive integer value, "
+                             "but got batch_size={}".format(batch_size))
+        if not isinstance(drop_last, bool):
+            raise ValueError("drop_last should be a boolean value, but got "
+                             "drop_last={}".format(drop_last))
+        self.sampler = sampler
+        self.batch_size = batch_size
+        self.drop_last = drop_last
+
+    def __iter__(self):
+        batch = []
+        for idx in self.sampler:
+            batch.append(idx)
+            if len(batch) == self.batch_size:
+                yield batch
+                batch = []
+        if len(batch) > 0 and not self.drop_last:
+            yield batch
+
+    def __len__(self):
+        # Can only be called if self.sampler has __len__ implemented
+        # We cannot enforce this condition, so we turn off typechecking for the
+        # implementation below.
+        # Somewhat related: see NOTE [ Lack of Default `__len__` in Python Abstract Base Classes ]
+        if self.drop_last:
+            return len(self.sampler) // self.batch_size  # type: ignore
+        else:
+            return (len(self.sampler) + self.batch_size - 1) // self.batch_size  # type: ignore
+----
 
 === Collate_fn
+输入一个大小为batch_size的list, 包含了每次从dataset中sampler得到数据, 目的是
+NLP任务中, 由于句子长短不同常需要进行padding,使得所有句子token长度一致.
+CV任务中, 预处理时会将所有图片resize到固定大小, 一般不需要特殊处理.
+
+.Pytorch默认collate_fn实现(automatic batching下, 即batch_sampler=None, batch_size!=None)
+[source,python]
+----
+def default_collate(batch):
+    r"""Puts each data field into a tensor with outer dimension batch size"""
+
+    elem = batch[0]
+    elem_type = type(elem)
+    if isinstance(elem, torch.Tensor):
+        out = None
+        if torch.utils.data.get_worker_info() is not None:
+            # If we're in a background process, concatenate directly into a
+            # shared memory tensor to avoid an extra copy
+            numel = sum([x.numel() for x in batch])
+            storage = elem.storage()._new_shared(numel)
+            out = elem.new(storage)
+        return torch.stack(batch, 0, out=out)
+    elif elem_type.__module__ == 'numpy' and elem_type.__name__ != 'str_' \
+            and elem_type.__name__ != 'string_':
+        if elem_type.__name__ == 'ndarray' or elem_type.__name__ == 'memmap':
+            # array of string classes and object
+            if np_str_obj_array_pattern.search(elem.dtype.str) is not None:
+                raise TypeError(default_collate_err_msg_format.format(elem.dtype))
+
+            return default_collate([torch.as_tensor(b) for b in batch])
+        elif elem.shape == ():  # scalars
+            return torch.as_tensor(batch)
+    elif isinstance(elem, float):
+        return torch.tensor(batch, dtype=torch.float64)
+    elif isinstance(elem, int_classes):
+        return torch.tensor(batch)
+    elif isinstance(elem, string_classes):
+        return batch
+    elif isinstance(elem, container_abcs.Mapping):
+        return {key: default_collate([d[key] for d in batch]) for key in elem}
+    elif isinstance(elem, tuple) and hasattr(elem, '_fields'):  # namedtuple
+        return elem_type(*(default_collate(samples) for samples in zip(*batch)))
+    elif isinstance(elem, container_abcs.Sequence):
+        # check to make sure that the elements in batch have consistent size
+        it = iter(batch)
+        elem_size = len(next(it))
+        if not all(len(elem) == elem_size for elem in it):
+            raise RuntimeError('each element in list of batch should be of equal size')
+        transposed = zip(*batch)
+        return [default_collate(samples) for samples in transposed]
+
+    raise TypeError(default_collate_err_msg_format.format(elem_type))
+----
