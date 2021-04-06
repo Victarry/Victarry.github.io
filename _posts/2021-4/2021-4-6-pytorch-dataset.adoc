@@ -1,0 +1,52 @@
+= Pytorch Dataset模块笔记
+Zhenhuan Liu <nkulzh16@gmail.com>
+
+== Dataset
+**目的是实现取出一个item的方法**
+
+. Dataset分为map-style和iterable-style
+    .. map-style通过重载 `__getitem__` 和 `__len__` 来实现随机访问
+    .. iterable-style通过重载 `__iter__` 手动实现 stream
+    .. 对于ImageFolder的数据集, 适合用于map-style的Dataest
+
+=== Dataset中类的使用
+
+`ConcatDataset(datasets)` , 将多个datasets concat在一起, 每次返回其中一个dataset中的一个item
+
+=== 自定义Dataset中的注意事项
+1. 设置整个dataset包含的所有数据,例如一个文件夹下面的路径 (注意过滤文件后缀, 防止非图像文件混入)
+2. 实现如何read一个,
+3. 设置transform
+
+== DataLoader
+
+[source, python]
+----
+torch.utils.data.DataLoader(dataset, batch_size=1, shuffle=False, sampler=None, batch_sampler=None, num_workers=0, collate_fn=None, pin_memory=False, drop_last=False, timeout=0, worker_init_fn=None, multiprocessing_context=None, generator=None, *, prefetch_factor=2, persistent_workers=False)
+----
+
+. 如果dataset是iterable-style, 那么必须有 `shuffle=False`, `sampler=None`, `batch_sampler=None`, 
+. 根据batch_size决定采用sampler还是batch_sampler
+.. 如果 `batch_size=None`, 那么使用sampler, 每次返回一个index
++
+[source, python]
+----
+for index in sampler:
+    yield collate_fn(dataset[index])
+----
+... 如果 `shuffle=False` , 那么采用 `SequentialSampler`
+... 如果 `shuffle=True` , 那么采用 `RandomSampler`
+... 如果要自己实现 `Sampler`, 那么要实现 `__iter__`, 其中每次返回一个index, 同时设置 `shuffle=False`
+.. 如果 `batch_size` 不是 `None`, 那么采用 batch_sampler, 同时使用collate_fn处理. (注意: **batch_size默认值为1** )
+... 如果 `batch_sampler` 是 `None` , 那么采用automatic batching, 使用默认的 `sampler` 对应的 `batch_sampler`
+... 如果要自己实现 `batch_sampler`, 那么要实现 `__iter__`, 其中每次返回一个batch的indexs, 同时设置 `shuffle=False`
+
+=== Sampler
+
+
+=== Batch Sampler
+. 如果 `batch_size=None` 并且 `batch_sample=None`, 那么自动batching将被禁用,
+. 根据 `batch_size`
+    .. 如果
+
+=== Collate_fn
