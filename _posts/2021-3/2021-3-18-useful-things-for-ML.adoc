@@ -1,18 +1,18 @@
-== A Few Useful Things to Know about Machine Learning
+= A Few Useful Things to Know about Machine Learning
 Zhenhuan Liu <nkulzh16@gmail.com>
 
 对于 https://www.astro.caltech.edu/~george/ay122/cacm12.pdf[A Few Useful Things to Know about Machine Learning] 的总结,这是一篇很有启发的文章,总结了机器学习领域一些本质且普遍的概念.
 
 >  Machine Learning = Representation + Evaluation + Optimization
 
-=== It’s Generalization that Counts
+== It’s Generalization that Counts
 
 * 测试集留到最后→ 根据测试集调参会产生Contamination
 * _cross validation_
 * 虽然知道但其实还是很神奇的事情 → _We don’t have access to the function
 we want to optimize._
 
-=== Data Alone is Not Enough
+== Data Alone is Not Enough
 
 * 为了使Generatalization成立，必须使用某些Knowledge或者Assumption
 * No Free Lunch
@@ -61,7 +61,7 @@ What it does is get more from less._*
 +
 _Learners combine knowledge with data to grow programs._
 
-=== Overfitting Has Many Faces
+== Overfitting Has Many Faces
 
 * Generalization Error → Bias + Variance
 +
@@ -113,7 +113,7 @@ right side. But severe overfitting can occur even in the absence of
 noise._
 * _multiple testing_
 
-=== Intuition Fails in High Dimensions
+== Intuition Fails in High Dimensions
 
 *_On the Surprising Behavior of Distance Metrics in High Dimensional
 Space_*
@@ -155,7 +155,7 @@ since at worst they provide no new information about the class. But in
 fact their benefits may be outweighed by the curse of dimensionality._
 * _blessing of non uniformity_ → 流形学习
 
-=== Theoretical Guarantees Are Not What They Seem
+== Theoretical Guarantees Are Not What They Seem
 
 * Theory → PAC Learnable
 +
@@ -182,7 +182,7 @@ _Learning is a complex phenomenon, and just because a learner has a
 theoretical justification and works in practice does not mean the former
 is the reason for the latter._
 
-=== Feature Engineering is The Key
+== Feature Engineering is The Key
 
 * _machine learning is not a one-shot process of building a dataset and
 running a learner, but rather an iterative process of running the
@@ -204,7 +204,7 @@ overfitting. So there is ultimately no replacement for the smarts you
 put into feature engineering._
 * Deep learning is feature engineering(我自己说的)
 
-=== More Data Beats a Clevrer Algorithm
+== More Data Beats a Clevrer Algorithm
 
 * _As a rule of thumb, a dumb algorithm with lots and lots of data beats
 a clever one with modest amounts of it._
@@ -251,7 +251,7 @@ with many different learners, data sources, and learning problems easy
 and efficient, and where there is a close collaboration between machine
 learning experts and application domain ones._
 
-=== Learn Many Models, Not Just One
+== Learn Many Models, Not Just One
 
 * variants of one model → many variants of many model
 * model ensembles
@@ -285,7 +285,7 @@ selecting it. 8 A practical consequence of this is that, *while model
 ensembles are a key part of the machine learning toolkit, BMA is seldom
 worth the trouble.*_
 
-=== Simplicity Does not Imply Accuracy
+== Simplicity Does not Imply Accuracy
 
 * 奥卡姆剃刀 → 如无必要，勿增实体 →
 相同训练误差下应该选择简单模型的泛化性更好(❌)
@@ -318,13 +318,13 @@ _The conclusion is that simpler hypotheses should be preferred because
 simplicity is a virtue in its own right, not because of a hypothetical
 connection with accuracy._
 
-=== Representable Does not imply Learnable
+== Representable Does not imply Learnable
 
 * _Given finite data, time and memory, standard learners can learn only
 a tiny subset of all possible functions, and these subsets are different
 for learners with different representations._
 
-=== Correlation Doesn’t Imply Causation
+== Correlation Doesn’t Imply Causation
 
 * 相关不是因果
 * 但学习相关至少是有用的
