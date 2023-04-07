@@ -1,0 +1,39 @@
+= 深度学习项目的实践心得
+
+== 如何划分程序结构
+机器学习: Representation + Optimization + Evaluation
+> 数据 + 模型 + 训练 + (日志)
+
+细分
+. 数据:
+.. Dataset
+.. Transform
+.. DataLoader
+. 模型:
+.. 基本模块: Conv, ResBlock
+.. 
+. 训练
+.. Schedule
+.. Loss
+.. optimizer
+.. Checkpoint
+.. Metric
+. Logging
+.. Metric
+
+== 关于程序参数/超参数
+
+参数可以分为三个部分
+. 训练相关: `gpus`
+. 模型相关: 
+. 程序运行相关: `data_path` 等
+
+https://pytorch-lightning.readthedocs.io/en/latest/common/hyperparameters.html
+
+=== 关于如何实现参数配置
+. 文件导入
+. argparser
+. 使用python object
+
+
+== Change log
