@@ -13,6 +13,37 @@ Project V是一个工具集合，可以实现专属的基础通信网络。Proje
 
 ### 什么是TLS协议
 
+== 安装
+=== 服务器安装
+
+https://xtls.github.io/document/install.html#%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC[官方教程]
+
+直接版本: 
+[source, bash]
+----
+bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+----
+
+配置等相关内容如下:
+----
+installed: /etc/systemd/system/xray.service
+installed: /etc/systemd/system/xray@.service
+
+installed: /usr/local/bin/xray
+installed: /usr/local/etc/xray/*.json
+
+installed: /usr/local/share/xray/geoip.dat
+installed: /usr/local/share/xray/geosite.dat
+
+installed: /var/log/xray/access.log
+installed: /var/log/xray/error.log
+----
+
+=== 客户端安装
+
+- Windows: Clash等
+- Mac: https://github.com/yanue/V2rayU/tree/newui[V2rayU]
+
 == 服务器配置Xray + https
 
 === 最简单版本
@@ -28,10 +59,10 @@ Project V是一个工具集合，可以实现专属的基础通信网络。Proje
       "loglevel": "None"
   },
   "inbounds": [{
-    "port": 10086, // 服务器监听端口
+    "port": 10086,
     "protocol": "vmess",
     "settings": {
-     "clients": [{ "id": "70bb5a14-d4f1-11ed-afa1-0242ac120002", "alterId": 64, "level": 0 }] // id采用UUID格式，可以任意生成
+     "clients": [{ "id": "70bb5a14-d4f1-11ed-afa1-0242ac120002", "alterId": 64, "level": 0 }]
     }
   }],
    "outbounds": [{
@@ -40,6 +71,8 @@ Project V是一个工具集合，可以实现专属的基础通信网络。Proje
    }]
 }
 ----
+. port代表服务器监听端口 
+. id采用UUID格式，可以使用`xray uuid`生成
 
 启动服务端命令: xray run --config /etc/v2ray/config_base.json
 
@@ -92,16 +125,16 @@ Project V是一个工具集合，可以实现专属的基础通信网络。Proje
       "settings": {
         "vnext": [
           {
-            "address": "103.195.6.79",
+            "address": "your-host-address",
             "users": [
               {
-                "id": "70bb5a14-d4f1-11ed-afa1-0242ac120002", // id与服务器保持一致
+                "id": "70bb5a14-d4f1-11ed-afa1-0242ac120002",
                 "alterId": 64,
                 "level": 0,
                 "security": "auto"
               }
             ],
-            "port": 10086 //与服务器监听端口保持一致
+            "port": 10086
           }
         ]
       }
@@ -135,35 +168,18 @@ Project V是一个工具集合，可以实现专属的基础通信网络。Proje
 }
 ----
 
+. port与id需要与服务器保持一致
+. address输入服务器ip地址
 
-配置服务
+== 常见问题
 
-----
-[Unit]
-Description=Xray Service
-Documentation=https://github.com/xtls
-After=network.target nss-lookup.target
+. https://github.com/233boy/v2ray/issues/812[VMessAEAD is enforced and a non VMessAEAD connection is received]
 
-[Service]
-User=root
-CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-NoNewPrivileges=true
-ExecStart=/usr/local/bin/xray run -config /usr/local/etc/xray/config.json
-Restart=on-failure
-RestartPreventExitStatus=23
-LimitNPROC=10000
-LimitNOFILE=1000000
+== 调试相关
 
-[Install]
-WantedBy=multi-user.target
-----
-
-## 调试相关
-
+- 查看logging信息, 在服务器开启logging, 设置loglevel=info
 - systemctl status查看服务信息
-- journalctl -u xray.service -b
-
+- journalctl -u xray.service -b查看logging
 
 == 相关链接
 - https://zh.wikipedia.org/wiki/V2Ray#:~:text=V2Ray%EF%BC%8C%E6%98%AFVictoria%20Raymond%E4%BB%A5%E5%8F%8A,%E4%B8%8E%E5%85%B6%E5%AE%83Project%20V%E9%80%9A%E4%BF%A1%E3%80%82[V2ray Wikipedia简介]
