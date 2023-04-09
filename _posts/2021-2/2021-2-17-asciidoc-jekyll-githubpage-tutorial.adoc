@@ -363,7 +363,11 @@ https://tinyapps.org/blog/201701240700_convert_asciidoc_to_markdown.html
 ---
 
 === 静态网站
-- https://gohugo.io/[Hugo], 除了Jekyll之外另一个流行的静态网站生成器
+- https://jekyllrb.com/[Jekyll]: Ruby 语言编写的静态网站博客生成器，由 GitHub 所创造和维护，支持 Markdown、HTML、Liquid 等多种语言和模板引擎。
+- https://gohugo.io/[Hugo]: Go 语言编写的静态网站博客生成器，速度很快，支持多种格式的内容和模板引擎。
+- https://hexo.io/[Hexo]: JavaScript 语言编写的静态网站博客生成器，基于 Node.js 平台，支持多种主题和插件。
+- https://getpelican.com/[Pelican]: Python 语言编写的静态网站博客生成器，支持多种格式的内容和主题。
+- https://www.gatsbyjs.com/starters/gatsbyjs/gatsby-starter-blog[Gatsby]：基于 React.js 的静态网站生成器，使用 GraphQL 查询数据，支持多种主题和插件。
 
 === 博客发布平台
 - https://ghost.org/[Ghost]
