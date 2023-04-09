@@ -49,6 +49,7 @@ https://docs.asciidoctor.org/asciidoc/latest/asciidoc-vs-markdown/[AsciiDoc官�
 === Jekyll文件结构
 在 `my-awesome-site` 文件夹下面,可以看到运行 `jekyll new my-awesome-site` 初始化生成的所有文件.
 
+[source, bash]
 ----
 ├── 404.html 
 ├── Gemfile  <1>
@@ -125,8 +126,11 @@ _由于jekyll会自动激活 `:jekyll_plugins` 组中的插件,因此该步骤�
 
 运行以下命令
 
-    bundle install
-    bundle exec jekyll serve --livereload # --livereload可以自动更新页面
+[source, bash]
+----
+bundle install
+bundle exec jekyll serve --livereload # --livereload可以自动更新页面
+----
 
 在根目录或者 `_posts` 下添加 `.adoc` 文件,就可以看到新生成的页面.
 这样,就可以用AsciiDoc代替Markdown来写Pages或者Posts了,只需要用 `.adoc` 文件替换 `.md` 文件.
@@ -163,7 +167,41 @@ _由于jekyll会自动激活 `:jekyll_plugins` 组中的插件,因此该步骤�
 ---
 
 :sectnums!:
-=== Method 1. 使用Travis配置
+=== Method 1. 使用Github Actions进行自动构建 (推荐)
+
+在`USERNAME.github.io`的repo下面，新建``.github/workflows`文件夹, 并新建文件`github-pages.yml`文件并填入:
+
+[source, yaml]
+----
+name: Build and deploy Jekyll site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  github-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - uses: helaili/jekyll-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pre_build_commands: apk --update add python3
+----
+
+然后，在github上对应的repo -> setting -> Options -> Github-Pages中设置branch为 `gh-pages` 并save.
+
+关于github actions的详细内容，参见 https://docs.github.com/en/actions[github actions docs].
+
+=== Method 2. 使用Travis配置
 我们可以通过Travis-CI调用Rake-jekyll来构建jekyll网站并上传到对应的仓库中.
 
 :sectnums:
@@ -224,13 +262,6 @@ travis encrypt GH_TOKEN=<above token> --add env.global --com
 +
 image::/assets/travis-screenshot.png[travis build结果]
 - build成功的话就可以在 https://USERNAME.github.io 中看到生成的网站
-
-:sectnums!:
-=== Method 2. 使用Github-Actions配置
-
-TODO
-
-:sectnums:
 
 == 其他问题
 
@@ -324,6 +355,9 @@ asciidoctor:
 ----
 <link href="/css/asciidoc-pygments.css" rel="stylesheet">
 ----
+
+=== Mardown和Asciidoc转换工具
+https://tinyapps.org/blog/201701240700_convert_asciidoc_to_markdown.html
 
 == Further Reading
 ---
