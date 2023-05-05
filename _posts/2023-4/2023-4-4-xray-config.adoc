@@ -11,8 +11,6 @@ Project V是一个工具集合，可以实现专属的基础通信网络。Proje
 
 2020年11月，因为开源许可证等原因XTLS被V2Ray社区从V2ray core移除，VLESS及XTLS的作者和支持者基于V2Ray另行组建了Project X组织。Xray-core 是 v2ray-core 的超集，具有更好的整体性能和 XTLS 等一系列增强，且完全兼容 v2ray-core 的功能及配置。
 
-### 什么是TLS协议
-
 == 安装
 === 服务器安装
 
@@ -44,9 +42,9 @@ installed: /var/log/xray/error.log
 - Windows: Clash等
 - Mac: https://github.com/yanue/V2rayU/tree/newui[V2rayU]
 
-== 服务器配置Xray + https
+== 服务器配置Xray
 
-=== 最简单版本
+=== 最简单版本: 任意端口，不采用fallback
 
 服务器配置
 
@@ -170,6 +168,12 @@ installed: /var/log/xray/error.log
 
 . port与id需要与服务器保持一致
 . address输入服务器ip地址
+
+=== VMESS + Web版本
+
+1.安装acme来获取ssl证书
+https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E[安装ACME]
+2. 配置服务器和nginx https://xtls.github.io/document/level-0/ch07-xray-server.html#_7-1-%E5%8D%9A%E8%A7%82%E8%80%8C%E7%BA%A6%E5%8F%96-%E5%8E%9A%E7%A7%AF%E8%80%8C%E8%96%84%E5%8F%91[xray官方教程]
 
 == 常见问题
 
