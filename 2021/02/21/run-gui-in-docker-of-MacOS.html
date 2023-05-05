@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>在MacOS下使用Docker运行GUI | Victarry’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="在MacOS下使用Docker运行GUI" />
+<meta name="author" content="Zhenhuan Liu" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html" />
+<meta property="og:url" content="https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html" />
+<meta property="og:site_name" content="Victarry’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-21T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="在MacOS下使用Docker运行GUI" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Zhenhuan Liu"},"headline":"在MacOS下使用Docker运行GUI","dateModified":"2021-02-21T00:00:00+00:00","datePublished":"2021-02-21T00:00:00+00:00","url":"https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-D0C3LLK216"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-D0C3LLK216');
+    </script><link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="/css/asciidoc-pygments.css" rel="stylesheet">
+</head>
+<body><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Victarry&#39;s Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Posts</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">在MacOS下使用Docker运行GUI</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-02-21T00:00:00+00:00" itemprop="datePublished">
+        Feb 21, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Zhenhuan Liu</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>在Docker内运行GUI程序需要利用 <a href="https://en.wikipedia.org/wiki/X_Window_System">X_Window_System</a> , MacOS下对应的实现是Xquartz.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_安装socat">1. 安装socat</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre>brew install socat
+socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &amp; <b class="conum">(1)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Xquartz的listen 端口为6000</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_安装xquartz">2. 安装Xquartz</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>在 <a href="https://www.xquartz.org/" class="bare">https://www.xquartz.org/</a> 网站上下载并安装Xquartz</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>xhost + <b class="conum">(1)</b>
+docker run -e DISPLAY=host.docker.internal:0 gns3/xeyes <b class="conum">(2)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>允许所有其他ip地址的客户端连接到xquartz</p>
+</li>
+<li>
+<p><a href="https://docs.docker.com/docker-for-mac/networking/#per-container-ip-addressing-is-not-possible">host.docker.internal</a> 是一个Docker Desktop for MAC专用的nameserver, 可以解析出host对应的ip</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>如果成功的话,就可以看到一个眼睛的界面</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/assets/xeyes.png" alt="test" width="300" height="300">
+</div>
+<div class="title">Figure 1. 运行成功的结果</div>
+</div>
+<div class="sect2">
+<h3 id="_参考链接">2.1. 参考链接</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb" class="bare">https://medium.com/@mreichelt/how-to-show-x11-windows-within-docker-on-mac-50759f4b65cb</a></p>
+</li>
+<li>
+<p><a href="https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc" class="bare">https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc</a></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+  </div><div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html';
+      this.page.identifier = 'https://victarry.github.io/2021/02/21/run-gui-in-docker-of-MacOS.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://victarry.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript><a class="u-url" href="/2021/02/21/run-gui-in-docker-of-MacOS.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Zhenhuan Liu</li>
+          <li><a class="u-email" href="mailto:nkulzh16@gmail.com">nkulzh16@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/Victarry" title="Victarry"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/NKUlzh" title="NKUlzh"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

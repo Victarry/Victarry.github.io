@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>使用AsciiDoc在Github-Pages上搭建博客 | Victarry’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="使用AsciiDoc在Github-Pages上搭建博客" />
+<meta name="author" content="Zhenhuan Liu" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html" />
+<meta property="og:url" content="https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html" />
+<meta property="og:site_name" content="Victarry’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-17T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="使用AsciiDoc在Github-Pages上搭建博客" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Zhenhuan Liu"},"headline":"使用AsciiDoc在Github-Pages上搭建博客","dateModified":"2021-02-17T00:00:00+00:00","datePublished":"2021-02-17T00:00:00+00:00","url":"https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-D0C3LLK216"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-D0C3LLK216');
+    </script><link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="/css/asciidoc-pygments.css" rel="stylesheet">
+</head>
+<body><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Victarry&#39;s Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Posts</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">使用AsciiDoc在Github-Pages上搭建博客</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-02-17T00:00:00+00:00" itemprop="datePublished">
+        Feb 17, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Zhenhuan Liu</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>本文介绍了如何使用AsciiDoc代替Markdown写文章,并通过 <em>Travis-ci</em> 将AsciiDoc生成为html,最后发布到Github-Pages上.</p>
+</div>
+<div class="paragraph">
+<p>由于没有找到详细介绍AsciiDoc构建Github-Pages的中文资源, 因此本文记录了笔者关于搭建博客的整个过程.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_为什么要使用asciidoc">1. 为什么要使用AsciiDoc?</h2>
+<div class="sectionbody">
+<hr>
+<div class="paragraph">
+<p><a href="https://asciidoctor.org/docs/what-is-asciidoc/">AsciiDoc</a>和Markdown一样,是一种轻量级标记语言,用于简单的文章排版和页面生成.</p>
+</div>
+<div class="paragraph">
+<p>Markdown虽然方便,但功能相对较少,不如AsciiDoc强大.
+Wikipedia列举了
+<a href="https://en.wikipedia.org/wiki/Lightweight_markup_language#Comparison_of_language_features">不同标记语言的对比</a>
+,可以看出AsciiDoc是功能最完善的标记语言之一.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://docs.asciidoctor.org/asciidoc/latest/asciidoc-vs-markdown/">AsciiDoc官方列举了AsciiDoc和markdown的对比</a>
+，其中AsciiDoc相对于Markdown的优势有:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>相同标记场景下, AsciiDoc用的字符数要比Markdown更少.</p>
+</li>
+<li>
+<p>AsciiDoc的格式更加统一.</p>
+</li>
+<li>
+<p>AsciiDoc可以处理任意排列的inline嵌套格式,而Markdown经常难以处理.</p>
+</li>
+<li>
+<p>AsciiDoc可以处理一些Markdown无法处理的场景, 例如单词内的标记, Block-level源代码和block-level images.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>与markdown一样的是,<strong>Github仓库预览时支持AsciiDoc</strong>, 也就是说在github写README,wiki和gist时可以使用AsciiDOc.</p>
+</div>
+<div class="paragraph">
+<p>但是,<strong>Github-Pages官方不支持AsciiDoc的Jekyll插件</strong>,
+因此无法直接上传AsciiDoc文件生成Github-Pages网站,但我们可以用 <em>Travis</em> 自动build的工具生成asciidoc对应的html文件.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_asciidocjekyll博客本地配置">2. AsciiDoc+Jekyll博客本地配置</h2>
+<div class="sectionbody">
+<hr>
+<div class="sect2">
+<h3 id="_jekyll安装">2.1. Jekyll安装</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>安装ruby, <a href="https://www.ruby-lang.org/en/downloads/">下载链接</a></p>
+</li>
+<li>
+<p>安装Jekyll并新建网站</p>
+<div class="literalblock">
+<div class="content">
+<pre>~ $ gem install bundler jekyll
+~ $ jekyll new my-awesome-site
+~ $ cd my-awesome-site
+~/my-awesome-site $ bundle exec jekyll serve</pre>
+</div>
+</div>
+</li>
+<li>
+<p>用浏览器打开 <a href="http://localhost:4000" class="bare">http://localhost:4000</a> 查看博客</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jekyll文件结构">2.2. Jekyll文件结构</h3>
+<div class="paragraph">
+<p>在 <code>my-awesome-site</code> 文件夹下面,可以看到运行 <code>jekyll new my-awesome-site</code> 初始化生成的所有文件.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span></span>├── <span class="tok-m">404</span>.html
+├── Gemfile  <b class="conum">(1)</b>
+├── Gemfile.lock
+├── _config.yml  <b class="conum">(2)</b>
+├── _posts  <b class="conum">(3)</b>
+│   └── <span class="tok-m">2021</span>-02-17-welcome-to-jekyll.markdown
+├── about.markdown <b class="conum">(4)</b>
+└── index.markdown  <b class="conum">(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>配置所需要的包和依赖, 例如Jekyll本身的包</p>
+</li>
+<li>
+<p>关于博客网站级别的配置,例如网站<em>theme</em>, <em>baseurl</em>和相关插件</p>
+</li>
+<li>
+<p>所有在 <code>_posts</code> 文件夹下的markdown文件都会作为Post类型的页面来渲染.</p>
+</li>
+<li>
+<p>所有在根目录下的markdown文件都会作为Page类型的页面来渲染</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Jekyll通过将markdown文件渲染成静态html文件来生成博客网站的主体内容,其中页面分为两个类别,
+分别是<strong>Page</strong>和<strong>Post</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Pages是Jekyll中用于撰写内容的最基本单元, Pages适合用于单独的内容, 也就是与日期无关并且不是成组的内容.</p>
+<div class="paragraph">
+<p>如果要添加一个新的Page, 只需要在根目录下添加一个新的HTML文件或者Markdown文件, 例如包含了about, index和contact页面的文件及其对应的URL如下:</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>    .
+    ├── about.md    # =&gt; http://example.com/about.html
+    ├── index.html    # =&gt; http://example.com/
+    └── contact.html  # =&gt; http://example.com/contact.html</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Posts正如博客中的文章,可以方便记录书写时间,并且统一展示起来. 与Pages同样, 既可以使用HTML,也可以使用Markdown,
+需要注意的是文件必须命名为 <strong><code>YYYY-MM-DD-title-of-post.markdown</code></strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_asciidoc安装配置">2.3. AsciiDoc安装配置</h3>
+<div class="paragraph">
+<p>Jekyll可以直接支持Markdown的渲染, 为了使用AsciiDoc代替Makrdown, 我们要使用Jekyll-AsciiDoc的插件</p>
+</div>
+<div class="sect3">
+<h4 id="_在gemfile中添加jekyll-asciidoc的依赖">2.3.1. 在Gemfile中添加Jekyll-AsciiDoc的依赖</h4>
+<div class="paragraph">
+<p>在 <code>Gemfile</code> 中找到 <code>group :jekyll_plugins do</code> , 并加入 <code>gem 'jekyll-asciidoc'</code>,
+得到如下 <code>Gemfile</code> 文件:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>source "https://rubygems.org"
+# Hello! This is where you manage which Jekyll version is used to run.
+# When you want to use a different version, change it below, save the
+# file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
+#
+#     bundle exec jekyll serve
+#
+# This will help ensure the proper Jekyll version is running.
+# Happy Jekylling!
+gem 'jekyll', '~&gt; 3.8.3'
+# This is the default theme for new Jekyll sites. You may change this to anything you like.
+gem "minima"
+# If you want to use GitHub Pages, remove the "gem "jekyll"" above and
+# uncomment the line below. To upgrade, run `bundle update github-pages`.
+# gem "github-pages", group: :jekyll_plugins
+# If you have any plugins, put them here!
+group :jekyll_plugins do
+  gem 'jekyll-asciidoc'
+end</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_激活jekyll-asciidoc插件可选">2.3.2. 激活jekyll-asciidoc插件(可选)</h4>
+<div class="paragraph">
+<p>修改 <code>_config.yml</code> 文件, 找到 <code>plugins:</code> , 添加 <code>jekyll-asciidoc</code> , 从而激活asciidoc插件</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>plugins:
+  - jekyll-asciidoc</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>由于jekyll会自动激活 <code>:jekyll_plugins</code> 组中的插件,因此该步骤也可以省略.</em></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_重新生成jekyll网站">2.3.3. 重新生成jekyll网站</h4>
+<div class="paragraph">
+<p>运行以下命令</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span></span>bundle install
+bundle <span class="tok-nb">exec</span> jekyll serve --livereload <span class="tok-c1"># --livereload可以自动更新页面</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>在根目录或者 <code>_posts</code> 下添加 <code>.adoc</code> 文件,就可以看到新生成的页面.
+这样,就可以用AsciiDoc代替Markdown来写Pages或者Posts了,只需要用 <code>.adoc</code> 文件替换 <code>.md</code> 文件.</p>
+</div>
+<div class="paragraph">
+<p>至此,就成功在本地使用AsciiDoc撰写个人博客网站了,下一部分内容会讲述如何将博客通过Github-Pages发布到互联网上.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jekyll和asciidoc参考链接">2.4. jekyll和AsciiDoc参考链接</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://asciidoctor.org/#installation">AsciiDoc安装</a></p>
+</li>
+<li>
+<p><a href="https://github.com/asciidoctor/asciidoctor-vscode">AsciiDoc Vscode插件</a>, 可以直接预览AsciiDoc文件</p>
+</li>
+<li>
+<p><a href="https://asciidoctor.org/docs/asciidoc-writers-guide/">AsciiDoc Writing Guide</a>, 快速上手AsciiDoc</p>
+</li>
+<li>
+<p><a href="https://docs.asciidoctor.org/asciidoc/latest/">AsciiDoc Documentation</a>, AsciiDoc详细介绍</p>
+</li>
+<li>
+<p><a href="https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/">AsciiDoc语法查询手册</a>, 可以快速查询AsciiDoc对应的语法</p>
+</li>
+<li>
+<p><a href="https://jekyllrb.com/docs/">jekyll Documentation</a>, jekyll详细介绍</p>
+</li>
+<li>
+<p><a href="https://github.com/asciidoctor/jekyll-asciidoc">jekyll-AsciiDoc插件</a>, 用于在jekyll中使用AsciiDoc</p>
+</li>
+<li>
+<p><a href="https://github.com/asciidoctor/jekyll-asciidoc-quickstart">jekyll-AsciiDoc-Quickstart</a>, 可以直接在github上Fork, 相当于使用配置好的AsciiDoc-jekyll网站,这样就不需要从头开始,并且手动修改关于AsciiDoc的相关配置了.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_github-pages配置">3. Github-Pages配置</h2>
+<div class="sectionbody">
+<hr>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>新建一个仓库,仓库名设置为 <code>USERNAME.github.io</code> , github会自动为该repo启用github-pages</p>
+</li>
+<li>
+<p>将新建的网站文件夹加入git, 并push到github远程仓库上</p>
+<div class="listingblock">
+<div class="content">
+<pre>~/my-awesome-site $ git init
+~/my-awesome-site $ git add --all
+~/my-awesome-site $ git commit -m "First commit"
+~/my-awesome-site $ git remote add git@github.com:USERNAME/USERNAME.github.io
+~/my-awesome-site $ git push -u origin master</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>详细可参考 <a href="https://docs.github.com/en/github/working-with-github-pages/creating-a-github-pages-site-with-jekyll">Github-Pages官方教程</a>, 但不需要启用github-pages的gem包.</p>
+</div>
+</li>
+<li>
+<p>之后就可以在 <a href="https://USERNAME.github.io" class="bare">https://USERNAME.github.io</a> 上查看新建的博客, 对于markdown写的文章,可以正确渲染. 但对于AsciiDoc写的文章,无法正确查看. 由于 <a href="https://github.com/asciidoctor/jekyll-asciidoc#using-this-plugin-on-github-pages">Github-Pages没有将 <code>jekyll-AsciiDoc</code> 的插件加入到白名单中</a>, 因此我们需要采用CI来完成AsciiDoc文件的渲染.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_使用ci进行构建和上传">4. 使用CI进行构建和上传</h2>
+<div class="sectionbody">
+<hr>
+<div class="sect2">
+<h3 id="_method-1-使用github-actions进行自动构建-推荐">Method 1. 使用Github Actions进行自动构建 (推荐)</h3>
+<div class="paragraph">
+<p>在`USERNAME.github.io`的repo下面，新建``.github/workflows`文件夹, 并新建文件`github-pages.yml`文件并填入:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="yaml"><span></span><span class="tok-nt">name</span><span class="tok-p">:</span> <span class="tok-l tok-l-Scalar tok-l-Scalar-Plain">Build and deploy Jekyll site to GitHub Pages</span>
+
+<span class="tok-nt">on</span><span class="tok-p">:</span>
+  <span class="tok-nt">push</span><span class="tok-p">:</span>
+    <span class="tok-nt">branches</span><span class="tok-p">:</span>
+      <span class="tok-p tok-p-Indicator">-</span> <span class="tok-l tok-l-Scalar tok-l-Scalar-Plain">master</span>
+
+<span class="tok-nt">jobs</span><span class="tok-p">:</span>
+  <span class="tok-nt">github-pages</span><span class="tok-p">:</span>
+    <span class="tok-nt">runs-on</span><span class="tok-p">:</span> <span class="tok-l tok-l-Scalar tok-l-Scalar-Plain">ubuntu-latest</span>
+    <span class="tok-nt">steps</span><span class="tok-p">:</span>
+      <span class="tok-p tok-p-Indicator">-</span> <span class="tok-nt">uses</span><span class="tok-p">:</span> <span class="tok-l tok-l-Scalar tok-l-Scalar-Plain">actions/checkout@v3</span>
+      <span class="tok-p tok-p-Indicator">-</span> <span class="tok-nt">uses</span><span class="tok-p">:</span> <span class="tok-l tok-l-Scalar tok-l-Scalar-Plain">actions/cache@v2</span>
+        <span class="tok-nt">with</span><span class="tok-p">:</span>
+          <span class="tok-nt">path</span><span class="tok-p">:</span> <span class="tok-l tok-l-Scalar tok-l-Scalar-Plain">vendor/bundle</span>
+          <span class="tok-nt">key</span><span class="tok-p">:</span> <span class="tok-l tok-l-Scalar tok-l-Scalar-Plain">${{ runner.os }}-gems-${{ hashFiles(&#39;**/Gemfile&#39;) }}</span>
+          <span class="tok-nt">restore-keys</span><span class="tok-p">:</span> <span class="tok-p tok-p-Indicator">|</span>
+            <span class="tok-no">${{ runner.os }}-gems-</span>
+      <span class="tok-p tok-p-Indicator">-</span> <span class="tok-nt">uses</span><span class="tok-p">:</span> <span class="tok-l tok-l-Scalar tok-l-Scalar-Plain">helaili/jekyll-action@v2</span>
+        <span class="tok-nt">with</span><span class="tok-p">:</span>
+          <span class="tok-nt">token</span><span class="tok-p">:</span> <span class="tok-l tok-l-Scalar tok-l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+          <span class="tok-nt">pre_build_commands</span><span class="tok-p">:</span> <span class="tok-l tok-l-Scalar tok-l-Scalar-Plain">apk --update add python3</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>然后，在github上对应的repo &#8594; setting &#8594; Options &#8594; Github-Pages中设置branch为 <code>gh-pages</code> 并save.</p>
+</div>
+<div class="paragraph">
+<p>关于github actions的详细内容，参见 <a href="https://docs.github.com/en/actions">github actions docs</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_method-2-使用travis配置">Method 2. 使用Travis配置</h3>
+<div class="paragraph">
+<p>我们可以通过Travis-CI调用Rake-jekyll来构建jekyll网站并上传到对应的仓库中.</p>
+</div>
+<div class="sect3">
+<h4 id="_配置rake-jekyll">4..1. 配置Rake-jekyll</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>将 <code>gem 'rake-jekyll', '~&gt; 1.1.0'</code> 加入到 <code>Gemfile</code> 中</p>
+</li>
+<li>
+<p>新建 <code>Rakefile</code> 文件, 并将下面内容复制到其中</p>
+<div class="listingblock">
+<div class="content">
+<pre>require 'rake-jekyll'
+
+# This task builds the Jekyll site and deploys it to a remote Git repository.
+# It's preconfigured to be used with GitHub and Travis CI.
+# See http://github.com/jirutka/rake-jekyll for more options.
+Rake::Jekyll::GitDeployTask.new(:deploy) do |t|
+    t.committer = 'Jekyll Publisher &lt;jekyll@example.com&gt;'
+    t.deploy_branch = 'gh-pages'
+end</pre>
+</div>
+</div>
+</li>
+<li>
+<p>重新安装依赖
+<code>bundle install</code></p>
+</li>
+<li>
+<p>我们可以直接运行 <code>bundle exec rake deploy</code> 来将渲染好的网站push到github远程仓库中的 <code>gh-pages</code> 分支上.</p>
+</li>
+<li>
+<p>在github上对应的repo &#8594; setting &#8594; Options &#8594; Github-Pages中设置branch为 <code>gh-pages</code> 并save.</p>
+</li>
+<li>
+<p>我们再次打开 <a href="https://USERNAME.github.io" class="bare">https://USERNAME.github.io</a> , 就可以看到使用AsciiDoc撰写的文章了</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>但这样每次更新博客都要手动调用 <code>bundle exec rake deploy</code> , 我们可以通过Travis-CI帮我们自动完成这一任务.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_配置travis-ci">4..2. 配置Travis-CI</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>登录 <a href="https://travis-ci.com/" class="bare">https://travis-ci.com/</a> 网站, 使用github账号登录并且进行Permission的授权</p>
+</li>
+<li>
+<p>在 <a href="https://travis-ci.com/account/repositories" class="bare">https://travis-ci.com/account/repositories</a> 中进行 sync, 将对应的 repo 加入到Travis-CI管理的项目中.</p>
+</li>
+<li>
+<p>新建 <code>.travis.yml</code> 文件,  将以下内容复制到文件中</p>
+<div class="listingblock">
+<div class="content">
+<pre>language: ruby
+rvm: 2.7.2
+os: osx
+before_install:
+  - gem install bundler
+install: bundle install --deployment
+script: bundle exec rake deploy</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>我的电脑系统为MacOS Big Sur, 为了保持环境一致设置了 <code>os: osx</code> , 也可以设置为 <code>os: linux</code> 等, 但不同情况可能会遇到不同的问题, <strong>注意看错误信息</strong> .</p>
+</div>
+</li>
+<li>
+<p>安装travis</p>
+<div class="listingblock">
+<div class="content">
+<pre>gem install -n /usr/local/bin travis</pre>
+</div>
+</div>
+</li>
+<li>
+<p>在 <a href="https://github.com/settings/tokens/new" class="bare">https://github.com/settings/tokens/new</a> 中生成新的token, 可以设置合适的权限</p>
+</li>
+<li>
+<p>将github token加密写入到 <code>.travis.yml</code> 文件中</p>
+<div class="listingblock">
+<div class="content">
+<pre>travis encrypt GH_TOKEN=&lt;above token&gt; --add env.global --com</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(这一步可能需要使用命令行登录)</p>
+</div>
+</li>
+<li>
+<p>将所有文件更新commit并且push到github上</p>
+</li>
+<li>
+<p>在 <a href="https://travis-ci.com/" class="bare">https://travis-ci.com/</a> 中查看build的log</p>
+<div class="imageblock">
+<div class="content">
+<img src="/assets/travis-screenshot.png" alt="travis build结果">
+</div>
+</div>
+</li>
+<li>
+<p>build成功的话就可以在 <a href="https://USERNAME.github.io" class="bare">https://USERNAME.github.io</a> 中看到生成的网站</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_其他问题">5. 其他问题</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_显示latex公式">5.1. 显示latex公式</h3>
+<div class="sect3">
+<h4 id="_添加mathjax-link">5.1.1. 添加mathjax link</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>新建_includes/mathjax.html, 并将下列代码复制到文件中</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;script type="text/x-mathjax-config"&gt;
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"&gt;&lt;/script&gt;</pre>
+</div>
+</div>
+</li>
+<li>
+<p>在layout模板中的 <code>&lt;body&gt; &lt;/body&gt;</code> 内include上述文件, 如果添加到 <code>default</code> 的layout中, 那么可以新建 <code>_layouts/default.html</code>, 复制下列代码</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="{{ page.lang | default: site.lang | default: "en" }}"&gt;
+
+  {%- include head.html -%}
+
+  &lt;body&gt;
+
+    {%- include mathjax.html -%}
+    {%- include header.html -%}
+
+    &lt;main class="page-content" aria-label="Content"&gt;
+      &lt;div class="wrapper"&gt;
+        {{ content }}
+      &lt;/div&gt;
+    &lt;/main&gt;
+
+    {%- include footer.html -%}
+
+  &lt;/body&gt;
+
+&lt;/html&gt;</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_在asciidoc中添加公式">5.1.2. 在AsciiDoc中添加公式</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>启用stem, 在 <a href="https://docs.asciidoctor.org/asciidoc/latest/document/metadata/">metadata</a> 中加入:</p>
+<div class="listingblock">
+<div class="content">
+<pre>:stem:</pre>
+</div>
+</div>
+</li>
+<li>
+<p>使用行内公式(inline formula)</p>
+<div class="listingblock">
+<div class="content">
+<pre>stem:[C = \alpha + \beta Y^{\gamma} + \epsilon]</pre>
+</div>
+</div>
+</li>
+<li>
+<p>使用块公式(block formula)</p>
+<div class="listingblock">
+<div class="content">
+<pre>[stem]
+++++
+C = \alpha + \beta Y^{\gamma} + \epsilon
+++++</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_代码高亮">5.2. 代码高亮</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>在 <code>Gemfile</code> 中添加pygments依赖</p>
+<div class="listingblock">
+<div class="content">
+<pre>gem 'pygments.rb', '~&gt; 2.1.0'</pre>
+</div>
+</div>
+</li>
+<li>
+<p>在 <code>_config.yml</code> 中添加下列代码</p>
+<div class="listingblock">
+<div class="content">
+<pre>asciidoctor:
+  attributes:
+  - idprefix=_
+  - source-highlighter=pygments
+  - pygments-css=class
+  - pygments-stylesheet=css/asciidoc-pygments.css</pre>
+</div>
+</div>
+</li>
+<li>
+<p>在theme对应的template中的 <code>&lt;head&gt;&lt;/head&gt;</code> tag下加入 <code>asciidoc-pygments.css</code> 作为stylesheet</p>
+<div class="listingblock">
+<div class="content">
+<pre>&lt;link href="/css/asciidoc-pygments.css" rel="stylesheet"&gt;</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mardown和asciidoc转换工具">5.3. Mardown和Asciidoc转换工具</h3>
+<div class="paragraph">
+<p><a href="https://tinyapps.org/blog/201701240700_convert_asciidoc_to_markdown.html" class="bare">https://tinyapps.org/blog/201701240700_convert_asciidoc_to_markdown.html</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_further-reading">6. Further Reading</h2>
+<div class="sectionbody">
+<hr>
+<div class="sect2">
+<h3 id="_静态网站">6.1. 静态网站</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://jekyllrb.com/">Jekyll</a>: Ruby 语言编写的静态网站博客生成器，由 GitHub 所创造和维护，支持 Markdown、HTML、Liquid 等多种语言和模板引擎。</p>
+</li>
+<li>
+<p><a href="https://gohugo.io/">Hugo</a>: Go 语言编写的静态网站博客生成器，速度很快，支持多种格式的内容和模板引擎。</p>
+</li>
+<li>
+<p><a href="https://hexo.io/">Hexo</a>: JavaScript 语言编写的静态网站博客生成器，基于 Node.js 平台，支持多种主题和插件。</p>
+</li>
+<li>
+<p><a href="https://getpelican.com/">Pelican</a>: Python 语言编写的静态网站博客生成器，支持多种格式的内容和主题。</p>
+</li>
+<li>
+<p><a href="https://www.gatsbyjs.com/starters/gatsbyjs/gatsby-starter-blog">Gatsby</a>：基于 React.js 的静态网站生成器，使用 GraphQL 查询数据，支持多种主题和插件。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_博客发布平台">6.2. 博客发布平台</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://ghost.org/">Ghost</a></p>
+</li>
+<li>
+<p>Medium</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_动态网站">6.3. 动态网站</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://typecho.org/">typecho</a></p>
+</li>
+<li>
+<p>WordPress</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+  </div><div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html';
+      this.page.identifier = 'https://victarry.github.io/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://victarry.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript><a class="u-url" href="/2021/02/17/asciidoc-jekyll-githubpage-tutorial.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Zhenhuan Liu</li>
+          <li><a class="u-email" href="mailto:nkulzh16@gmail.com">nkulzh16@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/Victarry" title="Victarry"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/NKUlzh" title="NKUlzh"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>A Few Useful Things to Know about Machine Learning | Victarry’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="A Few Useful Things to Know about Machine Learning" />
+<meta name="author" content="Zhenhuan Liu" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="对于 A Few Useful Things to Know about Machine Learning 的总结,这是一篇很有启发的文章,总结了机器学习领域一些本质且普遍的概念." />
+<meta property="og:description" content="对于 A Few Useful Things to Know about Machine Learning 的总结,这是一篇很有启发的文章,总结了机器学习领域一些本质且普遍的概念." />
+<link rel="canonical" href="https://victarry.github.io/2021/03/18/useful-things-for-ML.html" />
+<meta property="og:url" content="https://victarry.github.io/2021/03/18/useful-things-for-ML.html" />
+<meta property="og:site_name" content="Victarry’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-18T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="A Few Useful Things to Know about Machine Learning" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Zhenhuan Liu"},"headline":"A Few Useful Things to Know about Machine Learning","dateModified":"2021-03-18T00:00:00+00:00","datePublished":"2021-03-18T00:00:00+00:00","url":"https://victarry.github.io/2021/03/18/useful-things-for-ML.html","description":"对于 A Few Useful Things to Know about Machine Learning 的总结,这是一篇很有启发的文章,总结了机器学习领域一些本质且普遍的概念.","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/03/18/useful-things-for-ML.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-D0C3LLK216"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-D0C3LLK216');
+    </script><link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="/css/asciidoc-pygments.css" rel="stylesheet">
+</head>
+<body><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Victarry&#39;s Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Posts</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">A Few Useful Things to Know about Machine Learning</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-03-18T00:00:00+00:00" itemprop="datePublished">
+        Mar 18, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Zhenhuan Liu</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>对于 <a href="https://www.astro.caltech.edu/~george/ay122/cacm12.pdf">A Few Useful Things to Know about Machine Learning</a> 的总结,这是一篇很有启发的文章,总结了机器学习领域一些本质且普遍的概念.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="literalblock">
+<div class="content">
+<pre>Machine Learning = Representation + Evaluation + Optimization</pre>
+</div>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_its-generalization-that-counts">It’s Generalization that Counts</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>测试集留到最后→ 根据测试集调参会产生Contamination</p>
+</li>
+<li>
+<p><em>cross validation</em></p>
+</li>
+<li>
+<p>虽然知道但其实还是很神奇的事情 → <em>We don’t have access to the function
+we want to optimize.</em></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_data-alone-is-not-enough">Data Alone is Not Enough</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>为了使Generatalization成立，必须使用某些Knowledge或者Assumption</p>
+</li>
+<li>
+<p>No Free Lunch</p>
+<div class="paragraph">
+<p>[<a href="https://medium.com/@LeonFedden/the-no-free-lunch-theorem-62ae2c3ed10c" class="bare">https://medium.com/@LeonFedden/the-no-free-lunch-theorem-62ae2c3ed10c</a>](<a href="https://medium.com/@LeonFedden/the-no-free-lunch-theorem-62ae2c3ed10c" class="bare">https://medium.com/@LeonFedden/the-no-free-lunch-theorem-62ae2c3ed10c</a>)</p>
+</div>
+</li>
+<li>
+<p>Real World → Simple Assumption</p>
+<div class="paragraph">
+<p><em>The functions we want to learn in the real world are not drawn
+uniformly from the set of all mathematically possible functions! In
+fact, very general assumptions—like smoothness, similar examples having
+similar classes, limited dependences, or limited complexity—are often
+enough to do very well, and this is a large part of why machine learning
+has been so successful.</em></p>
+</div>
+</li>
+<li>
+<p>Induction and Deduction</p>
+<div class="paragraph">
+<p><em>Like deduction, induction (what learners do) is a knowledge lever: it
+turns a small amount of input knowledge into a large amount of output
+knowledge. Induction is a vastly more powerful lever than deduction,
+requiring much less input knowledge to produce useful results, but it
+still needs more than zero input knowledge to work.</em></p>
+</div>
+<div class="paragraph">
+<p><strong><em>Deductoin: The conclusion is always true as long as the premises are
+true.</em></strong></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>             **(Idea  → Observation → Conclusion)**</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong><em>Induction: the quality of the idea or model or theory depends on the
+quality of the observations and analysis.</em></strong></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>            **(Observation → Analysis → Theory)**</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://danielmiessler.com/blog/the-difference-between-deductive-and-inductive-reasoning/" class="bare">https://danielmiessler.com/blog/the-difference-between-deductive-and-inductive-reasoning/</a></p>
+</div>
+</li>
+<li>
+<p>Representation → Knowledge</p>
+<div class="paragraph">
+<p><em>The most useful learners in this regard are those that do not just have
+assumptions hardwired into them, but allow us to state them explicitly,
+vary them widely, and incorporate them automatically into the learning</em></p>
+</div>
+</li>
+<li>
+<p>Learning from Nature</p>
+<div class="paragraph">
+<p><strong><em>Machine learning is not magic; it cannot get something from nothing.
+What it does is get more from less.</em></strong></p>
+</div>
+<div class="paragraph">
+<p><em>Learners combine knowledge with data to grow programs.</em></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overfitting-has-many-faces">Overfitting Has Many Faces</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Generalization Error → Bias + Variance</p>
+<div class="paragraph">
+<p>Variance: 多个learner得到的结果不同</p>
+</div>
+<div class="paragraph">
+<p>Bias: expected estimator与grountruth的偏差</p>
+</div>
+<div class="paragraph">
+<p>模型参数角度: (频率派解释？即\(\theta\)为定值)</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[\begin{aligned}  MSE  &amp;= E[(\hat \theta_m-\theta)^2] \\  &amp; = Bias(\hat \theta_m)^2 + Var(\hat \theta_m) \end{aligned} \]
+</div>
+</div>
+</li>
+<li>
+<p>模型capacity越大，variance越大，bias越小。 → 由于inductive bias越小？</p>
+<div class="paragraph">
+<p>例如神经网络可以拟合任何函数，那么variance就很大</p>
+</div>
+<div class="paragraph">
+<p><em>A linear learner has high bias, because when the frontier between two
+classes is not a hyperplane the learner is unable to induce it. Decision
+trees do not have this problem because they can represent any Boolean
+function, but on the other hand they can suffer from high variance:
+decision trees learned on different training sets generated by the same
+phenomenon are often very different,when in fact they should be the
+same.</em></p>
+</div>
+</li>
+<li>
+<p>Variance/Capacity越大的模型越需要更多的数据来减小Variance</p>
+<div class="paragraph">
+<p>一个rule-based下的数据集，C4.5决策树在数据量小的时候不如naive bayes</p>
+</div>
+<div class="paragraph">
+<p><em>Situations like this are common in machine learning: strong false
+assumptions can be better than weak true ones, because a learner with
+the latter needs more data to avoid overfitting.</em></p>
+</div>
+</li>
+<li>
+<p><strong><em>regularization technique</em></strong></p>
+<div class="paragraph">
+<p>一种理解: 限制模型的解空间，可以约束variance?</p>
+</div>
+</li>
+<li>
+<p><em>statistical significance test</em></p>
+</li>
+<li>
+<p>trade-off</p>
+<div class="paragraph">
+<p><em>It is easy to avoid overfitting (variance) by falling into the opposite
+error of underfitting (bias). Simultaneously avoiding both requires
+learning a perfect classifier, and short of knowing it in advance there
+is no single technique that will always do best (no free lunch).</em></p>
+</div>
+</li>
+<li>
+<p>Noise and overfitting</p>
+<div class="paragraph">
+<p>noise会使overfitting加重，但不是根本原因</p>
+</div>
+<div class="paragraph">
+<p><em>This can indeed aggravate overfitting, by making the learner draw a
+capricious frontier to keep those examples on what it thinks is the
+right side. But severe overfitting can occur even in the absence of
+noise.</em></p>
+</div>
+</li>
+<li>
+<p><em>multiple testing</em></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_intuition-fails-in-high-dimensions">Intuition Fails in High Dimensions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong><em>On the Surprising Behavior of Distance Metrics in High Dimensional
+Space</em></strong></p>
+</div>
+<div class="paragraph">
+<p>仅次于overfitting的第二大问题 → <em>curse of dimension</em></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>维度越多 → 数据覆盖范围越小</p>
+<div class="paragraph">
+<p><em>Generalizing correctly becomes exponentially harder as the
+dimensionality (number of features) of the examples grows, because a
+fixed-size training set covers a dwindling fraction of the input space.</em></p>
+</div>
+<div class="paragraph">
+<p>假设100维度，10万亿(1e12)个数据, 只能覆盖\(1e^{-18}\)的空间</p>
+</div>
+</li>
+<li>
+<p>难以进行有效的距离度量 → 基于相似性的模型break down</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>高维度下noise，覆盖了关联特征之间的影响</p>
+</li>
+<li>
+<p>即使所有feature
+relevant，一个数据点相同距离的数据点的随着维度指数级增长</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Curse of Dimension → PRML第一章</p>
+<div class="paragraph">
+<p><em>In high dimensions, most of the mass of a multivariate Gaussian
+distribution is not near the mean, but in an increasingly distant
+``shell'' around it; and most of the volume of a highdimensional orange
+is in the skin, not the pulp.</em></p>
+</div>
+<div class="paragraph">
+<p><em>If a constant number of examples is distributed uniformly in a
+high-dimensional hypercube, beyond some dimensionality most examples are
+closer to a face of the hypercube than to their nearest neighbor.</em></p>
+</div>
+<div class="paragraph">
+<p><em>If we approximate a hypersphere by inscribing it in a hypercube, in
+high dimensions almost all the volume of the hypercube is outside the
+hypersphere. This is bad news for machine learning, where shapes of one
+type are often approximated by shapes of another.</em></p>
+</div>
+</li>
+<li>
+<p>特征不是越多越好 →
+多一个特征至少不会损失模型性能(哪怕它没有提供额外信息) ❌</p>
+<div class="paragraph">
+<p><em>Naively, one might think that gathering more features never hurts,
+since at worst they provide no new information about the class. But in
+fact their benefits may be outweighed by the curse of dimensionality.</em></p>
+</div>
+</li>
+<li>
+<p><em>blessing of non uniformity</em> → 流形学习</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_theoretical-guarantees-are-not-what-they-seem">Theoretical Guarantees Are Not What They Seem</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Theory → PAC Learnable</p>
+<div class="paragraph">
+<p>One of the major developments of recent decades has been the realization
+that in fact we can have guarantees on the results of induction,
+particularly if we are willing to settle for probabilistic guarantees.</p>
+</div>
+</li>
+<li>
+<p>Take with a large grain of salt</p>
+</li>
+<li>
+<p><em>given infinite data, the learner is guaranteed to output the correct
+classifier.</em></p>
+<div class="paragraph">
+<p><em>This is reassuring, but it would be rash to choose one learner over
+another because of its asymptotic guarantees. In practice, we are seldom
+in the asymptotic regime (also known as ``asymptopia''). And, because of
+the bias-variance trade-off I discussed earlier, *if learner A is better
+than learner B given infinite data, B is often better than A given
+finite data.*</em></p>
+</div>
+</li>
+<li>
+<p>Theory只是Theory</p>
+<div class="paragraph">
+<p><em>The main role of theoretical guarantees in machine learning is not as a
+criterion for practical decisions, but as a source of understanding and
+driving force for algorithm design</em></p>
+</div>
+<div class="paragraph">
+<p><em>Learning is a complex phenomenon, and just because a learner has a
+theoretical justification and works in practice does not mean the former
+is the reason for the latter.</em></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_feature-engineering-is-the-key">Feature Engineering is The Key</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><em>machine learning is not a one-shot process of building a dataset and
+running a learner, but rather an iterative process of running the
+learner, analyzing the results, modifying the data and/or the learner,
+and repeating.</em></p>
+</li>
+<li>
+<p><em>Learning is often the quickest part of this, but that is because we
+have already mastered it pretty well! Feature engineering is more
+difficult because it is domain-specific, while learners can be largely
+general purpose. However, there is no sharp frontier between the two,
+and this is another reason the *most useful learners are those that
+facilitate incorporating knowledge.*</em></p>
+</li>
+<li>
+<p><em>bear in mind that features that <strong>look irrelevant in isolation may be
+relevant in combination</strong>. For example, if the class is an XOR of k input
+features, each of them by itself carries no information about the class.
+(If you want to annoy machine learners, bring up XOR.) On the other
+hand, running a learner with a very large number of features to find out
+which ones are useful in combination may be too time-consuming, or cause
+overfitting. So there is ultimately no replacement for the smarts you
+put into feature engineering.</em></p>
+</li>
+<li>
+<p>Deep learning is feature engineering(我自己说的)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_more-data-beats-a-clevrer-algorithm">More Data Beats a Clevrer Algorithm</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><em>As a rule of thumb, a dumb algorithm with lots and lots of data beats
+a clever one with modest amounts of it.</em></p>
+</li>
+<li>
+<p>Scalability: 数据多→ 训练时间长</p>
+</li>
+<li>
+<p>好的模型的payoff其实并没有那么大</p>
+<div class="paragraph">
+<p><em>All learners essentially work by grouping nearby examples into the same
+class; the key difference is in the meaning of ``nearby.''</em></p>
+</div>
+<div class="paragraph">
+<p><em>With nonuniformly distributed data, learners can produce widely
+different frontiers while still making the same predictions in the
+regions that matter (those with a substantial number of training
+examples, and therefore also where most test examples are likely to
+appear).</em></p>
+</div>
+<div class="paragraph">
+<p><strong><em>This also helps explain why powerful learners can be unstable but
+still accurate.</em></strong></p>
+</div>
+<div class="paragraph">
+<p>很多不同的模型可以达到相同的效果(由于训练数据有限/空间稀疏)</p>
+</div>
+</li>
+<li>
+<p><em>As a rule, it pays to try the simplest learners first (for example,
+naïve Bayes before logistic regression, k-nearest neighbor before
+support vector machines)</em></p>
+</li>
+<li>
+<p>两种模型: 参数模型 vs. 非参数模型</p>
+<div class="paragraph">
+<p>Learners can be divided into two major types: those whose representation
+has a fixed size, like linear classifiers, and those whose
+representation can grow with the data, like decision trees.</p>
+</div>
+</li>
+<li>
+<p>payoff在哪里</p>
+<div class="paragraph">
+<p>由于实际数据有限 + 维度灾难，clever algorithm是能最大化利用数据的算法</p>
+</div>
+<div class="paragraph">
+<p>C<em>lever algorithmsthose that make the most of the data and computing
+resources availableoften pay off in the end, provided you are willing to
+put in the effort.</em></p>
+</div>
+</li>
+<li>
+<p>最重要的还是人们的insight</p>
+<div class="paragraph">
+<p><em>In research papers, learners are typically compared on measures of
+accuracy and computational cost. But human effort saved and insight
+gained, although harder to measure, are often more important. This
+favors learners that produce human-understandable output (for example,
+rule sets). And the organizations that make the most of machine learning
+are those that have in place an infrastructure that makes experimenting
+with many different learners, data sources, and learning problems easy
+and efficient, and where there is a close collaboration between machine
+learning experts and application domain ones.</em></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_learn-many-models-not-just-one">Learn Many Models, Not Just One</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>variants of one model → many variants of many model</p>
+</li>
+<li>
+<p>model ensembles</p>
+<div class="ulist">
+<ul>
+<li>
+<p>bagging</p>
+<div class="paragraph">
+<p>each classifier with a resampled dataset. → <strong><em>greatly decrease variance,
+slightly increase bias</em></strong></p>
+</div>
+</li>
+<li>
+<p>boosting</p>
+<div class="paragraph">
+<p><em>training examples have weights, and these are varied so that *each new
+classifier focuses on the examples the previous ones tended to get
+wrong.*</em></p>
+</div>
+</li>
+<li>
+<p>stacking</p>
+<div class="paragraph">
+<p><em>the outputs of individual classifiers become the inputs of a
+``higher-level'' learner that figures out how best to combine them.</em></p>
+</div>
+<div class="paragraph">
+<p>(有点像multi-scale的感觉?)</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Bayesian model averaging vs. Ensemble</p>
+<div class="paragraph">
+<p><em>Ensembles change the hypothesis space (for example, from single
+decision trees to linear combinations of them), and can take a wide
+variety of forms. BMA assigns weights to the hypotheses in the original
+space according to a fixed formula.</em></p>
+</div>
+<div class="paragraph">
+<p><em>BMA weights are extremely different from those produced by (say)
+bagging or boosting: the latter are fairly even, while the former are
+extremely skewed, to the point where the single highest-weight
+classifier usually dominates, making BMA effectively equivalent to just
+selecting it. 8 A practical consequence of this is that, *while model
+ensembles are a key part of the machine learning toolkit, BMA is seldom
+worth the trouble.*</em></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_simplicity-does-not-imply-accuracy">Simplicity Does not Imply Accuracy</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>奥卡姆剃刀 → 如无必要，勿增实体 →
+相同训练误差下应该选择简单模型的泛化性更好(❌)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Model Ensembles</p>
+<div class="paragraph">
+<p><em>The generalization error of a boosted ensemble continues to improve by
+adding classifiers even after the training error has reached zero.</em></p>
+</div>
+</li>
+<li>
+<p>SVM (为什么呢?)</p>
+<div class="paragraph">
+<p>Another counterexample is support vector machines, which can effectively
+have an infinite number of parameters without overfitting.</p>
+</div>
+</li>
+<li>
+<p>实际上，并没有直接联系</p>
+<div class="paragraph">
+<p><em>Conversely, the function sign(sin(ax)) can discriminate an arbitrarily
+large, arbitrarily labeled set of points on the x axis, even though it
+has only one parameter.</em> (怎么确定这个a呢)</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>complexity → size of hypothesis space</p>
+</li>
+<li>
+<p>复杂度与模型搜索</p>
+<div class="paragraph">
+<p><em>A further complication arises from the fact that few learners search
+their hypothesis space exhaustively. A learner with a larger hypothesis
+space that tries fewer hypotheses from it is less likely to overfit than
+one that tries more hypotheses from a smaller space. As Pearl points
+out, the size of the hypothesis space is only a rough guide to what
+really matters for relating training and test error: the procedure by
+which a hypothesis is chosen.</em></p>
+</div>
+</li>
+<li>
+<p>奥卡姆剃刀 → 简单本身是好的，而不是由于简单导致准确度更好</p>
+<div class="paragraph">
+<p><em>The conclusion is that simpler hypotheses should be preferred because
+simplicity is a virtue in its own right, not because of a hypothetical
+connection with accuracy.</em></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_representable-does-not-imply-learnable">Representable Does not imply Learnable</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><em>Given finite data, time and memory, standard learners can learn only
+a tiny subset of all possible functions, and these subsets are different
+for learners with different representations.</em></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_correlation-doesnt-imply-causation">Correlation Doesn’t Imply Causation</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>相关不是因果</p>
+</li>
+<li>
+<p>但学习相关至少是有用的</p>
+<div class="paragraph">
+<p><em>Machine learning is usually applied to observational data, where the
+predictive variables are not under the control of the learner, as
+opposed to experimental data, where they are. Some learning algorithms
+can potentially extract causal information from observational data, but
+their applicability is rather restricted.</em></p>
+</div>
+<div class="paragraph">
+<p><em>On the other hand, correlation is a sign of a potential causal
+connection, and we can use it as a guide to further investigation (for
+example, trying to understand what the causal chain might be).</em></p>
+</div>
+</li>
+<li>
+<p>是否存在真正的因果是个哲学问题， 但对于机器学习而言:</p>
+<div class="paragraph">
+<p><em>First, whether or not we call them ``causal,'' we would like to predict
+the effects of our actions, not just correlations between observable
+variables. Second, if you can obtain experimental data (for example by
+randomly assigning visitors to different versions of a Web site), then
+by all means do so.14</em></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  </div><div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://victarry.github.io/2021/03/18/useful-things-for-ML.html';
+      this.page.identifier = 'https://victarry.github.io/2021/03/18/useful-things-for-ML.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://victarry.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript><a class="u-url" href="/2021/03/18/useful-things-for-ML.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Zhenhuan Liu</li>
+          <li><a class="u-email" href="mailto:nkulzh16@gmail.com">nkulzh16@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/Victarry" title="Victarry"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/NKUlzh" title="NKUlzh"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

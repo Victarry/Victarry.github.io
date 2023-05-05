@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>使用Nginx在个人服务器上搭载静态网站 | Victarry’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="使用Nginx在个人服务器上搭载静态网站" />
+<meta name="author" content="Zhenhuan Liu" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://victarry.github.io/2023/04/06/nginx.html" />
+<meta property="og:url" content="https://victarry.github.io/2023/04/06/nginx.html" />
+<meta property="og:site_name" content="Victarry’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-04-06T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="使用Nginx在个人服务器上搭载静态网站" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Zhenhuan Liu"},"headline":"使用Nginx在个人服务器上搭载静态网站","dateModified":"2023-04-06T00:00:00+00:00","datePublished":"2023-04-06T00:00:00+00:00","url":"https://victarry.github.io/2023/04/06/nginx.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2023/04/06/nginx.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-D0C3LLK216"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-D0C3LLK216');
+    </script><link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="/css/asciidoc-pygments.css" rel="stylesheet">
+</head>
+<body><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Victarry&#39;s Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Posts</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">使用Nginx在个人服务器上搭载静态网站</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-04-06T00:00:00+00:00" itemprop="datePublished">
+        Apr 6, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="sect1">
+<h2 id="_nginx的作用">Nginx的作用</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nginx是一款高性能的Web服务器和反向代理服务器，其主要作用如下：</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>提供Web服务器功能：Nginx可以作为静态或动态内容的Web服务器，为Web应用程序提供服务。它可以处理静态文件和动态请求，支持FastCGI、uWSGI、SCGI和WSGI等协议，并提供缓存和压缩等功能。</p>
+</li>
+<li>
+<p>反向代理服务器：Nginx还可以作为反向代理服务器，用于将请求转发到后端服务器（如应用服务器、数据库服务器等），并将响应返回给客户端。反向代理可以提高Web应用程序的可靠性、安全性和可扩展性。</p>
+</li>
+<li>
+<p>负载均衡器：Nginx可以作为负载均衡器，将请求分发到多个后端服务器，以提高Web应用程序的性能和可扩展性。</p>
+</li>
+<li>
+<p>HTTPS代理服务器：Nginx还可以作为HTTPS代理服务器，用于为后端服务器提供SSL/TLS加密功能，保护Web应用程序的安全性。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>总之，Nginx是一个灵活、高效、可靠的Web服务器和反向代理服务器，具有处理大量并发连接和高负载的能力，被广泛用于Web应用程序的部署和扩展。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nginx配置文件简介">nginx配置文件简介</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nginx配置文件通常在 `/etc/nginx/`下, 常见文件组织结构如下:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>/etc/nginx/
+├── conf.d
+├── fastcgi.conf
+├── fastcgi_params
+├── koi-utf
+├── koi-win
+├── mime.types
+├── modules-available
+├── modules-enabled
+├── nginx.conf // 顶层配置文件，包括worker,log位置等
+├── proxy_params
+├── scgi_params
+├── sites-available
+│   ├── default
+│   └── starriest.top
+├── sites-enabled // 启用的sites
+│   └── starriest.top
+├── snippets
+│   ├── fastcgi-php.conf
+│   └── snakeoil.conf
+├── uwsgi_params
+└── win-utf</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>可以查看/etc/nginx/sites-enabled/default文件，进行配置</p>
+</div>
+<div class="paragraph">
+<p>ngxin log一般在/var/log/nginx/access.log和/var/log/nginx/error.log中</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_默认nginx配置文件解读">默认nginx配置文件解读</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre>##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Note: You should disable gzip for SSL traffic.
+	# See: https://bugs.debian.org/773332
+	#
+	# Read up on ssl_ciphers to ensure a secure configuration.
+	# See: https://bugs.debian.org/765782
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/html;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
+
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>server定义了一个server block, 可以处理对应端口接受到的请求, 并进行相应返回。</p>
+</li>
+<li>
+<p>nginx会根据server_name和请求Header中的host选择匹配到哪个具体的server block, 如果server_name是_的话，那么没有被匹配到请求就会被转发到此server.</p>
+</li>
+<li>
+<p>listen定义了server对应的端口，如果是default_server的话，那么该端口下没有被server_name匹配的请求会被转发到该defult server, 无论default server的server_name是否是_，一个端口只能有一个default server, 如果没有指定default server, 那么按照顺序，第一个server会被作为defualt server.</p>
+</li>
+<li>
+<p>index 默认情况下，nginx的index指令的值为`index.html index.htm`。这意味着当客户端请求一个目录时，Nginx将首先检查该目录下是否存在index.html文件，如果不存在，则继续检查是否存在index.htm文件。如果两个文件都不存在，则Nginx将返回目录列表或403 Forbidden错误。</p>
+</li>
+<li>
+<p>location</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nginx配置tls协议启用https">Nginx配置TLS协议(启用HTTPS)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>要在Nginx中启用SSL加密，需要执行以下步骤：</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>为服务器获取SSL证书：您需要从信任的证书颁发机构（CA, 例如ZeroSSL）购买SSL证书，或使用自签名证书来启用SSL。这通常需要指定域名和服务器的详细信息。 利用acme.sh可以定期更新证书.</p>
+</li>
+<li>
+<p>将SSL证书文件和私钥文件放置在服务器上：您需要将证书文件（通常是.crt格式）和私钥文件（通常是.key格式）放置在服务器上的安全位置。</p>
+</li>
+<li>
+<p>配置Nginx以使用SSL：在Nginx的server块中，添加以下配置来启用SSL：</p>
+<div class="listingblock">
+<div class="content">
+<pre>server {
+    listen       443 ssl;
+    server_name  example.com;
+    ssl_certificate      /path/to/certificate.crt;
+    ssl_certificate_key  /path/to/private.key;
+    ...
+}</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>这将使Nginx监听HTTPS的443端口，并使用指定的证书和私钥文件进行SSL加密。</pre>
+</div>
+</div>
+</li>
+<li>
+<p>重新加载Nginx配置：在更改Nginx配置后，需要重新加载Nginx以使其生效。您可以使用以下命令重新加载Nginx：</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sudo systemctl reload nginx</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>如果配置存在错误，则使用以下命令检查错误：
+sudo nginx -t
+如果检查结果没有错误，可以重新加载Nginx。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_可能的问题">可能的问题</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>服务器提供商使用了防火墙，使用`telnet host port`查看是否可以连接</p>
+</li>
+<li>
+<p>大陆封禁了443端口的流量(可能)</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+  </div><div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://victarry.github.io/2023/04/06/nginx.html';
+      this.page.identifier = 'https://victarry.github.io/2023/04/06/nginx.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://victarry.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript><a class="u-url" href="/2023/04/06/nginx.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Zhenhuan Liu</li>
+          <li><a class="u-email" href="mailto:nkulzh16@gmail.com">nkulzh16@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/Victarry" title="Victarry"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/NKUlzh" title="NKUlzh"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Pytorch Dataset模块笔记 | Victarry’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Pytorch Dataset模块笔记" />
+<meta name="author" content="Zhenhuan Liu" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="对pytorch的 nn.utils.data 模块进行分析和整理." />
+<meta property="og:description" content="对pytorch的 nn.utils.data 模块进行分析和整理." />
+<link rel="canonical" href="https://victarry.github.io/2021/04/06/pytorch-dataset.html" />
+<meta property="og:url" content="https://victarry.github.io/2021/04/06/pytorch-dataset.html" />
+<meta property="og:site_name" content="Victarry’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-06T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Pytorch Dataset模块笔记" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Zhenhuan Liu"},"headline":"Pytorch Dataset模块笔记","dateModified":"2021-04-06T00:00:00+00:00","datePublished":"2021-04-06T00:00:00+00:00","url":"https://victarry.github.io/2021/04/06/pytorch-dataset.html","description":"对pytorch的 nn.utils.data 模块进行分析和整理.","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://victarry.github.io/2021/04/06/pytorch-dataset.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://victarry.github.io/feed.xml" title="Victarry's Blog" /><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-D0C3LLK216"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-D0C3LLK216');
+    </script><link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<link href="/css/asciidoc-pygments.css" rel="stylesheet">
+</head>
+<body><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Victarry&#39;s Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/">Posts</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Pytorch Dataset模块笔记</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2021-04-06T00:00:00+00:00" itemprop="datePublished">
+        Apr 6, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Zhenhuan Liu</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>对pytorch的 <code>nn.utils.data</code> 模块进行分析和整理.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dataset">Dataset</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>目的是实现取出一个item的方法</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Dataset分为map-style和iterable-style</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>map-style通过重载 <code><em>getitem</em></code> 和 <code><em>len</em></code> 来实现随机访问</p>
+</li>
+<li>
+<p>iterable-style通过重载 <code><em>iter</em></code> 手动实现 stream</p>
+</li>
+<li>
+<p>对于ImageFolder的数据集, 适合用于map-style的Dataest</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_dataset中类的使用">Dataset中类的使用</h3>
+<div class="paragraph">
+<p><code>ConcatDataset(datasets)</code> , 将多个datasets concat在一起, 每次返回其中一个dataset中的一个item</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_自定义dataset中的注意事项">自定义Dataset中的注意事项</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>设置整个dataset包含的所有数据,例如一个文件夹下面的路径 (注意过滤文件后缀, 防止非图像文件混入)</p>
+</li>
+<li>
+<p>实现如何read一个,</p>
+</li>
+<li>
+<p>设置transform</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dataloader">DataLoader</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="python"><span></span><span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">utils</span><span class="tok-o">.</span><span class="tok-n">data</span><span class="tok-o">.</span><span class="tok-n">DataLoader</span><span class="tok-p">(</span><span class="tok-n">dataset</span><span class="tok-p">,</span> <span class="tok-n">batch_size</span><span class="tok-o">=</span><span class="tok-mi">1</span><span class="tok-p">,</span> <span class="tok-n">shuffle</span><span class="tok-o">=</span><span class="tok-kc">False</span><span class="tok-p">,</span> <span class="tok-n">sampler</span><span class="tok-o">=</span><span class="tok-kc">None</span><span class="tok-p">,</span> <span class="tok-n">batch_sampler</span><span class="tok-o">=</span><span class="tok-kc">None</span><span class="tok-p">,</span> <span class="tok-n">num_workers</span><span class="tok-o">=</span><span class="tok-mi">0</span><span class="tok-p">,</span> <span class="tok-n">collate_fn</span><span class="tok-o">=</span><span class="tok-kc">None</span><span class="tok-p">,</span> <span class="tok-n">pin_memory</span><span class="tok-o">=</span><span class="tok-kc">False</span><span class="tok-p">,</span> <span class="tok-n">drop_last</span><span class="tok-o">=</span><span class="tok-kc">False</span><span class="tok-p">,</span> <span class="tok-n">timeout</span><span class="tok-o">=</span><span class="tok-mi">0</span><span class="tok-p">,</span> <span class="tok-n">worker_init_fn</span><span class="tok-o">=</span><span class="tok-kc">None</span><span class="tok-p">,</span> <span class="tok-n">multiprocessing_context</span><span class="tok-o">=</span><span class="tok-kc">None</span><span class="tok-p">,</span> <span class="tok-n">generator</span><span class="tok-o">=</span><span class="tok-kc">None</span><span class="tok-p">,</span> <span class="tok-o">*</span><span class="tok-p">,</span> <span class="tok-n">prefetch_factor</span><span class="tok-o">=</span><span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-n">persistent_workers</span><span class="tok-o">=</span><span class="tok-kc">False</span><span class="tok-p">)</span></code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>如果dataset是iterable-style, 那么必须有 <code>shuffle=False</code>, <code>sampler=None</code>, <code>batch_sampler=None</code>,</p>
+</li>
+<li>
+<p>根据batch_size决定采用sampler还是batch_sampler</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>如果 <code>batch_size=None</code>, 那么使用sampler, 每次返回一个index</p>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="python"><span></span><span class="tok-k">for</span> <span class="tok-n">index</span> <span class="tok-ow">in</span> <span class="tok-n">sampler</span><span class="tok-p">:</span>
+    <span class="tok-k">yield</span> <span class="tok-n">collate_fn</span><span class="tok-p">(</span><span class="tok-n">dataset</span><span class="tok-p">[</span><span class="tok-n">index</span><span class="tok-p">])</span></code></pre>
+</div>
+</div>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>如果 <code>shuffle=False</code> , 那么采用 <code>SequentialSampler</code></p>
+</li>
+<li>
+<p>如果 <code>shuffle=True</code> , 那么采用 <code>RandomSampler</code></p>
+</li>
+<li>
+<p>如果要自己实现 <code>Sampler</code>, 那么要实现 <code><em>iter</em></code>, 其中每次返回一个index, 同时设置 <code>shuffle=False</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>如果 <code>batch_size</code> 不是 <code>None</code>, 那么采用 batch_sampler, 同时使用collate_fn处理. (注意: <strong>batch_size默认值为1</strong> )</p>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="python"><span></span><span class="tok-n">dataset_iter</span> <span class="tok-o">=</span> <span class="tok-nb">iter</span><span class="tok-p">(</span><span class="tok-n">dataset</span><span class="tok-p">)</span>
+<span class="tok-k">for</span> <span class="tok-n">indices</span> <span class="tok-ow">in</span> <span class="tok-n">batch_sampler</span><span class="tok-p">:</span>
+    <span class="tok-k">yield</span> <span class="tok-n">collate_fn</span><span class="tok-p">([</span><span class="tok-nb">next</span><span class="tok-p">(</span><span class="tok-n">dataset_iter</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-n">_</span> <span class="tok-ow">in</span> <span class="tok-n">indices</span><span class="tok-p">])</span></code></pre>
+</div>
+</div>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>如果 <code>batch_sampler</code> 是 <code>None</code> , 那么采用automatic batching, 使用默认的 <code>sampler</code> 对应的 <code>batch_sampler</code></p>
+</li>
+<li>
+<p>如果传入的是 <code>sampler</code> 不是 <code>None</code> , 那么将采用传入的 <code>sampler</code> 对应的 <code>batch_sampler</code></p>
+</li>
+<li>
+<p>如果要自己实现 <code>batch_sampler</code>, 那么要实现 <code><em>iter</em></code>, 其中每次返回一个batch的indexs, 同时设置 <code>shuffle=False, sampler=None, batch_size=1, drop_last=False</code></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_sampler">Sampler</h3>
+<div class="paragraph">
+<p><code>shuffle=False</code> 时 , pytorch默认的sampler</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="python"><span></span><span class="tok-k">class</span> <span class="tok-nc">RandomSampler</span><span class="tok-p">(</span><span class="tok-n">Sampler</span><span class="tok-p">[</span><span class="tok-nb">int</span><span class="tok-p">]):</span>
+    <span class="tok-sa">r</span><span class="tok-sd">&quot;&quot;&quot;Samples elements randomly. If without replacement, then sample from a shuffled dataset.</span>
+<span class="tok-sd">    If with replacement, then user can specify :attr:`num_samples` to draw.</span>
+
+<span class="tok-sd">    Arguments:</span>
+<span class="tok-sd">        data_source (Dataset): dataset to sample from</span>
+<span class="tok-sd">        replacement (bool): samples are drawn on-demand with replacement if ``True``, default=``False``</span>
+<span class="tok-sd">        num_samples (int): number of samples to draw, default=`len(dataset)`. This argument</span>
+<span class="tok-sd">            is supposed to be specified only when `replacement` is ``True``.</span>
+<span class="tok-sd">        generator (Generator): Generator used in sampling.</span>
+<span class="tok-sd">    &quot;&quot;&quot;</span>
+    <span class="tok-n">data_source</span><span class="tok-p">:</span> <span class="tok-n">Sized</span>
+    <span class="tok-n">replacement</span><span class="tok-p">:</span> <span class="tok-nb">bool</span>
+
+    <span class="tok-k">def</span> <span class="tok-fm">__init__</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-n">data_source</span><span class="tok-p">:</span> <span class="tok-n">Sized</span><span class="tok-p">,</span> <span class="tok-n">replacement</span><span class="tok-p">:</span> <span class="tok-nb">bool</span> <span class="tok-o">=</span> <span class="tok-kc">False</span><span class="tok-p">,</span>
+                 <span class="tok-n">num_samples</span><span class="tok-p">:</span> <span class="tok-n">Optional</span><span class="tok-p">[</span><span class="tok-nb">int</span><span class="tok-p">]</span> <span class="tok-o">=</span> <span class="tok-kc">None</span><span class="tok-p">,</span> <span class="tok-n">generator</span><span class="tok-o">=</span><span class="tok-kc">None</span><span class="tok-p">)</span> <span class="tok-o">-&gt;</span> <span class="tok-kc">None</span><span class="tok-p">:</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">data_source</span> <span class="tok-o">=</span> <span class="tok-n">data_source</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">replacement</span> <span class="tok-o">=</span> <span class="tok-n">replacement</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">_num_samples</span> <span class="tok-o">=</span> <span class="tok-n">num_samples</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">generator</span> <span class="tok-o">=</span> <span class="tok-n">generator</span>
+
+        <span class="tok-k">if</span> <span class="tok-ow">not</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">replacement</span><span class="tok-p">,</span> <span class="tok-nb">bool</span><span class="tok-p">):</span>
+            <span class="tok-k">raise</span> <span class="tok-ne">TypeError</span><span class="tok-p">(</span><span class="tok-s2">&quot;replacement should be a boolean value, but got &quot;</span>
+                            <span class="tok-s2">&quot;replacement=</span><span class="tok-si">{}</span><span class="tok-s2">&quot;</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">replacement</span><span class="tok-p">))</span>
+
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">_num_samples</span> <span class="tok-ow">is</span> <span class="tok-ow">not</span> <span class="tok-kc">None</span> <span class="tok-ow">and</span> <span class="tok-ow">not</span> <span class="tok-n">replacement</span><span class="tok-p">:</span>
+            <span class="tok-k">raise</span> <span class="tok-ne">ValueError</span><span class="tok-p">(</span><span class="tok-s2">&quot;With replacement=False, num_samples should not be specified, &quot;</span>
+                             <span class="tok-s2">&quot;since a random permute will be performed.&quot;</span><span class="tok-p">)</span>
+
+        <span class="tok-k">if</span> <span class="tok-ow">not</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">num_samples</span><span class="tok-p">,</span> <span class="tok-nb">int</span><span class="tok-p">)</span> <span class="tok-ow">or</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">num_samples</span> <span class="tok-o">&lt;=</span> <span class="tok-mi">0</span><span class="tok-p">:</span>
+            <span class="tok-k">raise</span> <span class="tok-ne">ValueError</span><span class="tok-p">(</span><span class="tok-s2">&quot;num_samples should be a positive integer &quot;</span>
+                             <span class="tok-s2">&quot;value, but got num_samples=</span><span class="tok-si">{}</span><span class="tok-s2">&quot;</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">num_samples</span><span class="tok-p">))</span>
+
+    <span class="tok-nd">@property</span>
+    <span class="tok-k">def</span> <span class="tok-nf">num_samples</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">)</span> <span class="tok-o">-&gt;</span> <span class="tok-nb">int</span><span class="tok-p">:</span>
+        <span class="tok-c1"># dataset size might change at runtime</span>
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">_num_samples</span> <span class="tok-ow">is</span> <span class="tok-kc">None</span><span class="tok-p">:</span>
+            <span class="tok-k">return</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">data_source</span><span class="tok-p">)</span>
+        <span class="tok-k">return</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">_num_samples</span>
+
+    <span class="tok-k">def</span> <span class="tok-fm">__iter__</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">):</span>
+        <span class="tok-n">n</span> <span class="tok-o">=</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">data_source</span><span class="tok-p">)</span>
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">generator</span> <span class="tok-ow">is</span> <span class="tok-kc">None</span><span class="tok-p">:</span>
+            <span class="tok-n">generator</span> <span class="tok-o">=</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">Generator</span><span class="tok-p">()</span>
+            <span class="tok-n">generator</span><span class="tok-o">.</span><span class="tok-n">manual_seed</span><span class="tok-p">(</span><span class="tok-nb">int</span><span class="tok-p">(</span><span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">empty</span><span class="tok-p">((),</span> <span class="tok-n">dtype</span><span class="tok-o">=</span><span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">int64</span><span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">random_</span><span class="tok-p">()</span><span class="tok-o">.</span><span class="tok-n">item</span><span class="tok-p">()))</span>
+        <span class="tok-k">else</span><span class="tok-p">:</span>
+            <span class="tok-n">generator</span> <span class="tok-o">=</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">generator</span>
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">replacement</span><span class="tok-p">:</span>
+            <span class="tok-k">for</span> <span class="tok-n">_</span> <span class="tok-ow">in</span> <span class="tok-nb">range</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">num_samples</span> <span class="tok-o">//</span> <span class="tok-mi">32</span><span class="tok-p">):</span>
+                <span class="tok-k">yield from</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">randint</span><span class="tok-p">(</span><span class="tok-n">high</span><span class="tok-o">=</span><span class="tok-n">n</span><span class="tok-p">,</span> <span class="tok-n">size</span><span class="tok-o">=</span><span class="tok-p">(</span><span class="tok-mi">32</span><span class="tok-p">,),</span> <span class="tok-n">dtype</span><span class="tok-o">=</span><span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">int64</span><span class="tok-p">,</span> <span class="tok-n">generator</span><span class="tok-o">=</span><span class="tok-n">generator</span><span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">tolist</span><span class="tok-p">()</span>
+            <span class="tok-k">yield from</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">randint</span><span class="tok-p">(</span><span class="tok-n">high</span><span class="tok-o">=</span><span class="tok-n">n</span><span class="tok-p">,</span> <span class="tok-n">size</span><span class="tok-o">=</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">num_samples</span> <span class="tok-o">%</span> <span class="tok-mi">32</span><span class="tok-p">,),</span> <span class="tok-n">dtype</span><span class="tok-o">=</span><span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">int64</span><span class="tok-p">,</span> <span class="tok-n">generator</span><span class="tok-o">=</span><span class="tok-n">generator</span><span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">tolist</span><span class="tok-p">()</span>
+        <span class="tok-k">else</span><span class="tok-p">:</span>
+            <span class="tok-k">yield from</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">randperm</span><span class="tok-p">(</span><span class="tok-n">n</span><span class="tok-p">,</span> <span class="tok-n">generator</span><span class="tok-o">=</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">generator</span><span class="tok-p">)</span><span class="tok-o">.</span><span class="tok-n">tolist</span><span class="tok-p">()</span>
+
+    <span class="tok-k">def</span> <span class="tok-fm">__len__</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">):</span>
+        <span class="tok-k">return</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">num_samples</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_batch-sampler">Batch Sampler</h3>
+<div class="paragraph">
+<p>pytorch默认的batch_sampler,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="python"><span></span><span class="tok-k">class</span> <span class="tok-nc">BatchSampler</span><span class="tok-p">(</span><span class="tok-n">Sampler</span><span class="tok-p">[</span><span class="tok-n">List</span><span class="tok-p">[</span><span class="tok-nb">int</span><span class="tok-p">]]):</span>
+    <span class="tok-sa">r</span><span class="tok-sd">&quot;&quot;&quot;Wraps another sampler to yield a mini-batch of indices.</span>
+
+<span class="tok-sd">    Args:</span>
+<span class="tok-sd">        sampler (Sampler or Iterable): Base sampler. Can be any iterable object</span>
+<span class="tok-sd">        batch_size (int): Size of mini-batch.</span>
+<span class="tok-sd">        drop_last (bool): If ``True``, the sampler will drop the last batch if</span>
+<span class="tok-sd">            its size would be less than ``batch_size``</span>
+
+<span class="tok-sd">    Example:</span>
+<span class="tok-sd">        &gt;&gt;&gt; list(BatchSampler(SequentialSampler(range(10)), batch_size=3, drop_last=False))</span>
+<span class="tok-sd">        [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]</span>
+<span class="tok-sd">        &gt;&gt;&gt; list(BatchSampler(SequentialSampler(range(10)), batch_size=3, drop_last=True))</span>
+<span class="tok-sd">        [[0, 1, 2], [3, 4, 5], [6, 7, 8]]</span>
+<span class="tok-sd">    &quot;&quot;&quot;</span>
+
+    <span class="tok-k">def</span> <span class="tok-fm">__init__</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">,</span> <span class="tok-n">sampler</span><span class="tok-p">:</span> <span class="tok-n">Sampler</span><span class="tok-p">[</span><span class="tok-nb">int</span><span class="tok-p">],</span> <span class="tok-n">batch_size</span><span class="tok-p">:</span> <span class="tok-nb">int</span><span class="tok-p">,</span> <span class="tok-n">drop_last</span><span class="tok-p">:</span> <span class="tok-nb">bool</span><span class="tok-p">)</span> <span class="tok-o">-&gt;</span> <span class="tok-kc">None</span><span class="tok-p">:</span>
+        <span class="tok-c1"># Since collections.abc.Iterable does not check for `__getitem__`, which</span>
+        <span class="tok-c1"># is one way for an object to be an iterable, we don&#39;t do an `isinstance`</span>
+        <span class="tok-c1"># check here.</span>
+        <span class="tok-k">if</span> <span class="tok-ow">not</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-n">batch_size</span><span class="tok-p">,</span> <span class="tok-n">_int_classes</span><span class="tok-p">)</span> <span class="tok-ow">or</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-n">batch_size</span><span class="tok-p">,</span> <span class="tok-nb">bool</span><span class="tok-p">)</span> <span class="tok-ow">or</span> \
+                <span class="tok-n">batch_size</span> <span class="tok-o">&lt;=</span> <span class="tok-mi">0</span><span class="tok-p">:</span>
+            <span class="tok-k">raise</span> <span class="tok-ne">ValueError</span><span class="tok-p">(</span><span class="tok-s2">&quot;batch_size should be a positive integer value, &quot;</span>
+                             <span class="tok-s2">&quot;but got batch_size=</span><span class="tok-si">{}</span><span class="tok-s2">&quot;</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">batch_size</span><span class="tok-p">))</span>
+        <span class="tok-k">if</span> <span class="tok-ow">not</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-n">drop_last</span><span class="tok-p">,</span> <span class="tok-nb">bool</span><span class="tok-p">):</span>
+            <span class="tok-k">raise</span> <span class="tok-ne">ValueError</span><span class="tok-p">(</span><span class="tok-s2">&quot;drop_last should be a boolean value, but got &quot;</span>
+                             <span class="tok-s2">&quot;drop_last=</span><span class="tok-si">{}</span><span class="tok-s2">&quot;</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">drop_last</span><span class="tok-p">))</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sampler</span> <span class="tok-o">=</span> <span class="tok-n">sampler</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">batch_size</span> <span class="tok-o">=</span> <span class="tok-n">batch_size</span>
+        <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">drop_last</span> <span class="tok-o">=</span> <span class="tok-n">drop_last</span>
+
+    <span class="tok-k">def</span> <span class="tok-fm">__iter__</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">):</span>
+        <span class="tok-n">batch</span> <span class="tok-o">=</span> <span class="tok-p">[]</span>
+        <span class="tok-k">for</span> <span class="tok-n">idx</span> <span class="tok-ow">in</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sampler</span><span class="tok-p">:</span>
+            <span class="tok-n">batch</span><span class="tok-o">.</span><span class="tok-n">append</span><span class="tok-p">(</span><span class="tok-n">idx</span><span class="tok-p">)</span>
+            <span class="tok-k">if</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">batch</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">batch_size</span><span class="tok-p">:</span>
+                <span class="tok-k">yield</span> <span class="tok-n">batch</span>
+                <span class="tok-n">batch</span> <span class="tok-o">=</span> <span class="tok-p">[]</span>
+        <span class="tok-k">if</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">batch</span><span class="tok-p">)</span> <span class="tok-o">&gt;</span> <span class="tok-mi">0</span> <span class="tok-ow">and</span> <span class="tok-ow">not</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">drop_last</span><span class="tok-p">:</span>
+            <span class="tok-k">yield</span> <span class="tok-n">batch</span>
+
+    <span class="tok-k">def</span> <span class="tok-fm">__len__</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-p">):</span>
+        <span class="tok-c1"># Can only be called if self.sampler has __len__ implemented</span>
+        <span class="tok-c1"># We cannot enforce this condition, so we turn off typechecking for the</span>
+        <span class="tok-c1"># implementation below.</span>
+        <span class="tok-c1"># Somewhat related: see NOTE [ Lack of Default `__len__` in Python Abstract Base Classes ]</span>
+        <span class="tok-k">if</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">drop_last</span><span class="tok-p">:</span>
+            <span class="tok-k">return</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sampler</span><span class="tok-p">)</span> <span class="tok-o">//</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">batch_size</span>  <span class="tok-c1"># type: ignore</span>
+        <span class="tok-k">else</span><span class="tok-p">:</span>
+            <span class="tok-k">return</span> <span class="tok-p">(</span><span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">sampler</span><span class="tok-p">)</span> <span class="tok-o">+</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">batch_size</span> <span class="tok-o">-</span> <span class="tok-mi">1</span><span class="tok-p">)</span> <span class="tok-o">//</span> <span class="tok-bp">self</span><span class="tok-o">.</span><span class="tok-n">batch_size</span>  <span class="tok-c1"># type: ignore</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_collate_fn">Collate_fn</h3>
+<div class="paragraph">
+<p>输入一个大小为batch_size的list, 包含了每次从dataset中sampler得到数据, 目的是
+NLP任务中, 由于句子长短不同常需要进行padding,使得所有句子token长度一致.
+CV任务中, 预处理时会将所有图片resize到固定大小, 一般不需要特殊处理.</p>
+</div>
+<div class="listingblock">
+<div class="title">Pytorch默认collate_fn实现(automatic batching下, 即batch_sampler=None, batch_size!=None)</div>
+<div class="content">
+<pre class="pygments highlight"><code data-lang="python"><span></span><span class="tok-k">def</span> <span class="tok-nf">default_collate</span><span class="tok-p">(</span><span class="tok-n">batch</span><span class="tok-p">):</span>
+    <span class="tok-sa">r</span><span class="tok-sd">&quot;&quot;&quot;Puts each data field into a tensor with outer dimension batch size&quot;&quot;&quot;</span>
+
+    <span class="tok-n">elem</span> <span class="tok-o">=</span> <span class="tok-n">batch</span><span class="tok-p">[</span><span class="tok-mi">0</span><span class="tok-p">]</span>
+    <span class="tok-n">elem_type</span> <span class="tok-o">=</span> <span class="tok-nb">type</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-p">)</span>
+    <span class="tok-k">if</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-p">,</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">Tensor</span><span class="tok-p">):</span>
+        <span class="tok-n">out</span> <span class="tok-o">=</span> <span class="tok-kc">None</span>
+        <span class="tok-k">if</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">utils</span><span class="tok-o">.</span><span class="tok-n">data</span><span class="tok-o">.</span><span class="tok-n">get_worker_info</span><span class="tok-p">()</span> <span class="tok-ow">is</span> <span class="tok-ow">not</span> <span class="tok-kc">None</span><span class="tok-p">:</span>
+            <span class="tok-c1"># If we&#39;re in a background process, concatenate directly into a</span>
+            <span class="tok-c1"># shared memory tensor to avoid an extra copy</span>
+            <span class="tok-n">numel</span> <span class="tok-o">=</span> <span class="tok-nb">sum</span><span class="tok-p">([</span><span class="tok-n">x</span><span class="tok-o">.</span><span class="tok-n">numel</span><span class="tok-p">()</span> <span class="tok-k">for</span> <span class="tok-n">x</span> <span class="tok-ow">in</span> <span class="tok-n">batch</span><span class="tok-p">])</span>
+            <span class="tok-n">storage</span> <span class="tok-o">=</span> <span class="tok-n">elem</span><span class="tok-o">.</span><span class="tok-n">storage</span><span class="tok-p">()</span><span class="tok-o">.</span><span class="tok-n">_new_shared</span><span class="tok-p">(</span><span class="tok-n">numel</span><span class="tok-p">)</span>
+            <span class="tok-n">out</span> <span class="tok-o">=</span> <span class="tok-n">elem</span><span class="tok-o">.</span><span class="tok-n">new</span><span class="tok-p">(</span><span class="tok-n">storage</span><span class="tok-p">)</span>
+        <span class="tok-k">return</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">stack</span><span class="tok-p">(</span><span class="tok-n">batch</span><span class="tok-p">,</span> <span class="tok-mi">0</span><span class="tok-p">,</span> <span class="tok-n">out</span><span class="tok-o">=</span><span class="tok-n">out</span><span class="tok-p">)</span>
+    <span class="tok-k">elif</span> <span class="tok-n">elem_type</span><span class="tok-o">.</span><span class="tok-vm">__module__</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;numpy&#39;</span> <span class="tok-ow">and</span> <span class="tok-n">elem_type</span><span class="tok-o">.</span><span class="tok-vm">__name__</span> <span class="tok-o">!=</span> <span class="tok-s1">&#39;str_&#39;</span> \
+            <span class="tok-ow">and</span> <span class="tok-n">elem_type</span><span class="tok-o">.</span><span class="tok-vm">__name__</span> <span class="tok-o">!=</span> <span class="tok-s1">&#39;string_&#39;</span><span class="tok-p">:</span>
+        <span class="tok-k">if</span> <span class="tok-n">elem_type</span><span class="tok-o">.</span><span class="tok-vm">__name__</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;ndarray&#39;</span> <span class="tok-ow">or</span> <span class="tok-n">elem_type</span><span class="tok-o">.</span><span class="tok-vm">__name__</span> <span class="tok-o">==</span> <span class="tok-s1">&#39;memmap&#39;</span><span class="tok-p">:</span>
+            <span class="tok-c1"># array of string classes and object</span>
+            <span class="tok-k">if</span> <span class="tok-n">np_str_obj_array_pattern</span><span class="tok-o">.</span><span class="tok-n">search</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-o">.</span><span class="tok-n">dtype</span><span class="tok-o">.</span><span class="tok-n">str</span><span class="tok-p">)</span> <span class="tok-ow">is</span> <span class="tok-ow">not</span> <span class="tok-kc">None</span><span class="tok-p">:</span>
+                <span class="tok-k">raise</span> <span class="tok-ne">TypeError</span><span class="tok-p">(</span><span class="tok-n">default_collate_err_msg_format</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-o">.</span><span class="tok-n">dtype</span><span class="tok-p">))</span>
+
+            <span class="tok-k">return</span> <span class="tok-n">default_collate</span><span class="tok-p">([</span><span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">as_tensor</span><span class="tok-p">(</span><span class="tok-n">b</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-n">b</span> <span class="tok-ow">in</span> <span class="tok-n">batch</span><span class="tok-p">])</span>
+        <span class="tok-k">elif</span> <span class="tok-n">elem</span><span class="tok-o">.</span><span class="tok-n">shape</span> <span class="tok-o">==</span> <span class="tok-p">():</span>  <span class="tok-c1"># scalars</span>
+            <span class="tok-k">return</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">as_tensor</span><span class="tok-p">(</span><span class="tok-n">batch</span><span class="tok-p">)</span>
+    <span class="tok-k">elif</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-p">,</span> <span class="tok-nb">float</span><span class="tok-p">):</span>
+        <span class="tok-k">return</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">tensor</span><span class="tok-p">(</span><span class="tok-n">batch</span><span class="tok-p">,</span> <span class="tok-n">dtype</span><span class="tok-o">=</span><span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">float64</span><span class="tok-p">)</span>
+    <span class="tok-k">elif</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-p">,</span> <span class="tok-n">int_classes</span><span class="tok-p">):</span>
+        <span class="tok-k">return</span> <span class="tok-n">torch</span><span class="tok-o">.</span><span class="tok-n">tensor</span><span class="tok-p">(</span><span class="tok-n">batch</span><span class="tok-p">)</span>
+    <span class="tok-k">elif</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-p">,</span> <span class="tok-n">string_classes</span><span class="tok-p">):</span>
+        <span class="tok-k">return</span> <span class="tok-n">batch</span>
+    <span class="tok-k">elif</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-p">,</span> <span class="tok-n">container_abcs</span><span class="tok-o">.</span><span class="tok-n">Mapping</span><span class="tok-p">):</span>
+        <span class="tok-k">return</span> <span class="tok-p">{</span><span class="tok-n">key</span><span class="tok-p">:</span> <span class="tok-n">default_collate</span><span class="tok-p">([</span><span class="tok-n">d</span><span class="tok-p">[</span><span class="tok-n">key</span><span class="tok-p">]</span> <span class="tok-k">for</span> <span class="tok-n">d</span> <span class="tok-ow">in</span> <span class="tok-n">batch</span><span class="tok-p">])</span> <span class="tok-k">for</span> <span class="tok-n">key</span> <span class="tok-ow">in</span> <span class="tok-n">elem</span><span class="tok-p">}</span>
+    <span class="tok-k">elif</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-p">,</span> <span class="tok-nb">tuple</span><span class="tok-p">)</span> <span class="tok-ow">and</span> <span class="tok-nb">hasattr</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-p">,</span> <span class="tok-s1">&#39;_fields&#39;</span><span class="tok-p">):</span>  <span class="tok-c1"># namedtuple</span>
+        <span class="tok-k">return</span> <span class="tok-n">elem_type</span><span class="tok-p">(</span><span class="tok-o">*</span><span class="tok-p">(</span><span class="tok-n">default_collate</span><span class="tok-p">(</span><span class="tok-n">samples</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-n">samples</span> <span class="tok-ow">in</span> <span class="tok-nb">zip</span><span class="tok-p">(</span><span class="tok-o">*</span><span class="tok-n">batch</span><span class="tok-p">)))</span>
+    <span class="tok-k">elif</span> <span class="tok-nb">isinstance</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-p">,</span> <span class="tok-n">container_abcs</span><span class="tok-o">.</span><span class="tok-n">Sequence</span><span class="tok-p">):</span>
+        <span class="tok-c1"># check to make sure that the elements in batch have consistent size</span>
+        <span class="tok-n">it</span> <span class="tok-o">=</span> <span class="tok-nb">iter</span><span class="tok-p">(</span><span class="tok-n">batch</span><span class="tok-p">)</span>
+        <span class="tok-n">elem_size</span> <span class="tok-o">=</span> <span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-nb">next</span><span class="tok-p">(</span><span class="tok-n">it</span><span class="tok-p">))</span>
+        <span class="tok-k">if</span> <span class="tok-ow">not</span> <span class="tok-nb">all</span><span class="tok-p">(</span><span class="tok-nb">len</span><span class="tok-p">(</span><span class="tok-n">elem</span><span class="tok-p">)</span> <span class="tok-o">==</span> <span class="tok-n">elem_size</span> <span class="tok-k">for</span> <span class="tok-n">elem</span> <span class="tok-ow">in</span> <span class="tok-n">it</span><span class="tok-p">):</span>
+            <span class="tok-k">raise</span> <span class="tok-ne">RuntimeError</span><span class="tok-p">(</span><span class="tok-s1">&#39;each element in list of batch should be of equal size&#39;</span><span class="tok-p">)</span>
+        <span class="tok-n">transposed</span> <span class="tok-o">=</span> <span class="tok-nb">zip</span><span class="tok-p">(</span><span class="tok-o">*</span><span class="tok-n">batch</span><span class="tok-p">)</span>
+        <span class="tok-k">return</span> <span class="tok-p">[</span><span class="tok-n">default_collate</span><span class="tok-p">(</span><span class="tok-n">samples</span><span class="tok-p">)</span> <span class="tok-k">for</span> <span class="tok-n">samples</span> <span class="tok-ow">in</span> <span class="tok-n">transposed</span><span class="tok-p">]</span>
+
+    <span class="tok-k">raise</span> <span class="tok-ne">TypeError</span><span class="tok-p">(</span><span class="tok-n">default_collate_err_msg_format</span><span class="tok-o">.</span><span class="tok-n">format</span><span class="tok-p">(</span><span class="tok-n">elem_type</span><span class="tok-p">))</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+  </div><div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://victarry.github.io/2021/04/06/pytorch-dataset.html';
+      this.page.identifier = 'https://victarry.github.io/2021/04/06/pytorch-dataset.html';
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+
+      s.src = 'https://victarry.disqus.com/embed.js';
+
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript><a class="u-url" href="/2021/04/06/pytorch-dataset.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Zhenhuan Liu</li>
+          <li><a class="u-email" href="mailto:nkulzh16@gmail.com">nkulzh16@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/Victarry" title="Victarry"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/NKUlzh" title="NKUlzh"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
